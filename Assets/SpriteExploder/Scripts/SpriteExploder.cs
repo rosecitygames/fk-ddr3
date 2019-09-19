@@ -1,15 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IndieDeveloperTools.SpriteExploder
+namespace IndieDevTools.SpriteExploder
 {
     /// <summary>
     /// A component that will explode a sprite into an array of particles.
     /// </summary>
     [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteExploder : MonoBehaviour
-    {   
+    {
+        /// <summary>
+        /// An event that gets triggered when the sprite explodes.
+        /// </summary>
+        public event Action OnExploded;
+
         /// <summary>
         /// A reference to the SpriteExploderSettings resource.
         /// The settings are used to set performance overrides of lcoal
@@ -182,6 +188,31 @@ namespace IndieDeveloperTools.SpriteExploder
         SpriteRenderer localSpriteRenderer;
 
         /// <summary>
+        /// Gets the particles of this Particle System.
+        /// </summary>
+        /// <param name="particles">Output particle buffer, containing the current particle state.</param>
+        /// <returns>The number of particles written to the input particle array (the number of particles currently alive).</returns>
+        public int GetParticles(ParticleSystem.Particle[] particles)
+        {
+            if (isExploded)
+            {
+                return LocalParticleSystem.GetParticles(particles);
+            }
+
+            return 0;
+        }
+
+        public int GetCustomParticleData(List<Vector4> customDatas)
+        {
+            if (isExploded)
+            {
+                return LocalParticleSystem.GetCustomParticleData(customDatas, ParticleSystemCustomData.Custom1);
+            }
+
+            return 0;
+        }
+
+        /// <summary>
         /// A reference to the local particle system.
         /// </summary>
         ParticleSystem LocalParticleSystem
@@ -200,8 +231,9 @@ namespace IndieDeveloperTools.SpriteExploder
         /// <summary>
         /// Whether or not the sprite has exploded.
         /// </summary>
-        bool hasExploded = false;
-
+        public bool IsExploded => isExploded;
+        bool isExploded = false;
+        
         /// <summary>
         /// Unity event function.
         /// Initializes the particle system and explodes the sprite
@@ -253,8 +285,8 @@ namespace IndieDeveloperTools.SpriteExploder
             yield return new WaitForSeconds(delaySeconds); // Wait for delay seconds
 
             // If the explosion has already occurred, break the coroutine.
-            if (hasExploded) yield break;
-            hasExploded = true;
+            if (isExploded) yield break;
+            isExploded = true;
 
             // Disable the sprite renderer so that particle textures will be seen instead.
             LocalSpriteRenderer.enabled = false;
@@ -277,10 +309,10 @@ namespace IndieDeveloperTools.SpriteExploder
 
             // Set the max particle size. We want the particles to be square.
             // So, this grabs the biggest size from either the width of height values.
-            float particleSizeMax = GetParticleSizeMax();
+            float particleSizeMax = GetMaxParticleSize();
 
             // Set the amount of particles that will generated.
-            int particleCount = GetParticleCount();
+            int particleCount = GetMaxParticleCount();
 
             // Set the base particle offset values.
             float offsetX = -halfBoundSizeX * (1.0f - (1.0f / subdivisionCountX));
@@ -332,9 +364,9 @@ namespace IndieDeveloperTools.SpriteExploder
                 Vector3 outwardVelocity = localPosition - explosionCenter;
                 if (collisionMode == SpriteExploderCollisionMode.Collision3D)
                 {
-                    outwardVelocity.z = Random.Range(-halfBoundSizeX * 0.5f, halfBoundSizeX * 0.5f);
+                    outwardVelocity.z = UnityEngine.Random.Range(-halfBoundSizeX * 0.5f, halfBoundSizeX * 0.5f);
                 }
-                outwardVelocity *= Random.Range(MinExplosiveStrength, MaxExplosiveStrength);
+                outwardVelocity *= UnityEngine.Random.Range(MinExplosiveStrength, MaxExplosiveStrength);
 
                 // Set the emit params velocity with the base velocity of the rigid body plus the outward explosion velocity.
                 emitParams.velocity = baseVelocity + outwardVelocity;
@@ -351,6 +383,9 @@ namespace IndieDeveloperTools.SpriteExploder
 
             // Set the custom particle data for all the particles.
             LocalParticleSystem.SetCustomParticleData(custom1ParticleDatas, ParticleSystemCustomData.Custom1);
+
+            // Invoke exploded event
+            OnExploded?.Invoke();
         }
 
         // Particle system default consts
@@ -388,9 +423,9 @@ namespace IndieDeveloperTools.SpriteExploder
             main.startLifetime = hasLocalParticleSytem ? main.startLifetime : defaultStartLifetime;
             main.duration = main.startLifetime.constantMax;
             main.loop = false;
-            main.startSize = GetParticleSizeMax();
+            main.startSize = GetMaxParticleSize();
             main.startColor = LocalSpriteRenderer.color;
-            main.maxParticles = GetParticleCount();
+            main.maxParticles = GetMaxParticleCount();
             main.simulationSpace = ParticleSystemSimulationSpace.World;
             main.gravityModifier = GravityModifier;
 
@@ -426,7 +461,7 @@ namespace IndieDeveloperTools.SpriteExploder
             particleSystemRenderer.material = material;
 
             MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
-            materialPropertyBlock.SetTexture("_GridTex", LocalSpriteRenderer.sprite.texture);
+            materialPropertyBlock.SetTexture("_GridTex", GetTexture());
             materialPropertyBlock.SetInt("_SubdivisionCountX", GetSubdivisionCountX());
             materialPropertyBlock.SetInt("_SubdivisionCountY", GetSubdivisionCountY());
             materialPropertyBlock.SetFloat("_Rotation", GetMaterialRotaion());
@@ -443,6 +478,11 @@ namespace IndieDeveloperTools.SpriteExploder
 
             // Play the particle system now that the modules and renderer are setup.
             LocalParticleSystem.Play();
+        }
+
+        Texture GetTexture()
+        {
+            return LocalSpriteRenderer.sprite.texture;
         }
 
         /// <summary>
@@ -464,17 +504,24 @@ namespace IndieDeveloperTools.SpriteExploder
         }
 
         /// <summary>
-        /// Helper method to get the total particle count.
+        /// Helper method to get the max particle count.
         /// </summary>
-        int GetParticleCount()
+        public int GetMaxParticleCount()
         {
             return GetSubdivisionCountX() * GetSubdivisionCountY();
+        }
+
+        public Vector2 GetParticleScale()
+        {
+            float maxBound = Mathf.Max(LocalSpriteRenderer.sprite.bounds.size.x, LocalSpriteRenderer.sprite.bounds.size.y);
+            float scale = GetMaxParticleSize() / maxBound;
+            return new Vector2(scale, scale);
         }
 
         /// <summary>
         /// Helper method to get the max particle size between horizontal and vertical subdivisions.
         /// </summary>
-        float GetParticleSizeMax()
+        public float GetMaxParticleSize()
         {
             return Mathf.Max(GetParticleSizeX(), GetParticleSizeY());
         }
