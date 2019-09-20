@@ -347,8 +347,8 @@ namespace IndieDevTools.SpriteExploder
             for (int tileIndex = 0; tileIndex < particleCount; tileIndex++)
             {
                 // Set the tile coordinates based on index and the number of subdivisions.
-                tileX = tileIndex % subdivisionCountX;
-                tileY = Mathf.FloorToInt((float)tileIndex/ subdivisionCountX);
+                tileX = GetTileX(tileIndex, subdivisionCountX);
+                tileY = GetTileY(tileIndex, subdivisionCountY);
             
                 // Set the tile position and then apply rotation to the values.
                 Vector3 localPosition = new Vector3();
@@ -465,7 +465,7 @@ namespace IndieDevTools.SpriteExploder
             materialPropertyBlock.SetInt("_SubdivisionCountX", GetSubdivisionCountX());
             materialPropertyBlock.SetInt("_SubdivisionCountY", GetSubdivisionCountY());
             materialPropertyBlock.SetFloat("_Rotation", GetMaterialRotaion());
-            materialPropertyBlock.SetVector("_Flip", GetFlipVector());
+            materialPropertyBlock.SetVector("_Flip", GetFlipVector4());
             particleSystemRenderer.SetPropertyBlock(materialPropertyBlock);
 
             List<ParticleSystemVertexStream> streams = new List<ParticleSystemVertexStream>();
@@ -480,7 +480,7 @@ namespace IndieDevTools.SpriteExploder
             LocalParticleSystem.Play();
         }
 
-        Texture GetTexture()
+        public Texture2D GetTexture()
         {
             return LocalSpriteRenderer.sprite.texture;
         }
@@ -496,6 +496,16 @@ namespace IndieDevTools.SpriteExploder
         public int GetMaxParticleCount()
         {
             return GetSubdivisionCountX() * GetSubdivisionCountY();
+        }
+
+        public int GetTileX(int tileIndex, int subdivisionCountX)
+        {
+            return tileIndex % subdivisionCountX;
+        }
+
+        public int GetTileY(int tileIndex, int subdivisionCountX)
+        {
+            return Mathf.FloorToInt((float)tileIndex / subdivisionCountX);
         }
 
         /// <summary>
@@ -559,9 +569,17 @@ namespace IndieDevTools.SpriteExploder
         /// <summary>
         /// Helper method to get the flip vector  
         /// </summary>
-        Vector4 GetFlipVector()
+        Vector4 GetFlipVector4()
         {
             Vector4 flip = new Vector4();
+            flip.x = LocalSpriteRenderer.flipX ? -1.0f : 1.0f;
+            flip.y = LocalSpriteRenderer.flipY ? -1.0f : 1.0f;
+            return flip;
+        }
+
+        public Vector2 GetFlipVector2()
+        {
+            Vector2 flip = new Vector2();
             flip.x = LocalSpriteRenderer.flipX ? -1.0f : 1.0f;
             flip.y = LocalSpriteRenderer.flipY ? -1.0f : 1.0f;
             return flip;

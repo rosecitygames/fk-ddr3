@@ -19,6 +19,12 @@ namespace IndieDevTools.AiParticles
 
         List<Vector4> customDatas = new List<Vector4>();
 
+        int pixelSize = 0;
+        int centerOffset = 0;
+
+        int tileCountX = 0;
+        int tileCountY = 0;
+
         void Awake()
         {
             AddEventHandlers();
@@ -39,10 +45,19 @@ namespace IndieDevTools.AiParticles
         void SpriteExploder_OnExploded()
         {
             RemoveEventHandlers();
+
             sortedParticleCount = spriteExploder.GetMaxParticleCount();
-            particles = new ParticleSystem.Particle[sortedParticleCount];
-            QuickSortParticles();
+
             particleScale = spriteExploder.GetParticleScale();
+
+            particles = new ParticleSystem.Particle[sortedParticleCount];  
+            QuickSortParticles();
+            
+            pixelSize = spriteExploder.ParticlePixelSize;
+            centerOffset = pixelSize / 2;
+
+            tileCountX = spriteExploder.GetSubdivisionCountX();
+            tileCountY = spriteExploder.GetSubdivisionCountY();
         }
 
         void LateUpdate()
@@ -50,20 +65,44 @@ namespace IndieDevTools.AiParticles
             if (sortedParticleCount <= 0) return;
 
             int particleCount = spriteExploder.GetParticleCount();
-
             int destroyedCount = sortedParticleCount - particleCount;
 
             if (destroyedCount > 0)
             {
+                Vector2 flipVector = spriteExploder.GetFlipVector2();
+
+                Texture2D texture = spriteExploder.GetTexture();
+
                 for (int i = 0; i < destroyedCount; i++)
                 {
-                    ParticleSystem.Particle destroyedParticle = particles[i];
-                    int destroyedTileIndex = (int)customDatas[i].x;
+                    int tileIndex = (int)customDatas[i].x;
+
+                    int tileX = spriteExploder.GetTileX(tileIndex, tileCountX);
+                    if (flipVector.x < 0)
+                    {
+                        tileX = tileCountX - tileX;
+                    }
+
+                    int tileY = spriteExploder.GetTileY(tileIndex, tileCountY);
+                    if (flipVector.y < 0)
+                    {
+                        tileY = tileCountY - tileY;
+                    }
+
+                    int tileCenterPixelX = tileX * pixelSize + centerOffset;
+                    int tileCenterPixelY = tileY * pixelSize + centerOffset;
+
+                    Color color = texture.GetPixel(tileCenterPixelX, tileCenterPixelY);
+                    
+                    if (color.a == 0.0f) continue;
+
+                    ParticleSystem.Particle particle = particles[i];
+                    
                     GameObject instance = Instantiate(prefab, transform.parent);
-                    instance.name = prefab.name + destroyedTileIndex;
-                    instance.transform.localPosition = destroyedParticle.position;
+                    instance.name = prefab.name + tileIndex;
+                    instance.transform.localPosition = particle.position;
                     instance.transform.localScale = particleScale;
-                    instance.transform.localEulerAngles = new Vector3(0, 0, destroyedParticle.rotation);
+                    instance.transform.localEulerAngles = new Vector3(0, 0, particle.rotation);
                 }
             }
 
