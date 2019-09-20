@@ -485,22 +485,9 @@ namespace IndieDevTools.SpriteExploder
             return LocalSpriteRenderer.sprite.texture;
         }
 
-        /// <summary>
-        /// Helper method to get the horizontal tile subdivisions count.
-        /// </summary>
-        int GetSubdivisionCountX()
+        public int GetParticleCount()
         {
-            float spriteSizeX = LocalSpriteRenderer.sprite.bounds.size.x * LocalSpriteRenderer.sprite.pixelsPerUnit;
-            return Mathf.CeilToInt(spriteSizeX / ParticlePixelSize); 
-        }
-
-        /// <summary>
-        /// Helper method to get the vertical tile subdivisions count.
-        /// </summary>
-        int GetSubdivisionCountY()
-        {
-            float spriteSizeY = LocalSpriteRenderer.sprite.bounds.size.y * LocalSpriteRenderer.sprite.pixelsPerUnit;
-            return Mathf.CeilToInt(spriteSizeY / ParticlePixelSize);
+            return LocalParticleSystem.particleCount;
         }
 
         /// <summary>
@@ -511,11 +498,30 @@ namespace IndieDevTools.SpriteExploder
             return GetSubdivisionCountX() * GetSubdivisionCountY();
         }
 
+        /// <summary>
+        /// Helper method to get the horizontal tile subdivisions count.
+        /// </summary>
+        public int GetSubdivisionCountX()
+        {
+            float spriteSizeX = LocalSpriteRenderer.sprite.bounds.size.x * LocalSpriteRenderer.sprite.pixelsPerUnit;
+            return Mathf.CeilToInt(spriteSizeX / ParticlePixelSize); 
+        }
+
+        /// <summary>
+        /// Helper method to get the vertical tile subdivisions count.
+        /// </summary>
+        public int GetSubdivisionCountY()
+        {
+            float spriteSizeY = LocalSpriteRenderer.sprite.bounds.size.y * LocalSpriteRenderer.sprite.pixelsPerUnit;
+            return Mathf.CeilToInt(spriteSizeY / ParticlePixelSize);
+        } 
+
+
         public Vector2 GetParticleScale()
         {
             float maxBound = Mathf.Max(LocalSpriteRenderer.sprite.bounds.size.x, LocalSpriteRenderer.sprite.bounds.size.y);
             float scale = GetMaxParticleSize() / maxBound;
-            return new Vector2(scale, scale);
+            return new Vector2(scale * transform.localScale.x, scale * transform.localScale.y);
         }
 
         /// <summary>
