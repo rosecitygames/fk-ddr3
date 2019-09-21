@@ -12,6 +12,14 @@ namespace IndieDevTools.SpriteExploder.Demo
         [SerializeField]
         UnityEvent CollisionEnter = null;
 
+        [SerializeField]
+        bool isEnabledOnAwake = false;
+
+        void Awake()
+        {
+            enabled = isEnabledOnAwake;
+        }
+
         void OnCollisionEnter2D(Collision2D collision)
         {
             if (enabled == false) return;

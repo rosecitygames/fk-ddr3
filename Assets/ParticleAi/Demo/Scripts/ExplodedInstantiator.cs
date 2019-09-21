@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 namespace IndieDevTools.AiParticles
 {
-    public class Test : MonoBehaviour
+    public class ExplodedInstantiator : MonoBehaviour
     {
         [SerializeField]
         SpriteExploder.SpriteExploder spriteExploder = null;
@@ -103,6 +103,19 @@ namespace IndieDevTools.AiParticles
                     instance.transform.localPosition = particle.position;
                     instance.transform.localScale = particleScale;
                     instance.transform.localEulerAngles = new Vector3(0, 0, particle.rotation);
+
+                    SpriteRenderer spriteRenderer = instance.GetComponentInChildren<SpriteRenderer>();
+                    if (spriteRenderer != null)
+                    {
+                        spriteRenderer.color = particle.GetCurrentColor(spriteExploder.GetParticleSystem());
+                    }
+
+                    Rigidbody2D rigidbody2D = instance.GetComponentInChildren<Rigidbody2D>();
+                    if (rigidbody2D != null)
+                    {
+                        rigidbody2D.velocity = particle.velocity;
+                        rigidbody2D.angularVelocity = particle.angularVelocity;
+                    }
                 }
             }
 

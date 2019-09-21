@@ -424,7 +424,7 @@ namespace IndieDevTools.SpriteExploder
             main.duration = main.startLifetime.constantMax;
             main.loop = false;
             main.startSize = GetMaxParticleSize();
-            main.startColor = LocalSpriteRenderer.color;
+            main.startColor = hasLocalParticleSytem ? main.startColor : LocalSpriteRenderer.color;
             main.maxParticles = GetMaxParticleCount();
             main.simulationSpace = ParticleSystemSimulationSpace.World;
             main.gravityModifier = GravityModifier;
@@ -478,6 +478,11 @@ namespace IndieDevTools.SpriteExploder
 
             // Play the particle system now that the modules and renderer are setup.
             LocalParticleSystem.Play();
+        }
+
+        public ParticleSystem GetParticleSystem()
+        {
+            return LocalParticleSystem;
         }
 
         public Texture2D GetTexture()
