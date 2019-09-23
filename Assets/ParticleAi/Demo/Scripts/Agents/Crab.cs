@@ -1,31 +1,60 @@
 ﻿using IndieDevTools.Advertisements;
 using IndieDevTools.Agents;
 using IndieDevTools.Commands;
+using IndieDevTools.Maps;
 using IndieDevTools.States;
 using System;
 using UnityEngine;
+using IndieDevTools.Demo.BattleSimulator;
 
-namespace IndieDevTools.Demo.BattleSimulator
+namespace IndieDevTools.Demo.CrabBattle
 {
     /// <summary>
     /// Concrete implementation of ISoldier. In particular,
     /// the setup of the command based state machine.
     /// </summary>
-    public class Soldier : AbstractAgent, ISoldier
+    public class Crab : AbstractAgent, ICrab
     {
         [SerializeField]
         string displayName = "";
         protected override string DisplayName { get => displayName; set => displayName = value; }
 
+        SpriteRenderer spriteRenderer = null;
+
         protected override void Init()
         {
             base.Init();
-            SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            InitSpriteRenderer();
+            AddLocationEventHandlers();
+        }
+
+        void InitSpriteRenderer()
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             if (spriteRenderer != null)
             {
                 spriteRenderer.sortingOrder = SortingOrder;
             }
         }
+
+        void AddLocationEventHandlers()
+        {
+            RemoveLcoationEventHandlers();
+            (this as ILocatable).OnUpdated += Location_OnUpdated;
+        }
+
+        void RemoveLcoationEventHandlers()
+        {
+            (this as ILocatable).OnUpdated -= Location_OnUpdated;
+        }
+
+        private void Location_OnUpdated(ILocatable obj)
+        {
+            Vector2Int boundsMin = MapElement.Map.LocalToCell(spriteRenderer.bounds.min);
+            Vector2Int boundsMax = MapElement.Map.LocalToCell(spriteRenderer.bounds.max);
+            Debug.Log("Location : " + MapElement.Location + ", boundsMin : " + boundsMin + ", boundsMax : " + boundsMax);
+        }
+
 
         // Command layer consts used for making the state machine setup more readable
         const int CommandLayer0 = 0;
@@ -72,7 +101,7 @@ namespace IndieDevTools.Demo.BattleSimulator
             wanderState.AddCommand(BroadcastAdvertisement.Create(this), CommandLayer1);
             wanderState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), CommandLayer2);
             wanderState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer3);
-            
+
             // Inspect Target Location State
             inspectTargetLocationState.AddTransition(onEnemeyFoundTransition, attackEnemyState);
             inspectTargetLocationState.AddTransition(onItemFoundTransition, pickupItemState);

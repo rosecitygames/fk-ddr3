@@ -1231,9 +1231,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 577889793}
+  - component: {fileID: 577889799}
   - component: {fileID: 577889798}
-  - component: {fileID: 577889797}
   - component: {fileID: 577889796}
+  - component: {fileID: 577889797}
   - component: {fileID: 577889795}
   - component: {fileID: 577889794}
   m_Layer: 8
@@ -6044,7 +6045,7 @@ MonoBehaviour:
   minExplosiveStrength: 1
   maxExplosiveStrength: 2
   gravityModifier: 0
-  isExplodingOnStart: 1
+  isExplodingOnStart: 0
   delaySeconds: 2
 --- !u!114 &577889798
 MonoBehaviour:
@@ -6060,6 +6061,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteExploder: {fileID: 577889797}
   prefab: {fileID: 264543750549022157, guid: c73fe969b69c3af46987d47e6e7986e4, type: 3}
+--- !u!114 &577889799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577889792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be3dfb7929ba3441bc516a9e60af560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 2d88a57ea5ff07b4f85c6cc583f66d19, type: 2}
+  groupId: 0
+  broadcaster: {fileID: 11400000, guid: f5f7d3baca26ec54fbb97c452ba54a1b, type: 2}
+  isDrawingGizmos: 1
+  gizmoColor: {r: 0, g: 1, b: 0, a: 1}
+  displayName: 
 --- !u!1 &615329644
 GameObject:
   m_ObjectHideFlags: 0

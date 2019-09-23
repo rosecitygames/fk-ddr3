@@ -1,4 +1,5 @@
 ﻿using IndieDevTools.Agents;
+using System;
 
 namespace IndieDevTools.Demo.BattleSimulator
 {
@@ -8,5 +9,6 @@ namespace IndieDevTools.Demo.BattleSimulator
     public interface IAttackReceiver
     {
         void ReceiveAttack(IAgent attackingAgent);
+        event Action<IAgent> OnAttackReceived;
     }
 }
