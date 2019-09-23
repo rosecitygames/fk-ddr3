@@ -20,10 +20,18 @@ namespace IndieDevTools.Demo.BattleSimulator
 
         void SetTargetLocation()
         {
-            agent.TargetLocation = GetNewLocation();
+            bool isAgentInBounds = agent.Map.InBounds(agent.Location);
+            if (isAgentInBounds)
+            {
+                agent.TargetLocation = GetNewLocationInMoveRadius();
+            }
+            else
+            {
+                agent.TargetLocation = GetNearestLocationInBounds();
+            }
         }
 
-        Vector2Int GetNewLocation()
+        Vector2Int GetNewLocationInMoveRadius()
         {
             int moveRadius = TraitsUtil.GetMoveRadius(agent);
             Vector2Int location = agent.Location;
@@ -38,6 +46,38 @@ namespace IndieDevTools.Demo.BattleSimulator
                 location.y += offset.y;
 
                 isInBounds = agent.Map.InBounds(location);
+            }
+
+            return location;
+        }
+
+        Vector2Int GetNearestLocationInBounds()
+        {
+            Vector2Int mapSize = agent.Map.Size;
+
+            int leftBound = -mapSize.x / 2;
+            int rightBound = mapSize.x / 2;
+            int topBound = -mapSize.y / 2;
+            int bottomBound = mapSize.y / 2;
+
+            Vector2Int location = agent.Location;
+
+            if (location.x < leftBound)
+            {
+                location.x = leftBound;
+            }
+            else if (location.x > rightBound)
+            {
+                location.x = rightBound;
+            }
+
+            if (location.y < topBound)
+            {
+                location.y = topBound;
+            }
+            else if (location.y > bottomBound)
+            {
+                location.y = bottomBound;
             }
 
             return location;
