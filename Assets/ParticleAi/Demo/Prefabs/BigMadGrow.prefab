@@ -98,7 +98,7 @@ MonoBehaviour:
   TweenOnEnable: 6
   target: {fileID: 7710303848450563717}
   delay: 0
-  tweenSeconds: 10
+  tweenSeconds: 5
   tweenCurve:
     serializedVersion: 2
     m_Curve:
@@ -114,11 +114,11 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: -1.8092813
-      outSlope: -1.8092813
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.06857145
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
