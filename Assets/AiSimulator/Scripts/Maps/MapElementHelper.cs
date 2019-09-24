@@ -6,9 +6,9 @@ using UnityEngine;
 namespace IndieDevTools.Maps
 {
     /// <summary>
-    /// Implementation for an element that resides on a map.
+    /// A helper map element implementation that makes object composition easier.
     /// </summary>
-    public class MapElement : IMapElement
+    public class MapElementHelper : IMapElement
     {
         GameObject gameObject;
         IMapElement mapElement;
@@ -185,7 +185,7 @@ namespace IndieDevTools.Maps
 
         public static IMapElement Create(GameObject gameObject, IMapElement mapElement, int sortingOrderOffset = 0, IStatsCollection stats = null, int groupId = 0, string displayName = "", string description = "")
         {
-            return new MapElement
+            return new MapElementHelper
             {
                 gameObject = gameObject,
                 mapElement = mapElement,

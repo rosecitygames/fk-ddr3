@@ -4,6 +4,8 @@ using IndieDevTools.Commands;
 using IndieDevTools.Maps;
 using IndieDevTools.States;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using IndieDevTools.Demo.BattleSimulator;
 
@@ -21,11 +23,14 @@ namespace IndieDevTools.Demo.CrabBattle
 
         SpriteRenderer spriteRenderer = null;
 
+        List<IMapElement> footprintElements = new List<IMapElement>();
+
         protected override void Init()
         {
             base.Init();
             InitSpriteRenderer();
             AddLocationEventHandlers();
+            InitFootprint();
         }
 
         void InitSpriteRenderer()
@@ -50,9 +55,34 @@ namespace IndieDevTools.Demo.CrabBattle
 
         private void Location_OnUpdated(ILocatable obj)
         {
+            UpdateFootprint();
+        }
+
+        void InitFootprint()
+        {
+            footprintElements.Clear();
+
             Vector2Int boundsMin = MapElement.Map.LocalToCell(spriteRenderer.bounds.min);
             Vector2Int boundsMax = MapElement.Map.LocalToCell(spriteRenderer.bounds.max);
-            Debug.Log("Location : " + MapElement.Location + ", boundsMin : " + boundsMin + ", boundsMax : " + boundsMax);
+
+            int rows = boundsMax.x - boundsMin.x;
+            int columns = boundsMax.y - boundsMin.y;
+
+            for(int column = 0; column < columns; column++)
+            {
+                for(int row = 0; row < rows; row++)
+                {
+                    //IMapElement footprintElement = 
+                    //footprintElements.Add(new Vector2Int(column, row));
+                }
+            }
+
+            UpdateFootprint();
+        }
+
+        void UpdateFootprint()
+        {
+
         }
 
 

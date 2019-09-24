@@ -85,7 +85,7 @@ namespace IndieDevTools.Agents
         {
             if (mapElement == null)
             {
-                mapElement = Maps.MapElement.Create(gameObject, this, sortingOrderOffset);
+                mapElement = Maps.MapElementHelper.Create(gameObject, this, sortingOrderOffset);
                 mapElement.AddToMap();
             }
         }

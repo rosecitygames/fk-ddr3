@@ -6,7 +6,7 @@ using UnityEngine;
 namespace IndieDevTools.Maps
 {
     /// <summary>
-    /// A simple map element implementation.
+    /// A generic map element component implementation.
     /// </summary>
     public class GenericMapElement : MonoBehaviour, IMapElement
     {
@@ -24,7 +24,7 @@ namespace IndieDevTools.Maps
         {
             if (mapElement == null)
             {
-                mapElement = Maps.MapElement.Create(gameObject, this);
+                mapElement = MapElementHelper.Create(gameObject, this);
                 mapElement.AddToMap();
             }
         }
