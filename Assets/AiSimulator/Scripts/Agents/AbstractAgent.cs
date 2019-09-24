@@ -104,15 +104,19 @@ namespace IndieDevTools.Agents
         bool IMapElement.IsOnMap => IsOnMap;
         protected virtual bool IsOnMap => MapElement.IsOnMap;
 
-        float IMapElement.Distance(IMapElement otherMapElement) => MapElement.Distance(otherMapElement);
-        float IMapElement.Distance(Vector2Int otherLocation) => MapElement.Distance(otherLocation);
+        float IMapElement.Distance(IMapElement otherMapElement) => Distance(otherMapElement);
+        protected virtual float Distance(IMapElement otherMapElement) => MapElement.Distance(otherMapElement);
+
+        float IMapElement.Distance(Vector2Int otherLocation) => Distance(otherLocation);
+        protected virtual float Distance(Vector2Int otherLocation) => MapElement.Distance(otherLocation);
 
         int IMapElement.InstanceId => MapElement.InstanceId;
 
         int IMapElement.SortingOrder => SortingOrder;
         protected virtual int SortingOrder => MapElement.SortingOrder;
 
-        Vector2Int ILocatable.Location => MapElement.Location;
+        Vector2Int ILocatable.Location => Location;
+        protected virtual Vector2Int Location => MapElement.Location;
 
         event Action<ILocatable> IUpdatable<ILocatable>.OnUpdated
         {
@@ -120,7 +124,8 @@ namespace IndieDevTools.Agents
             remove { (MapElement as IUpdatable<ILocatable>).OnUpdated -= value; }
         }
 
-        Vector3 IPositionable.Position { get => MapElement.Position; set => MapElement.Position = value; }
+        Vector3 IPositionable.Position { get => Position; set => Position = value; }
+        protected virtual Vector3 Position { get => MapElement.Position; set => MapElement.Position = value; }
 
         // Broadcaster & Advertiser implementations
         [SerializeField]

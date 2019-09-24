@@ -91,6 +91,7 @@ namespace IndieDevTools.Agents
                 if (location != value)
                 {
                     location = value;
+                    Map.AddElement(this);
                 }
             }
         }

@@ -23,14 +23,14 @@ namespace IndieDevTools.Demo.CrabBattle
 
         SpriteRenderer spriteRenderer = null;
 
-        List<IMapElement> footprintElements = new List<IMapElement>();
+        List<ICrab> footprints = new List<ICrab>();
 
         protected override void Init()
         {
             base.Init();
             InitSpriteRenderer();
             AddLocationEventHandlers();
-            InitFootprint();
+            InitFootprints();
         }
 
         void InitSpriteRenderer()
@@ -55,12 +55,12 @@ namespace IndieDevTools.Demo.CrabBattle
 
         private void Location_OnUpdated(ILocatable obj)
         {
-            UpdateFootprint();
+            UpdateFootprintPositions();
         }
 
-        void InitFootprint()
+        void InitFootprints()
         {
-            footprintElements.Clear();
+            footprints.Clear();
 
             Vector2Int boundsMin = MapElement.Map.LocalToCell(spriteRenderer.bounds.min);
             Vector2Int boundsMax = MapElement.Map.LocalToCell(spriteRenderer.bounds.max);
@@ -72,19 +72,24 @@ namespace IndieDevTools.Demo.CrabBattle
             {
                 for(int row = 0; row < rows; row++)
                 {
-                    //IMapElement footprintElement = 
-                    //footprintElements.Add(new Vector2Int(column, row));
+                    Vector2Int footprintLocation = new Vector2Int(column, row);
+                    if (footprintLocation == Location) continue;
+                    ICrab footprint = SubCrab.Create(this, footprintLocation);
+                    footprints.Add(footprint);
                 }
             }
 
-            UpdateFootprint();
+            UpdateFootprintPositions();
         }
 
-        void UpdateFootprint()
+        void UpdateFootprintPositions()
         {
 
+            foreach(ICrab footprint in footprints)
+            {
+                footprint.Position = Position;
+            }
         }
-
 
         // Command layer consts used for making the state machine setup more readable
         const int CommandLayer0 = 0;
