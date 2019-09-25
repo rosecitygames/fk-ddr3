@@ -23,6 +23,8 @@ namespace IndieDevTools.Demo.CrabBattle
         void IAttackReceiver.ReceiveAttack(IAgent attackingAgent) => superCrab.ReceiveAttack(attackingAgent);
         event Action<IAgent> IAttackReceiver.OnAttackReceived { add { superCrab.OnAttackReceived += value; } remove { superCrab.OnAttackReceived -= value; } }
 
+        bool ILandable.GetIsLandable(IAgent agent) => superCrab.GetIsLandable(agent);
+
         public static ICrab Create(ICrab superCrab, Vector2Int cellOffset)
         {
             return new SubCrab

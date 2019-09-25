@@ -1,14 +1,16 @@
 ﻿using IndieDevTools.Agents;
 using IndieDevTools.Commands;
+using IndieDevTools.Traits;
+using IndieDevTools.Demo.BattleSimulator;
 using UnityEngine;
 
-namespace IndieDevTools.Demo.BattleSimulator
+namespace IndieDevTools.Demo.CrabBattle
 {
     /// <summary>
     /// A command that chooses a new location target within
     /// an agent's move radius.
     /// </summary>
-    public class ChooseNewLocation : AbstractCommand
+    public class ChooseLandableLocation : AbstractCommand
     {
         IAgent agent;
 
@@ -38,17 +40,29 @@ namespace IndieDevTools.Demo.BattleSimulator
             int moveRadius = TraitsUtil.GetMoveRadius(agent);
             Vector2Int location = Vector2Int.zero;
 
-            bool isFoundLocation = false;
+            bool isLandableLocation = false;
             int tryCount = 0;
 
-            while(isFoundLocation == false && tryCount++ < maxTryCount)
+            while (isLandableLocation == false && tryCount++ < maxTryCount)
             {
                 Vector2Int offset = Vector2Int.RoundToInt(Random.insideUnitCircle * moveRadius);
                 location = agent.Location;
                 location.x += offset.x;
                 location.y += offset.y;
 
-                isFoundLocation = agent.Map.InBounds(location);
+                bool isInBounds = agent.Map.InBounds(location);
+                if (isInBounds == false) continue;
+
+                ILandable landable = agent.Map.GetMapElementAtCell<ILandable>(location);
+                bool isLandableAtCell = landable != null;
+                if (isLandableAtCell)
+                {
+                    isLandableLocation = landable.GetIsLandable(agent);
+                }
+                else
+                {
+                    isLandableLocation = true;
+                }
             }
 
             if (tryCount > maxTryCount)
@@ -93,7 +107,7 @@ namespace IndieDevTools.Demo.BattleSimulator
 
         public static ICommand Create(IAgent agent)
         {
-            ChooseNewLocation command = new ChooseNewLocation
+            ChooseLandableLocation command = new ChooseLandableLocation
             {
                 agent = agent
             };

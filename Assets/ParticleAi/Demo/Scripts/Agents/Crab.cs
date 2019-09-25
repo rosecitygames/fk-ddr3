@@ -68,11 +68,14 @@ namespace IndieDevTools.Demo.CrabBattle
             int rows = boundsMax.x - boundsMin.x;
             int columns = boundsMax.y - boundsMin.y;
 
+            int offsetX = -columns / 2;
+            int offsetY = -rows / 2;
+
             for(int column = 0; column < columns; column++)
             {
                 for(int row = 0; row < rows; row++)
                 {
-                    Vector2Int footprintLocation = new Vector2Int(column, row);
+                    Vector2Int footprintLocation = new Vector2Int(column + offsetX, row + offsetY);
                     if (footprintLocation == Location) continue;
                     ICrab footprint = SubCrab.Create(this, footprintLocation);
                     footprints.Add(footprint);
@@ -84,13 +87,17 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void UpdateFootprintPositions()
         {
-
-            foreach(ICrab footprint in footprints)
+            foreach (ICrab footprint in footprints)
             {
                 footprint.Position = Position;
-            }
+            }    
         }
 
+        bool ILandable.GetIsLandable(IAgent agent)
+        {
+            return agent == (this as IAgent);
+        }
+        
         // Command layer consts used for making the state machine setup more readable
         const int CommandLayer0 = 0;
         const int CommandLayer1 = 1;
@@ -129,7 +136,7 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddTransition(onTargetFoundTransition, inspectTargetLocationState);
             wanderState.AddTransition(onAttackedTransition, attackEnemyState);
             wanderState.AddTransition(onDeathTransition, deathState);
-            wanderState.AddCommand(ChooseNewLocation.Create(this), CommandLayer0);
+            wanderState.AddCommand(ChooseLandableLocation.Create(this), CommandLayer0);
             wanderState.AddCommand(MoveToTargetLocation.Create(this), CommandLayer0);
             wanderState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), CommandLayer0);
             wanderState.SetLayerLoopCount(CommandLayer0, -1); // Instead of just stopping, layers can be assigned a number of lopps. -1 is infinite looping.
