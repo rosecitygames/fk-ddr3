@@ -32,7 +32,7 @@ MonoBehaviour:
       - trait: {fileID: 11400000, guid: cca7ce18c37bb75459117db0b3c38301, type: 2}
         quantity: 2
       - trait: {fileID: 11400000, guid: 6f475d2e5f9ad884eaa1dfefe7ab7e64, type: 2}
-        quantity: 1
+        quantity: 5
     desires:
       traits:
       - trait: {fileID: 11400000, guid: 77ed10d593676dd418e4ada5115f951f, type: 2}

@@ -74,6 +74,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
             if (tryCount > maxTryCount)
             {
+                Debug.Log("tryCount = " + tryCount);
                 return crab.Location;
             }
 
