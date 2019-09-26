@@ -25,6 +25,9 @@ namespace IndieDevTools.Demo.CrabBattle
 
         bool ILandable.GetIsLandable(IAgent agent) => superCrab.GetIsLandable(agent);
 
+        List<ICrab> ICrab.FootprintCells => null; // Could reference superCrab Footprints here, but high stack overflow risk.
+        Vector2Int ICrab.FootprintSize => superCrab.FootprintSize;
+
         public static ICrab Create(ICrab superCrab, Vector2Int cellOffset)
         {
             return new SubCrab

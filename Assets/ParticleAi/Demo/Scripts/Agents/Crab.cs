@@ -23,7 +23,11 @@ namespace IndieDevTools.Demo.CrabBattle
 
         SpriteRenderer spriteRenderer = null;
 
-        List<ICrab> footprints = new List<ICrab>();
+        List<ICrab> ICrab.FootprintCells => footprintCells;
+        List<ICrab> footprintCells = new List<ICrab>();
+
+        Vector2Int ICrab.FootprintSize => footprintSize;
+        Vector2Int footprintSize = Vector2Int.one;
 
         protected override void Init()
         {
@@ -60,13 +64,16 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void InitFootprints()
         {
-            footprints.Clear();
+            footprintCells.Clear();
 
             Vector2Int boundsMin = MapElement.Map.LocalToCell(spriteRenderer.bounds.min);
             Vector2Int boundsMax = MapElement.Map.LocalToCell(spriteRenderer.bounds.max);
 
-            int rows = boundsMax.x - boundsMin.x;
-            int columns = boundsMax.y - boundsMin.y;
+            footprintSize.x = boundsMax.x - boundsMin.x;
+            footprintSize.y = boundsMax.y - boundsMin.y;
+
+            int columns = footprintSize.x;
+            int rows = footprintSize.y;
 
             int offsetX = -columns / 2;
             int offsetY = -rows / 2;
@@ -77,8 +84,8 @@ namespace IndieDevTools.Demo.CrabBattle
                 {
                     Vector2Int footprintLocation = new Vector2Int(column + offsetX, row + offsetY);
                     if (footprintLocation == Location) continue;
-                    ICrab footprint = SubCrab.Create(this, footprintLocation);
-                    footprints.Add(footprint);
+                    ICrab footprintCell = SubCrab.Create(this, footprintLocation);
+                    footprintCells.Add(footprintCell);
                 }
             }
 
@@ -87,7 +94,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void UpdateFootprintPositions()
         {
-            foreach (ICrab footprint in footprints)
+            foreach (ICrab footprint in footprintCells)
             {
                 footprint.Position = Position;
             }    
