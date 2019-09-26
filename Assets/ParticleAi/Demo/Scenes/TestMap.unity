@@ -7888,7 +7888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2d88a57ea5ff07b4f85c6cc583f66d19, type: 2}
-  groupId: 0
+  groupId: 1
   broadcaster: {fileID: 11400000, guid: f5f7d3baca26ec54fbb97c452ba54a1b, type: 2}
   isDrawingGizmos: 1
   gizmoColor: {r: 0, g: 1, b: 0, a: 1}
@@ -8326,7 +8326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &673926371
 Transform:
   m_ObjectHideFlags: 0
@@ -13157,7 +13157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2d88a57ea5ff07b4f85c6cc583f66d19, type: 2}
-  groupId: 0
+  groupId: 2
   broadcaster: {fileID: 11400000, guid: f5f7d3baca26ec54fbb97c452ba54a1b, type: 2}
   isDrawingGizmos: 1
   gizmoColor: {r: 0, g: 1, b: 0, a: 1}
@@ -24612,7 +24612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 2d88a57ea5ff07b4f85c6cc583f66d19, type: 2}
-  groupId: 0
+  groupId: 2
   broadcaster: {fileID: 11400000, guid: f5f7d3baca26ec54fbb97c452ba54a1b, type: 2}
   isDrawingGizmos: 1
   gizmoColor: {r: 0, g: 1, b: 0, a: 1}

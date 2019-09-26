@@ -132,7 +132,7 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddCommand(MoveToTargetLocation.Create(this), CommandLayer0);
             wanderState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), CommandLayer0);
             wanderState.SetLayerLoopCount(CommandLayer0, -1); // Instead of just stopping, layers can be assigned a number of lopps. -1 is infinite looping.
-            wanderState.AddCommand(BroadcastAdvertisement.Create(this), CommandLayer1);
+            wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), CommandLayer1);
             wanderState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), CommandLayer2);
             wanderState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer3);
 
@@ -146,7 +146,7 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), CommandLayer0);
             inspectTargetLocationState.AddCommand(ChooseTargetMapElmentAtLocation.Create(this), CommandLayer0);
             inspectTargetLocationState.AddCommand(InspectTargetMapElement.Create(this, onEnemeyFoundTransition, onItemFoundTransition, onNothingFoundTransition), CommandLayer0);
-            inspectTargetLocationState.AddCommand(BroadcastAdvertisement.Create(this), CommandLayer1);
+            inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), CommandLayer1);
             inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), CommandLayer2);
             inspectTargetLocationState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer3);
 
@@ -157,7 +157,7 @@ namespace IndieDevTools.Demo.CrabBattle
             attackEnemyState.AddCommand(AttackTargetMapElement.Create(this, onEnemyKilledTransition), CommandLayer0);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.75f), CommandLayer0);
             attackEnemyState.SetLayerLoopCount(CommandLayer0, -1);
-            attackEnemyState.AddCommand(BroadcastAdvertisement.Create(this), CommandLayer1);
+            attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), CommandLayer1);
             attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer2);
 
             // Death state
