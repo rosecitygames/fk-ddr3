@@ -52,12 +52,12 @@ namespace IndieDevTools.Demo.CrabBattle
 
             while (isLandableLocation == false && tryCount++ < maxTryCount)
             {
-                Vector2Int offset = Vector2Int.RoundToInt(Random.insideUnitCircle * moveRadius);
+                Vector2Int offset =  Vector2Int.RoundToInt(Random.insideUnitCircle * moveRadius);
                 location = crab.Location;
                 location.x += offset.x;
                 location.y += offset.y;
                 
-                bool isInBounds = GetIsLocationInBounds(location, extents);
+                bool isInBounds = GetIsLocationOffsetInBounds(offset);
                 if (isInBounds == false) continue;
 
                 ILandable landable = crab.Map.GetMapElementAtCell<ILandable>(location);
@@ -84,37 +84,27 @@ namespace IndieDevTools.Demo.CrabBattle
         /// <summary>
         /// Check each corner location of the footprint bounds to see if its in bounds.
         /// </summary>
-        /// <param name="location">The center location of the object</param>
-        /// <param name="extents">The half sizes of the footprint bounds</param>
+        /// <param name="offset">The location offset</param>
         /// <returns></returns>
-        bool GetIsLocationInBounds(Vector2Int location, Vector2Int extents)
+        bool GetIsLocationOffsetInBounds(Vector2Int offset)
         {
-            Vector2Int boundLocation = new Vector2Int();
-            boundLocation.x = location.x - extents.x;
-            boundLocation.y = location.y - extents.y;
+            if (crab.CornerFootprintElements.Count > 0)
+            {
+                foreach (ICrab cornerElement in crab.CornerFootprintElements)
+                {
+                    Vector2Int offsetLocation = cornerElement.Location + offset;
+                    bool isInBounds = crab.Map.InBounds(offsetLocation);
+                    if (isInBounds == false) return false;
+                }
 
-            bool isInBounds = crab.Map.InBounds(boundLocation);
-            if (isInBounds == false) return false;
-
-            boundLocation.x = location.x + extents.x;
-            boundLocation.y = location.y - extents.y;
-
-            isInBounds = crab.Map.InBounds(boundLocation);
-            if (isInBounds == false) return false;
-
-            boundLocation.x = location.x + extents.x;
-            boundLocation.y = location.y + extents.y;
-
-            isInBounds = crab.Map.InBounds(boundLocation);
-            if (isInBounds == false) return false;
-
-            boundLocation.x = location.x + extents.x;
-            boundLocation.y = location.y - extents.y;
-
-            isInBounds = crab.Map.InBounds(boundLocation);
-            if (isInBounds == false) return false;
-
-            return true;
+                return true;
+            }
+            else
+            {
+                Vector2Int offsetLocation = crab.Location + offset;
+                bool isInBounds = crab.Map.InBounds(offsetLocation);
+                return isInBounds;
+            }
         }
 
         Vector2Int GetNearestLocationInBounds()

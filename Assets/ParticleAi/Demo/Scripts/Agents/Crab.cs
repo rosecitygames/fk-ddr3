@@ -21,83 +21,68 @@ namespace IndieDevTools.Demo.CrabBattle
         string displayName = "";
         protected override string DisplayName { get => displayName; set => displayName = value; }
 
+        SpriteRenderer SpriteRenderer
+        {
+            get
+            {
+                InitSpriteRenderer();
+                return spriteRenderer;
+            }
+        }
         SpriteRenderer spriteRenderer = null;
 
-        List<ICrab> ICrab.FootprintCells => footprintCells;
-        List<ICrab> footprintCells = new List<ICrab>();
+        List<ICrab> IFootprint<ICrab>.AllFootprintElements => Footprint.AllFootprintElements;
+        List<ICrab> IFootprint<ICrab>.CornerFootprintElements => Footprint.CornerFootprintElements;
+        List<ICrab> IFootprint<ICrab>.BorderFootprintElements => Footprint.BorderFootprintElements;
+        Vector2Int IFootprint<ICrab>.FootprintSize => Footprint.FootprintSize;
+        Vector2Int IFootprint<ICrab>.FootprintExtents => Footprint.FootprintExtents;
+        Vector2Int IFootprint<ICrab>.FootprintOffset => Footprint.FootprintOffset;
+        void IFootprint<ICrab>.Destroy() => Footprint.Destroy();
 
-        Vector2Int ICrab.FootprintSize => footprintSize;
-        Vector2Int footprintSize = Vector2Int.one;
+        IFootprint<ICrab> Footprint
+        {
+            get
+            {
+                InitFootprint();
+                return footprint;
+            }
+        }
+        IFootprint<ICrab> footprint;
 
         protected override void Init()
         {
             base.Init();
             InitSpriteRenderer();
-            AddLocationEventHandlers();
-            InitFootprints();
+            InitFootprint();
+            DebugFootprint();
         }
 
         void InitSpriteRenderer()
         {
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            if (spriteRenderer != null)
+            if (spriteRenderer == null)
             {
-                spriteRenderer.sortingOrder = SortingOrder;
-            }
-        }
-
-        void AddLocationEventHandlers()
-        {
-            RemoveLcoationEventHandlers();
-            (this as ILocatable).OnUpdated += Location_OnUpdated;
-        }
-
-        void RemoveLcoationEventHandlers()
-        {
-            (this as ILocatable).OnUpdated -= Location_OnUpdated;
-        }
-
-        private void Location_OnUpdated(ILocatable obj)
-        {
-            UpdateFootprintPositions();
-        }
-
-        void InitFootprints()
-        {
-            footprintCells.Clear();
-
-            Vector2Int boundsMin = MapElement.Map.LocalToCell(spriteRenderer.bounds.min);
-            Vector2Int boundsMax = MapElement.Map.LocalToCell(spriteRenderer.bounds.max);
-
-            footprintSize.x = boundsMax.x - boundsMin.x;
-            footprintSize.y = boundsMax.y - boundsMin.y;
-
-            int columns = footprintSize.x;
-            int rows = footprintSize.y;
-
-            int offsetX = -columns / 2;
-            int offsetY = -rows / 2;
-
-            for(int column = 0; column < columns; column++)
-            {
-                for(int row = 0; row < rows; row++)
+                spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+                if (spriteRenderer != null)
                 {
-                    Vector2Int footprintLocation = new Vector2Int(column + offsetX, row + offsetY);
-                    if (footprintLocation == Location) continue;
-                    ICrab footprintCell = SubCrab.Create(this, footprintLocation);
-                    footprintCells.Add(footprintCell);
+                    spriteRenderer.sortingOrder = SortingOrder;
                 }
             }
-
-            UpdateFootprintPositions();
         }
 
-        void UpdateFootprintPositions()
+        void InitFootprint()
         {
-            foreach (ICrab footprint in footprintCells)
+            if (footprint != null) return;
+            footprint = Footprint<ICrab>.Create(SpriteRenderer, this, SubCrab.Create);
+        }
+
+        void DebugFootprint()
+        {
+            string message = "Location : " + Location + ", Offset:" + Footprint.FootprintOffset + ", Corners: ";
+            foreach(ICrab footprintElement in Footprint.CornerFootprintElements)
             {
-                footprint.Position = Position;
-            }    
+                message += footprintElement.Location + ", ";
+            }
+            Debug.Log(message);
         }
 
         bool ILandable.GetIsLandable(IAgent agent)
