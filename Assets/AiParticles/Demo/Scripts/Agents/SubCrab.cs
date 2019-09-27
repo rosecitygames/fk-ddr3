@@ -25,6 +25,8 @@ namespace IndieDevTools.Demo.CrabBattle
 
         bool ILandable.GetIsLandable(IAgent agent) => superCrab.GetIsLandable(agent);
 
+        void IExplodable.Explode() => superCrab.Explode();
+
         // SubCrabs dont have a sub-footprint, so use a null implementation for IFootprint
         List<ICrab> IFootprint<ICrab>.AllFootprintElements => nullList;
         List<ICrab> IFootprint<ICrab>.CornerFootprintElements => nullList;

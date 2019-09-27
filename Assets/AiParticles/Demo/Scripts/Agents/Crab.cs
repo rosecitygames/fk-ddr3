@@ -54,7 +54,6 @@ namespace IndieDevTools.Demo.CrabBattle
             base.Init();
             InitSpriteRenderer();
             InitFootprint();
-            DebugFootprint();
         }
 
         void InitSpriteRenderer()
@@ -75,19 +74,17 @@ namespace IndieDevTools.Demo.CrabBattle
             footprint = Footprint<ICrab>.Create(SpriteRenderer, this, SubCrab.Create);
         }
 
-        void DebugFootprint()
-        {
-            string message = "Location : " + Location + ", Offset:" + Footprint.FootprintOffset + ", Corners: ";
-            foreach(ICrab footprintElement in Footprint.CornerFootprintElements)
-            {
-                message += footprintElement.Location + ", ";
-            }
-            Debug.Log(message);
-        }
-
         bool ILandable.GetIsLandable(IAgent agent)
         {
             return agent == (this as IAgent);
+        }
+
+        void IExplodable.Explode()
+        {
+            SpriteExploder.SpriteExploder spriteExploder = GetComponentInChildren<SpriteExploder.SpriteExploder>();
+            if (spriteExploder == null) return;
+
+            spriteExploder.Explode();
         }
         
         // Command layer consts used for making the state machine setup more readable
@@ -161,7 +158,7 @@ namespace IndieDevTools.Demo.CrabBattle
             attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer2);
 
             // Death state
-            deathState.AddCommand(Die.Create(this));
+            deathState.AddCommand(Explode.Create(this, this));
 
             // Pickup Item state
             pickupItemState.AddTransition(onPickupCompleted, wanderState);
@@ -197,17 +194,11 @@ namespace IndieDevTools.Demo.CrabBattle
         protected override void RemoveFromMap()
         {
             base.RemoveFromMap();
+            Footprint.Destroy();
+
             StopAllCoroutines();
 
             isDrawingRuntimeGizmos = false;
-
-            SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
-                Color deadColor = spriteRenderer.color;
-                deadColor.a = 0.1f;
-                spriteRenderer.color = deadColor;
-            }
         }
 
         public static IAgent Create(GameObject gameObject, IAgentData agentData, IAdvertisementBroadcaster broadcaster)
