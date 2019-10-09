@@ -3,6 +3,8 @@ using IndieDevTools.Commands;
 using IndieDevTools.Traits;
 using IndieDevTools.Demo.BattleSimulator;
 using UnityEngine;
+using System.Collections.Generic;
+using IndieDevTools.Utils;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
@@ -33,38 +35,33 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
-        const int maxTryCount = 100;
-
         Vector2Int GetNewLocationInMoveRadius()
         {
             int moveRadius = TraitsUtil.GetMoveRadius(crab);
+
+            HashSet<Vector2Int> cellsInsideRadius = GridUtil.GetCellsInsideRadius(crab.Map.Size, crab.Location, moveRadius, true);
+            cellsInsideRadius.Remove(crab.Location);
+            List<Vector2Int> locations = new List<Vector2Int>(cellsInsideRadius);
+
             Vector2Int location = Vector2Int.zero;
 
             bool isLandableLocation = false;
+
             int tryCount = 0;
+            int maxTryCount = 100;
 
-            int columns = crab.FootprintSize.x;
-            int rows = crab.FootprintSize.y;
-
-            Vector2Int extents = new Vector2Int();
-            extents.x = columns / 2;
-            extents.y = rows / 2;
-
-            while (isLandableLocation == false && tryCount++ < maxTryCount)
+            while (isLandableLocation == false && locations.Count > 0)
             {
-                Vector2Int offset =  Vector2Int.RoundToInt(Random.insideUnitCircle * moveRadius);
-                location = crab.Location;
-                location.x += offset.x;
-                location.y += offset.y;
-                
-                bool isInBounds = GetIsLocationOffsetInBounds(offset);
-                if (isInBounds == false) continue;
+                if (++tryCount >= maxTryCount) break;
 
-                ILandable landable = crab.Map.GetMapElementAtCell<ILandable>(location);
-                bool isLandableAtCell = landable != null;
-                if (isLandableAtCell)
+                int locationIndex = Random.Range(0, locations.Count);
+                location = locations[locationIndex];
+                
+                bool isInBounds = GetIsFootprintInBounds(location);
+                if (isInBounds == false)
                 {
-                    isLandableLocation = landable.GetIsLandable(crab);
+                    locations.RemoveAt(locationIndex);
+                    continue;
                 }
                 else
                 {
@@ -72,9 +69,15 @@ namespace IndieDevTools.Demo.CrabBattle
                 }
             }
 
-            if (tryCount > maxTryCount)
+            if (tryCount >= maxTryCount)
             {
-                Debug.Log("tryCount = " + tryCount);
+                Debug.Log("MAX TRY COUNT");
+                return crab.Location;
+            }
+
+            if (locations.Count <= 0)
+            {
+                Debug.Log("No landable locations");
                 return crab.Location;
             }
 
@@ -84,10 +87,9 @@ namespace IndieDevTools.Demo.CrabBattle
         /// <summary>
         /// Check each corner location of the footprint bounds to see if its in bounds.
         /// </summary>
-        /// <param name="offset">The location offset</param>
-        /// <returns></returns>
-        bool GetIsLocationOffsetInBounds(Vector2Int offset)
+        bool GetIsFootprintInBounds(Vector2Int location)
         {
+            Vector2Int offset = location - crab.Location;
             if (crab.CornerFootprintElements.Count > 0)
             {
                 foreach (ICrab cornerElement in crab.CornerFootprintElements)
@@ -111,29 +113,30 @@ namespace IndieDevTools.Demo.CrabBattle
         {
             Vector2Int mapSize = crab.Map.Size;
 
-            int leftBound = -mapSize.x / 2;
-            int rightBound = mapSize.x / 2;
-            int topBound = -mapSize.y / 2;
-            int bottomBound = mapSize.y / 2;
+            int maxX = (mapSize.x / 2) - 2;
+            int minX = -maxX - 1;
+            int maxY = (mapSize.y / 2) - 1;
+            int minY = -maxY - 1;
 
             Vector2Int location = crab.Location;
 
-            if (location.x <= leftBound)
+            if (location.x < minX)
             {
-                location.x = leftBound + 1;
+                location.x = minX;
             }
-            else if (location.x >= rightBound)
+            else if (location.x > maxX)
             {
-                location.x = rightBound - 1;
+                location.x = maxX;
             }
 
-            if (location.y <= topBound)
+           
+            if (location.y < minY)
             {
-                location.y = topBound + 1;
+                location.y = minY;
             }
-            else if (location.y >= bottomBound)
+            else if (location.y > maxY)
             {
-                location.y = bottomBound - 1;
+                location.y = maxY;
             }
 
             return location;

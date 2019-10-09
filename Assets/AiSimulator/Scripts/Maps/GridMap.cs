@@ -142,10 +142,10 @@ namespace IndieDevTools.Maps
 
         protected override bool InBounds(Vector2Int location)
         {
-            int maxX = (Size.x / 2) - 1;
-            int minX = -maxX;
+            int maxX = (Size.x / 2) - 2;
+            int minX = -maxX - 1;
             int maxY = (Size.y / 2) - 1;
-            int minY = -maxY;
+            int minY = -maxY - 1;
             return location.x >= minX && location.x <= maxX && location.y >= minY && location.y <= maxY; 
         }
 
