@@ -8277,7 +8277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &673926371
 Transform:
   m_ObjectHideFlags: 0
@@ -13125,6 +13125,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -14536,6 +14541,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2410550323310753505, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: instanceParent
+      value: 
+      objectReference: {fileID: 147044311}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
 --- !u!1 &1267006995

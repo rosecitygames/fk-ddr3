@@ -341,7 +341,7 @@ namespace IndieDevTools.SpriteExploder
             }
 
             // Set the local scale value.
-            Vector3 localScale = transform.localScale;
+            Vector3 lossyScale = transform.lossyScale;
 
             // Emit all the particle tiles in a for loop.
             for (int tileIndex = 0; tileIndex < particleCount; tileIndex++)
@@ -352,8 +352,8 @@ namespace IndieDevTools.SpriteExploder
             
                 // Set the tile position and then apply rotation to the values.
                 Vector3 localPosition = new Vector3();
-                localPosition.x = (tileX * localScale.x * particleSizeMax) + offsetX * localScale.x;
-                localPosition.y = (tileY * localScale.y * particleSizeMax) + offsetY * localScale.y;
+                localPosition.x = (tileX * lossyScale.x * particleSizeMax) + offsetX * lossyScale.x;
+                localPosition.y = (tileY * lossyScale.y * particleSizeMax) + offsetY * lossyScale.y;
                 localPosition = transform.rotation * localPosition;
 
                 // Set the emit params position with local position offset plus the world position.
@@ -423,7 +423,7 @@ namespace IndieDevTools.SpriteExploder
             main.startLifetime = hasLocalParticleSytem ? main.startLifetime : defaultStartLifetime;
             main.duration = main.startLifetime.constantMax;
             main.loop = false;
-            main.startSize = GetMaxParticleSize();
+            main.startSize = GetMaxParticleSize() * GetParticleSystemScale();
             main.startColor = hasLocalParticleSytem ? main.startColor : LocalSpriteRenderer.color;
             main.maxParticles = GetMaxParticleCount();
             main.simulationSpace = ParticleSystemSimulationSpace.World;
@@ -518,7 +518,7 @@ namespace IndieDevTools.SpriteExploder
         /// </summary>
         public int GetSubdivisionCountX()
         {
-            float spriteSizeX = LocalSpriteRenderer.sprite.bounds.size.x * LocalSpriteRenderer.sprite.pixelsPerUnit;
+            float spriteSizeX = LocalSpriteRenderer.sprite.bounds.size.x * LocalSpriteRenderer.sprite.pixelsPerUnit * transform.lossyScale.x;
             return Mathf.CeilToInt(spriteSizeX / ParticlePixelSize); 
         }
 
@@ -527,7 +527,7 @@ namespace IndieDevTools.SpriteExploder
         /// </summary>
         public int GetSubdivisionCountY()
         {
-            float spriteSizeY = LocalSpriteRenderer.sprite.bounds.size.y * LocalSpriteRenderer.sprite.pixelsPerUnit;
+            float spriteSizeY = LocalSpriteRenderer.sprite.bounds.size.y * LocalSpriteRenderer.sprite.pixelsPerUnit * transform.lossyScale.y;
             return Mathf.CeilToInt(spriteSizeY / ParticlePixelSize);
         } 
 
@@ -536,7 +536,12 @@ namespace IndieDevTools.SpriteExploder
         {
             float maxBound = Mathf.Max(LocalSpriteRenderer.sprite.bounds.size.x, LocalSpriteRenderer.sprite.bounds.size.y);
             float scale = GetMaxParticleSize() / maxBound;
-            return new Vector2(scale * transform.localScale.x, scale * transform.localScale.y);
+            return new Vector2(scale * transform.lossyScale.x, scale * transform.lossyScale.y);
+        }
+
+        public float GetParticleSystemScale()
+        {
+            return Mathf.Max(transform.lossyScale.x / transform.localScale.x, transform.lossyScale.y / transform.localScale.y);
         }
 
         /// <summary>

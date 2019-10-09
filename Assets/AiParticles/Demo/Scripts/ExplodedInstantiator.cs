@@ -11,7 +11,7 @@ namespace IndieDevTools.AiParticles
 
         [SerializeField]
         GameObject prefab = null;
-
+        
         int sortedParticleCount = 0;
 
         ParticleSystem.Particle[] particles = null;
@@ -93,8 +93,7 @@ namespace IndieDevTools.AiParticles
                     int tileCenterPixelY = tileY * pixelSize + centerOffset;
 
                     Color color = texture.GetPixel(tileCenterPixelX, tileCenterPixelY);
-                    
-                    if (color.a == 0.0f) continue;
+                    if (color.a <= 0.0f) continue;
 
                     ParticleSystem.Particle particle = particles[i];
                     
@@ -131,7 +130,6 @@ namespace IndieDevTools.AiParticles
                 spriteExploder.GetCustomParticleData(customDatas);
                 QuickSortParticles_Sub(0, sortedParticleCount - 1);
             }
-
         }
         
         void QuickSortParticles_Sub(int left, int right)

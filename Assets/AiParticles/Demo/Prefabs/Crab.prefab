@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410550323310753511}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 2410550323460703119}
   m_RootOrder: 0
@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteExploder: {fileID: 2410550323310753507}
   prefab: {fileID: 2410550323460703118, guid: 890a6f5f829998e4ebab08ce8871bee4, type: 3}
+  instanceParent: {fileID: 0}
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -124,13 +125,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da77be760bc5a648bf13215de9b77ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particlePixelSize: 32
+  particlePixelSize: 16
   collisionMode: 1
   minExplosiveStrength: 1
   maxExplosiveStrength: 2
   gravityModifier: 0
-  isExplodingOnStart: 0
-  delaySeconds: 2
+  isExplodingOnStart: 1
+  delaySeconds: 1
 --- !u!212 &2410550323310753506
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -368,9 +369,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
-      minColor: {r: 1, g: 0.7762758, b: 0, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      minMaxState: 2
+      minColor: {r: 1, g: 0.24280253, b: 0, a: 1}
+      maxColor: {r: 1, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.49323636, g: 1, b: 0.357, a: 1}
@@ -1443,7 +1444,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 1
+    enabled: 0
     gradient:
       serializedVersion: 2
       minMaxState: 3
@@ -1451,8 +1452,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 0.41960785, g: 0.39215687, b: 1, a: 1}
+        key0: {r: 1, g: 0, b: 0, a: 1}
+        key1: {r: 0.93725497, g: 0.043137256, b: 0.10588236, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -1480,8 +1481,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 0.78039217, b: 0, a: 1}
+        key0: {r: 1, g: 0, b: 0, a: 1}
+        key1: {r: 1, g: 0.1764706, b: 0, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4864,7 +4865,7 @@ Transform:
   m_GameObject: {fileID: 2410550323460703118}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49, y: 0.49, z: 0.49}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2410550323310753508}
   m_Father: {fileID: 0}
@@ -4877,7 +4878,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410550323460703118}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7be3dfb7929ba3441bc516a9e60af560, type: 3}
   m_Name: 
