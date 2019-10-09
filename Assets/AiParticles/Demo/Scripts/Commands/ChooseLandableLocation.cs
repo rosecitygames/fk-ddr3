@@ -118,22 +118,22 @@ namespace IndieDevTools.Demo.CrabBattle
 
             Vector2Int location = crab.Location;
 
-            if (location.x < leftBound)
+            if (location.x <= leftBound)
             {
-                location.x = leftBound;
+                location.x = leftBound + 1;
             }
-            else if (location.x > rightBound)
+            else if (location.x >= rightBound)
             {
-                location.x = rightBound;
+                location.x = rightBound - 1;
             }
 
-            if (location.y < topBound)
+            if (location.y <= topBound)
             {
-                location.y = topBound;
+                location.y = topBound + 1;
             }
-            else if (location.y > bottomBound)
+            else if (location.y >= bottomBound)
             {
-                location.y = bottomBound;
+                location.y = bottomBound - 1;
             }
 
             return location;
