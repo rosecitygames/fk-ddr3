@@ -29,8 +29,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410550323310753511}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2410550323460703119}
   m_RootOrder: 0
@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c660671a3031540a42f0dbe800c3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteExploder: {fileID: 2410550323310753507}
-  prefab: {fileID: 2410550323460703118, guid: 890a6f5f829998e4ebab08ce8871bee4, type: 3}
-  instanceParent: {fileID: 0}
+  SpriteExploder: {fileID: 2410550323310753507}
+  Prefab: {fileID: 2410550323460703118, guid: 890a6f5f829998e4ebab08ce8871bee4, type: 3}
+  InstanceParent: {fileID: 0}
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -125,13 +125,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3da77be760bc5a648bf13215de9b77ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particlePixelSize: 16
+  particlePixelSize: 64
   collisionMode: 1
   minExplosiveStrength: 1
   maxExplosiveStrength: 2
   gravityModifier: 0
-  isExplodingOnStart: 1
-  delaySeconds: 1
+  isExplodingOnStart: 0
+  delaySeconds: 0
 --- !u!212 &2410550323310753506
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4865,7 +4865,7 @@ Transform:
   m_GameObject: {fileID: 2410550323460703118}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.48, y: 0.48, z: 0.48}
   m_Children:
   - {fileID: 2410550323310753508}
   m_Father: {fileID: 0}
@@ -4878,7 +4878,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2410550323460703118}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7be3dfb7929ba3441bc516a9e60af560, type: 3}
   m_Name: 

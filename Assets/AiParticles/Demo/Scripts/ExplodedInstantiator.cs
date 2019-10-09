@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+
 namespace IndieDevTools.AiParticles
 {
     public class ExplodedInstantiator : MonoBehaviour
     {
-        [SerializeField]
-        SpriteExploder.SpriteExploder spriteExploder = null;
+        public SpriteExploder.SpriteExploder SpriteExploder = null;
 
-        [SerializeField]
-        GameObject prefab = null;
-        
+        public GameObject Prefab = null;
+
+        public Transform InstanceParent = null;
+
         int sortedParticleCount = 0;
 
         ParticleSystem.Particle[] particles = null;
@@ -34,56 +35,66 @@ namespace IndieDevTools.AiParticles
         {
             RemoveEventHandlers();
 
-            spriteExploder.OnExploded += SpriteExploder_OnExploded;
+            SpriteExploder.OnExploded += SpriteExploder_OnExploded;
         }
 
         void RemoveEventHandlers()
         {
-            spriteExploder.OnExploded -= SpriteExploder_OnExploded;
+            SpriteExploder.OnExploded -= SpriteExploder_OnExploded;
         }
 
         void SpriteExploder_OnExploded()
         {
             RemoveEventHandlers();
 
-            sortedParticleCount = spriteExploder.GetMaxParticleCount();
+            sortedParticleCount = SpriteExploder.GetMaxParticleCount();
 
-            particleScale = spriteExploder.GetParticleScale();
+            particleScale = SpriteExploder.GetParticleScale();
 
             particles = new ParticleSystem.Particle[sortedParticleCount];  
             QuickSortParticles();
-            
-            pixelSize = spriteExploder.ParticlePixelSize;
-            centerOffset = pixelSize / 2;
 
-            tileCountX = spriteExploder.GetSubdivisionCountX();
-            tileCountY = spriteExploder.GetSubdivisionCountY();
+            tileCountX = SpriteExploder.GetSubdivisionCountX();
+            tileCountY = SpriteExploder.GetSubdivisionCountY();
+
+            Texture2D texture = SpriteExploder.GetTexture();
+
+            if (tileCountX < tileCountY)
+            {
+                pixelSize = texture.width / tileCountX;
+            }
+            else
+            {
+                pixelSize = texture.height / tileCountY;
+            }
+
+            centerOffset = pixelSize / 2;
         }
 
         void LateUpdate()
         {
             if (sortedParticleCount <= 0) return;
 
-            int particleCount = spriteExploder.GetParticleCount();
+            int particleCount = SpriteExploder.GetParticleCount();
             int destroyedCount = sortedParticleCount - particleCount;
 
             if (destroyedCount > 0)
             {
-                Vector2 flipVector = spriteExploder.GetFlipVector2();
+                Vector2 flipVector = SpriteExploder.GetFlipVector2();
 
-                Texture2D texture = spriteExploder.GetTexture();
+                Texture2D texture = SpriteExploder.GetTexture();
 
                 for (int i = 0; i < destroyedCount; i++)
                 {
                     int tileIndex = (int)customDatas[i].x;
 
-                    int tileX = spriteExploder.GetTileX(tileIndex, tileCountX);
+                    int tileX = SpriteExploder.GetTileX(tileIndex, tileCountX);
                     if (flipVector.x < 0)
                     {
                         tileX = tileCountX - tileX;
                     }
 
-                    int tileY = spriteExploder.GetTileY(tileIndex, tileCountY);
+                    int tileY = SpriteExploder.GetTileY(tileIndex, tileCountY);
                     if (flipVector.y < 0)
                     {
                         tileY = tileCountY - tileY;
@@ -93,12 +104,13 @@ namespace IndieDevTools.AiParticles
                     int tileCenterPixelY = tileY * pixelSize + centerOffset;
 
                     Color color = texture.GetPixel(tileCenterPixelX, tileCenterPixelY);
+
                     if (color.a <= 0.0f) continue;
 
                     ParticleSystem.Particle particle = particles[i];
                     
-                    GameObject instance = Instantiate(prefab, transform.parent);
-                    instance.name = prefab.name + tileIndex;
+                    GameObject instance = Instantiate(Prefab, InstanceParent);
+                    instance.name = Prefab.name + tileIndex;
                     instance.transform.localPosition = particle.position;
                     instance.transform.localScale = particleScale;
                     instance.transform.localEulerAngles = new Vector3(0, 0, particle.rotation);
@@ -106,7 +118,7 @@ namespace IndieDevTools.AiParticles
                     SpriteRenderer spriteRenderer = instance.GetComponentInChildren<SpriteRenderer>();
                     if (spriteRenderer != null)
                     {
-                        spriteRenderer.color = particle.GetCurrentColor(spriteExploder.GetParticleSystem());
+                        spriteRenderer.color = particle.GetCurrentColor(SpriteExploder.GetParticleSystem());
                     }
 
                     Rigidbody2D rigidbody2D = instance.GetComponentInChildren<Rigidbody2D>();
@@ -123,11 +135,11 @@ namespace IndieDevTools.AiParticles
         
         void QuickSortParticles()
         {
-            sortedParticleCount = spriteExploder.GetParticles(particles);
+            sortedParticleCount = SpriteExploder.GetParticles(particles);
 
             if (sortedParticleCount > 0)
             {
-                spriteExploder.GetCustomParticleData(customDatas);
+                SpriteExploder.GetCustomParticleData(customDatas);
                 QuickSortParticles_Sub(0, sortedParticleCount - 1);
             }
         }

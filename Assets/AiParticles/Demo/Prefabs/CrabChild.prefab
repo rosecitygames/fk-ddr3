@@ -47,8 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c660671a3031540a42f0dbe800c3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteExploder: {fileID: 2410550323310753507}
-  prefab: {fileID: 2410550323460703118}
+  SpriteExploder: {fileID: 2410550323310753507}
+  Prefab: {fileID: 2410550323460703118}
+  InstanceParent: {fileID: 0}
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:
   serializedVersion: 6

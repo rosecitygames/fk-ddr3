@@ -13093,8 +13093,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c660671a3031540a42f0dbe800c3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteExploder: {fileID: 673926374}
-  prefab: {fileID: 264543750549022157, guid: c73fe969b69c3af46987d47e6e7986e4, type: 3}
+  SpriteExploder: {fileID: 0}
+  Prefab: {fileID: 0}
+  InstanceParent: {fileID: 0}
 --- !u!114 &673926377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13128,17 +13129,17 @@ PrefabInstance:
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.75
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4
+      value: -1.25
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -13184,6 +13185,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410550323460703113, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: groupId
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
@@ -14489,12 +14495,12 @@ PrefabInstance:
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -14543,9 +14549,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753505, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
-      propertyPath: instanceParent
+      propertyPath: InstanceParent
       value: 
-      objectReference: {fileID: 147044311}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
 --- !u!1 &1267006995
@@ -19870,8 +19876,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c660671a3031540a42f0dbe800c3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteExploder: {fileID: 2140106307}
-  prefab: {fileID: 264543750549022157, guid: c73fe969b69c3af46987d47e6e7986e4, type: 3}
+  SpriteExploder: {fileID: 0}
+  Prefab: {fileID: 0}
+  InstanceParent: {fileID: 0}
 --- !u!114 &2140106310
 MonoBehaviour:
   m_ObjectHideFlags: 0

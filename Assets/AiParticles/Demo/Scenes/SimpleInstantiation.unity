@@ -5517,8 +5517,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c660671a3031540a42f0dbe800c3eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteExploder: {fileID: 662272542}
-  prefab: {fileID: 7710303848450563715, guid: 6a456949315aad74c9c15086325a4f82, type: 3}
+  SpriteExploder: {fileID: 662272542}
+  Prefab: {fileID: 7710303848450563715, guid: 6a456949315aad74c9c15086325a4f82, type: 3}
+  InstanceParent: {fileID: 0}
 --- !u!114 &662272547
 MonoBehaviour:
   m_ObjectHideFlags: 0

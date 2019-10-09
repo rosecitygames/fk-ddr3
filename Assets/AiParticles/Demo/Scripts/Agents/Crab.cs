@@ -8,6 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using IndieDevTools.Demo.BattleSimulator;
+using IndieDevTools.AiParticles;
+using IndieDevTools.SpriteExploder;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
@@ -53,6 +55,8 @@ namespace IndieDevTools.Demo.CrabBattle
         {
             base.Init();
             InitSpriteRenderer();
+            InitSpriteExploder();
+            InitExplodedInstantiator();
             InitFootprint();
         }
 
@@ -66,6 +70,27 @@ namespace IndieDevTools.Demo.CrabBattle
                     spriteRenderer.sortingOrder = SortingOrder;
                 }
             }
+        }
+
+        const int spriteExploderSubdivisionCount = 4;
+
+        void InitSpriteExploder()
+        {
+            SpriteExploder.SpriteExploder spriteExploder = GetComponentInChildren<SpriteExploder.SpriteExploder>();
+
+            float spriteSizeX = spriteRenderer.sprite.bounds.size.x * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.x;
+            float spriteSizeY = spriteRenderer.sprite.bounds.size.y * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.y;
+            float minSize = Mathf.Min(spriteSizeX, spriteSizeY);
+            int particlePixelSize = (int)(minSize / spriteExploderSubdivisionCount);
+
+            spriteExploder.ParticlePixelSize = particlePixelSize;
+        }
+
+        void InitExplodedInstantiator()
+        {
+            ExplodedInstantiator explodedInstantiator = GetComponentInChildren<ExplodedInstantiator>();
+            if (explodedInstantiator == null) return;
+            explodedInstantiator.InstanceParent = transform.parent;
         }
 
         void InitFootprint()

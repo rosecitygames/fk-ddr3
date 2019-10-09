@@ -288,6 +288,14 @@ namespace IndieDevTools.SpriteExploder
             if (isExploded) yield break;
             isExploded = true;
 
+            // Set the amount of x and y subdivisions will be used. Similar to defining
+            // the size of a grid.
+            int subdivisionCountX = GetSubdivisionCountX();
+            int subdivisionCountY = GetSubdivisionCountY();
+
+            int totalSubsdivisionCount = subdivisionCountX * subdivisionCountY;
+            if (totalSubsdivisionCount <= 1) yield break;
+
             // Disable the sprite renderer so that particle textures will be seen instead.
             LocalSpriteRenderer.enabled = false;
 
@@ -297,11 +305,6 @@ namespace IndieDevTools.SpriteExploder
             float boundSizeY = sprite.bounds.size.y;
             float halfBoundSizeX = boundSizeX * 0.5f;
             float halfBoundSizeY = boundSizeY * 0.5f;
-
-            // Set the amount of x and y subdivisions will be used. Similar to defining
-            // the size of a grid.
-            int subdivisionCountX = GetSubdivisionCountX();
-            int subdivisionCountY = GetSubdivisionCountY();
 
             // Set the flip values the particles will use.
             float flipX = LocalSpriteRenderer.flipX ? -1.0f : 1.0f;
