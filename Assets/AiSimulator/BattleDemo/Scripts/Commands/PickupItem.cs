@@ -16,6 +16,7 @@ namespace IndieDevTools.Demo.BattleSimulator
 
         protected override void OnStart()
         {
+            Debug.Log("PickupItem " + agent.TargetMapElement);
             if (agent.TargetMapElement != null)
             {
                 agent.TargetMapElement.Description = "Picked up by " + agent.DisplayName;

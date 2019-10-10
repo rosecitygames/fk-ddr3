@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2410550323310753504}
   - component: {fileID: 2410550323310753507}
   - component: {fileID: 2410550323310753506}
+  - component: {fileID: 7754089170683882224}
+  - component: {fileID: 7279056115479316911}
   - component: {fileID: 2410550323310753509}
   m_Layer: 8
   m_Name: Sprite
@@ -89,7 +91,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5000
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -131,7 +133,7 @@ MonoBehaviour:
   maxExplosiveStrength: 2
   gravityModifier: 0
   isExplodingOnStart: 0
-  delaySeconds: 0
+  delaySeconds: 1
 --- !u!212 &2410550323310753506
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -170,7 +172,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1100
-  m_Sprite: {fileID: 21300000, guid: 7328fdf3edc9e7340afc53f433d6001b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 53446cb6eefef8b429e84f8af16b20e1, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -181,6 +183,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7754089170683882224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410550323310753511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4e575c029ed624285e6847b7300272, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &7279056115479316911
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410550323310753511}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4ac78dcda6fd8764286da77521260c72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!198 &2410550323310753509
 ParticleSystem:
   m_ObjectHideFlags: 0

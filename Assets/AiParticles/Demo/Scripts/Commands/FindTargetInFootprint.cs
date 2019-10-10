@@ -9,7 +9,7 @@ using IndieDevTools.Demo.BattleSimulator;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
-    public class FintTargetInFootprint<T> : AbstractCommand where T : IFootprint<T>
+    public class FindTargetInFootprint<T> : AbstractCommand where T : IFootprint<T>
     {
         IAgent agent = null;
         ILocatable Locatable => agent as ILocatable;
@@ -150,7 +150,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
         public static ICommand Create(IAgent agent, IFootprint<T> footprint)
         {
-            return new FintTargetInFootprint<T>
+            return new FindTargetInFootprint<T>
             {
                 agent = agent,
                 footprint = footprint

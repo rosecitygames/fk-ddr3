@@ -2,6 +2,7 @@
 using IndieDevTools.Commands;
 using IndieDevTools.Items;
 using IndieDevTools.Maps;
+using UnityEngine;
 
 namespace IndieDevTools.Demo.BattleSimulator
 {
