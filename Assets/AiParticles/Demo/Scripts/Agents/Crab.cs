@@ -113,10 +113,11 @@ namespace IndieDevTools.Demo.CrabBattle
         }
         
         // Command layer consts used for making the state machine setup more readable
-        const int CommandLayer0 = 0;
-        const int CommandLayer1 = 1;
-        const int CommandLayer2 = 2;
-        const int CommandLayer3 = 3;
+        const int commandLayer0 = 0;
+        const int commandLayer1 = 1;
+        const int commandLayer2 = 2;
+        const int commandLayer3 = 3;
+        const int commandLayer4 = 4;
 
         protected override void InitStateMachine()
         {
@@ -150,13 +151,13 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddTransition(onTargetFoundTransition, inspectTargetLocationState);
             wanderState.AddTransition(onAttackedTransition, attackEnemyState);
             wanderState.AddTransition(onDeathTransition, deathState);
-            wanderState.AddCommand(ChooseLandableLocation.Create(this), CommandLayer0);
-            wanderState.AddCommand(MoveToTargetLocation.Create(this), CommandLayer0);
-            wanderState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), CommandLayer0);
-            wanderState.SetLayerLoopCount(CommandLayer0, -1); // Instead of just stopping, layers can be assigned a number of lopps. -1 is infinite looping.
-            wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), CommandLayer1);
-            wanderState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), CommandLayer2);
-            wanderState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer3);
+            wanderState.AddCommand(ChooseLandableLocation.Create(this), commandLayer0);
+            wanderState.AddCommand(MoveToTargetLocation.Create(this), commandLayer0);
+            wanderState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), commandLayer0);
+            wanderState.SetLayerLoopCount(commandLayer0, -1); // Instead of just stopping, layers can be assigned a number of lopps. -1 is infinite looping.
+            wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
+            wanderState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), commandLayer2);
+            wanderState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer3);
 
             // Inspect Target Location State
             inspectTargetLocationState.AddTransition(onEnemeyFoundTransition, attackEnemyState);
@@ -164,23 +165,24 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddTransition(onNothingFoundTransition, wanderState);
             inspectTargetLocationState.AddTransition(onAttackedTransition, attackEnemyState);
             inspectTargetLocationState.AddTransition(onDeathTransition, deathState);
-            inspectTargetLocationState.AddCommand(MoveToTargetLocation.Create(this), CommandLayer0);
-            inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), CommandLayer0);
-            inspectTargetLocationState.AddCommand(ChooseTargetMapElmentAtLocation.Create(this), CommandLayer0);
-            inspectTargetLocationState.AddCommand(InspectTargetMapElement.Create(this, onEnemeyFoundTransition, onItemFoundTransition, onNothingFoundTransition), CommandLayer0);
-            inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), CommandLayer1);
-            inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), CommandLayer2);
-            inspectTargetLocationState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer3);
+            inspectTargetLocationState.AddCommand(MoveToTargetLocation.Create(this), commandLayer0);
+            inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), commandLayer0);
+            inspectTargetLocationState.AddCommand(CallTransition.Create(this, onNothingFoundTransition), commandLayer0);
+            inspectTargetLocationState.AddCommand(FintTargetInFootprint<ICrab>.Create(this, Footprint), commandLayer1);
+            inspectTargetLocationState.AddCommand(InspectTargetMapElement.Create(this, onEnemeyFoundTransition, onItemFoundTransition, onNothingFoundTransition), commandLayer1);
+            inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
+            inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
+            inspectTargetLocationState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer4);
 
             // Attack Enemey state
             attackEnemyState.AddTransition(onEnemyKilledTransition, wanderState);
             attackEnemyState.AddTransition(onDeathTransition, deathState);
-            attackEnemyState.AddCommand(OffsetPositionFromTargetMapElement.Create(this), CommandLayer0);
-            attackEnemyState.AddCommand(AttackTargetMapElement.Create(this, onEnemyKilledTransition), CommandLayer0);
-            attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.75f), CommandLayer0);
-            attackEnemyState.SetLayerLoopCount(CommandLayer0, -1);
-            attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), CommandLayer1);
-            attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer2);
+            attackEnemyState.AddCommand(OffsetPositionFromTargetMapElement.Create(this), commandLayer0);
+            attackEnemyState.AddCommand(AttackTargetMapElement.Create(this, onEnemyKilledTransition), commandLayer0);
+            attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.75f), commandLayer0);
+            attackEnemyState.SetLayerLoopCount(commandLayer0, -1);
+            attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
+            attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer2);
 
             // Death state
             deathState.AddCommand(Explode.Create(this, this));
@@ -190,9 +192,9 @@ namespace IndieDevTools.Demo.CrabBattle
             pickupItemState.AddTransition(onAttackedTransition, attackEnemyState);
             pickupItemState.AddTransition(onDeathTransition, deathState);
             pickupItemState.AddCommand(PickupItem.Create(this));
-            pickupItemState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.1f), CommandLayer0);
-            pickupItemState.AddCommand(CallTransition.Create(this, onPickupCompleted), CommandLayer0);
-            pickupItemState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), CommandLayer1);
+            pickupItemState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.1f), commandLayer0);
+            pickupItemState.AddCommand(CallTransition.Create(this, onPickupCompleted), commandLayer0);
+            pickupItemState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer1);
 
             stateMachine.SetState(wanderState);
         }

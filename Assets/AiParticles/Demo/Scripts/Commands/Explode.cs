@@ -1,7 +1,5 @@
-﻿using IndieDevTools.Agents;
-using IndieDevTools.Commands;
+﻿using IndieDevTools.Commands;
 using IndieDevTools.Maps;
-using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
