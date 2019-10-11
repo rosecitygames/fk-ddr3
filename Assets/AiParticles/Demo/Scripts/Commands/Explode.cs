@@ -31,14 +31,20 @@ namespace IndieDevTools.Demo.CrabBattle
 
         private void Explodable_OnCompleted()
         {
-            Debug.Log("Explodable_OnCompleted");
             RemoveEventHandlers();
             Complete();
         }
 
-        private void Explodable_OnInstanceCreated(GameObject obj)
+        private void Explodable_OnInstanceCreated(GameObject instance)
         {
-            Debug.Log("Explodable_OnInstanceCreated "+obj.name);
+            IMapElement instanceMapElement = instance.GetComponentInChildren<IMapElement>();
+            if (instanceMapElement == null) return;
+
+            instanceMapElement.GroupId = mapElement.GroupId;
+            instanceMapElement.DisplayName = mapElement.DisplayName;
+
+            ParticleSystem particleSystem = instance.GetComponentInChildren<ParticleSystem>();
+            if (particleSystem == null) return;
         }
 
         public static ICommand Create(IMapElement mapElement, IExplodable explodable)

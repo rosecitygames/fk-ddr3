@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpriteExploder: {fileID: 2410550323310753507}
-  Prefab: {fileID: 2410550323460703118}
+  Prefab: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
   InstanceParent: {fileID: 0}
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:

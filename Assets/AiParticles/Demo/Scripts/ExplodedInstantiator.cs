@@ -17,6 +17,8 @@ namespace IndieDevTools.AiParticles
 
         public Action OnCompleted;
 
+        ParticleSystem spriteExploderParticleSystem = null;
+
         int sortedParticleCount = 0;
 
         ParticleSystem.Particle[] particles = null;
@@ -32,6 +34,7 @@ namespace IndieDevTools.AiParticles
 
         void Awake()
         {
+            spriteExploderParticleSystem = SpriteExploder.GetParticleSystem();
             AddEventHandlers();
         }
 
@@ -122,7 +125,14 @@ namespace IndieDevTools.AiParticles
                     SpriteRenderer spriteRenderer = instance.GetComponentInChildren<SpriteRenderer>();
                     if (spriteRenderer != null)
                     {
-                        spriteRenderer.color = particle.GetCurrentColor(SpriteExploder.GetParticleSystem());
+                        spriteRenderer.color = particle.GetCurrentColor(spriteExploderParticleSystem);
+                    }
+
+                    ParticleSystem particleSystem = instance.GetComponentInChildren<ParticleSystem>();
+                    if (particleSystem != null)
+                    {
+                        ParticleSystem.MainModule particleSystemMain = particleSystem.main;
+                        particleSystemMain.startColor = spriteExploderParticleSystem.main.startColor;
                     }
 
                     Rigidbody2D rigidbody2D = instance.GetComponentInChildren<Rigidbody2D>();
