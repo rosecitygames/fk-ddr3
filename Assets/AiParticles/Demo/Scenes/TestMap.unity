@@ -8265,7 +8265,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Name
-      value: Crab 2
+      value: PurpleCrab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -8275,12 +8275,12 @@ PrefabInstance:
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.25
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.25
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -8345,7 +8345,7 @@ PrefabInstance:
     - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 1395
+      value: 902
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -9671,7 +9671,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Name
-      value: Crab 1
+      value: RedCrab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -9737,6 +9737,11 @@ PrefabInstance:
         type: 3}
       propertyPath: displayName
       value: Red Crab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 903
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}

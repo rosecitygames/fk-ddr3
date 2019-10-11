@@ -55,6 +55,12 @@ namespace IndieDevTools.AiParticles
             RemoveEventHandlers();
 
             sortedParticleCount = SpriteExploder.GetMaxParticleCount();
+            if (sortedParticleCount <= 1)
+            {
+                sortedParticleCount = 0;
+                OnCompleted?.Invoke();
+                return;
+            }
 
             particleScale = SpriteExploder.GetParticleScale();
 

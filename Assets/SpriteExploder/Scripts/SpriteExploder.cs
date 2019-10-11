@@ -288,13 +288,19 @@ namespace IndieDevTools.SpriteExploder
             if (isExploded) yield break;
             isExploded = true;
 
+            // If the max particle count is only one, then complete explosion.
+            int maxParticleCount = GetMaxParticleCount();
+            if (maxParticleCount <= 1)
+            {
+                LocalSpriteRenderer.enabled = false;
+                OnExploded?.Invoke();
+                yield break;
+            }
+
             // Set the amount of x and y subdivisions will be used. Similar to defining
             // the size of a grid.
             int subdivisionCountX = GetSubdivisionCountX();
             int subdivisionCountY = GetSubdivisionCountY();
-
-            int totalSubsdivisionCount = subdivisionCountX * subdivisionCountY;
-            if (totalSubsdivisionCount <= 1) yield break;
 
             // Disable the sprite renderer so that particle textures will be seen instead.
             LocalSpriteRenderer.enabled = false;

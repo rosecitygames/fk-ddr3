@@ -248,6 +248,7 @@ namespace IndieDevTools.Demo.CrabBattle
             // Death state
             deathState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Explode));
             deathState.AddCommand(Explode.Create(this, this));
+            deathState.AddCommand(DestroyGameObject.Create(gameObject));
 
             // Pickup Item state
             pickupItemState.AddTransition(onPickupCompleted, wanderState);
