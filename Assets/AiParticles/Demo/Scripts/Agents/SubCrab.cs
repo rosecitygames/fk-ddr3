@@ -27,6 +27,18 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void IExplodable.Explode() => superCrab.Explode();
 
+        event Action<GameObject> IExplodable.OnInstanceCreated
+        {
+            add => superCrab.OnInstanceCreated += value;
+            remove => superCrab.OnInstanceCreated -= value;
+        }
+
+        event Action IExplodable.OnCompleted
+        {
+            add => superCrab.OnCompleted += value;
+            remove => superCrab.OnCompleted -= value;
+        }
+
         // SubCrabs dont have a sub-footprint, so use a null implementation for IFootprint
         List<ICrab> IFootprint<ICrab>.AllFootprintElements => nullList;
         List<ICrab> IFootprint<ICrab>.CornerFootprintElements => nullList;

@@ -13,6 +13,10 @@ namespace IndieDevTools.AiParticles
 
         public Transform InstanceParent = null;
 
+        public Action<GameObject> OnInstanceCreated;
+
+        public Action OnCompleted;
+
         int sortedParticleCount = 0;
 
         ParticleSystem.Particle[] particles = null;
@@ -127,10 +131,17 @@ namespace IndieDevTools.AiParticles
                         rigidbody2D.velocity = particle.velocity;
                         rigidbody2D.angularVelocity = particle.angularVelocity;
                     }
+
+                    OnInstanceCreated?.Invoke(instance);
                 }
             }
 
             QuickSortParticles();
+
+            if (sortedParticleCount <= 0)
+            {
+                OnCompleted?.Invoke();
+            }
         }
         
         void QuickSortParticles()

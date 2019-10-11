@@ -44,6 +44,29 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
+        ExplodedInstantiator explodedInstantiator;
+        protected ExplodedInstantiator ExplodedInstantiator
+        {
+            get
+            {
+                InitExplodedInstantiator();
+
+                return explodedInstantiator;
+            }
+        }
+
+        event Action<GameObject> IExplodable.OnInstanceCreated
+        {
+            add => ExplodedInstantiator.OnInstanceCreated += value;
+            remove => ExplodedInstantiator.OnInstanceCreated -= value;
+        }
+
+        event Action IExplodable.OnCompleted
+        {
+            add => ExplodedInstantiator.OnCompleted += value;
+            remove => ExplodedInstantiator.OnCompleted -= value;
+        }
+
         List<ICrab> IFootprint<ICrab>.AllFootprintElements => Footprint.AllFootprintElements;
         List<ICrab> IFootprint<ICrab>.CornerFootprintElements => Footprint.CornerFootprintElements;
         List<ICrab> IFootprint<ICrab>.BorderFootprintElements => Footprint.BorderFootprintElements;
@@ -99,8 +122,8 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void InitExplodedInstantiator()
         {
-            ExplodedInstantiator explodedInstantiator = GetComponentInChildren<ExplodedInstantiator>();
-            if (explodedInstantiator == null) return;
+            if (explodedInstantiator != null) return;
+            explodedInstantiator = GetComponentInChildren<ExplodedInstantiator>();
             explodedInstantiator.InstanceParent = transform.parent;
         }
 
