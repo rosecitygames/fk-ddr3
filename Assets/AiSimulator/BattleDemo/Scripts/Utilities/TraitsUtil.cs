@@ -17,7 +17,7 @@ namespace IndieDevTools.Demo.BattleSimulator
         const float defaultSpeed = 1.0f;
 
         const float minMoveSpeed = 0.0f;
-        const float maxMoveSpeed = 0.05f;
+        const float maxMoveSpeed = 0.1f;
 
         const string speedTraitId = "Speed";
 
@@ -75,6 +75,15 @@ namespace IndieDevTools.Demo.BattleSimulator
             return Mathf.RoundToInt(Random.Range(minAttackStrength, attackStrength));
         }
 
+        public static void SetAttackStrength(IStatsCollection statsCollection, int quantity)
+        {
+            ITrait trait = statsCollection.GetStat(attackStrengthTraitId);
+            if (trait != null)
+            {
+                trait.Quantity = quantity;
+            }
+        }
+
         // Defense Strength
         const int minDefenseStrength = 0;
         const int maxDefenseStrength = 10;
@@ -95,6 +104,15 @@ namespace IndieDevTools.Demo.BattleSimulator
         {
             float defenseStrength = GetDefenseStrength(statsCollection);
             return Mathf.RoundToInt(Random.Range(minDefenseStrength, defenseStrength));
+        }
+
+        public static void SetDefenseStrength(IStatsCollection statsCollection, int quantity)
+        {
+            ITrait trait = statsCollection.GetStat(defenseStrengthTraitId);
+            if (trait != null)
+            {
+                trait.Quantity = quantity;
+            }
         }
 
         // Health

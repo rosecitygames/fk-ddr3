@@ -16,7 +16,7 @@ MonoBehaviour:
     displayName: Knight
     description: A brave knight
     broadcastDistance: 6
-    broadcastInterval: 0.3
+    broadcastInterval: 0.5
     stats:
       traits:
       - trait: {fileID: 11400000, guid: 026f228a9fdeed646b6d28832b661e7c, type: 2}
@@ -24,9 +24,9 @@ MonoBehaviour:
       - trait: {fileID: 11400000, guid: cba0d75bc9ccb9c4995f88561fe10206, type: 2}
         quantity: 10
       - trait: {fileID: 11400000, guid: 3f73ff5099ea2c642a09577a5bbab4d1, type: 2}
-        quantity: 8
+        quantity: 10
       - trait: {fileID: 11400000, guid: 039cb5dbc88691d479561fca68d788d6, type: 2}
-        quantity: 15
+        quantity: 3
       - trait: {fileID: 11400000, guid: cca7ce18c37bb75459117db0b3c38301, type: 2}
         quantity: 5
       - trait: {fileID: 11400000, guid: 6f475d2e5f9ad884eaa1dfefe7ab7e64, type: 2}
@@ -35,5 +35,3 @@ MonoBehaviour:
       traits:
       - trait: {fileID: 11400000, guid: 026f228a9fdeed646b6d28832b661e7c, type: 2}
         quantity: 10
-      - trait: {fileID: 11400000, guid: 77ed10d593676dd418e4ada5115f951f, type: 2}
-        quantity: 1

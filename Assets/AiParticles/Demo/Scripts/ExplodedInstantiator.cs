@@ -17,7 +17,13 @@ namespace IndieDevTools.AiParticles
 
         public Action OnCompleted;
 
+        public int MaxInstanceCount => SpriteExploder.GetMaxParticleCount();
+
+        public int InstanceCount => sortedParticleCount;
+
         ParticleSystem spriteExploderParticleSystem = null;
+
+        Color instanceColor = Color.white;
 
         int sortedParticleCount = 0;
 
@@ -61,6 +67,8 @@ namespace IndieDevTools.AiParticles
                 OnCompleted?.Invoke();
                 return;
             }
+
+            instanceColor = GetComponent<SpriteRenderer>().color;
 
             particleScale = SpriteExploder.GetParticleScale();
 
@@ -131,7 +139,7 @@ namespace IndieDevTools.AiParticles
                     SpriteRenderer spriteRenderer = instance.GetComponentInChildren<SpriteRenderer>();
                     if (spriteRenderer != null)
                     {
-                        spriteRenderer.color = particle.GetCurrentColor(spriteExploderParticleSystem);
+                        spriteRenderer.color = instanceColor;// particle.GetCurrentColor(spriteExploderParticleSystem);
                     }
 
                     ParticleSystem particleSystem = instance.GetComponentInChildren<ParticleSystem>();

@@ -27,6 +27,11 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void IExplodable.Explode() => superCrab.Explode();
 
+        float IExplodable.MinExplosiveStrength => superCrab.MinExplosiveStrength;
+        float IExplodable.MaxExplosiveStrength => superCrab.MaxExplosiveStrength;
+        int IExplodable.MaxInstanceCount => superCrab.MaxInstanceCount;
+        int IExplodable.InstanceCount => superCrab.InstanceCount;
+
         event Action<GameObject> IExplodable.OnInstanceCreated
         {
             add => superCrab.OnInstanceCreated += value;

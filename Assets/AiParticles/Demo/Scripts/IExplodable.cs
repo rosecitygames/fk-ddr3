@@ -5,8 +5,15 @@ namespace IndieDevTools.Demo.CrabBattle
 {
     public interface IExplodable
     {
-        void Explode();
         event Action<GameObject> OnInstanceCreated;
         event Action OnCompleted;
+
+        float MinExplosiveStrength { get; }
+        float MaxExplosiveStrength { get; }
+
+        int MaxInstanceCount { get; }
+        int InstanceCount { get; }
+
+        void Explode();
     }
 }

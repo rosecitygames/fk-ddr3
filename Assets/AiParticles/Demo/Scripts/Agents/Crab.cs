@@ -1,16 +1,13 @@
 ﻿using IndieDevTools.Advertisements;
 using IndieDevTools.Agents;
+using IndieDevTools.AiParticles;
 using IndieDevTools.Animation;
 using IndieDevTools.Commands;
-using IndieDevTools.Maps;
+using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.States;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using IndieDevTools.Demo.BattleSimulator;
-using IndieDevTools.AiParticles;
-using IndieDevTools.SpriteExploder;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
@@ -54,6 +51,12 @@ namespace IndieDevTools.Demo.CrabBattle
                 return explodedInstantiator;
             }
         }
+
+        float IExplodable.MinExplosiveStrength => ExplodedInstantiator.SpriteExploder.MinExplosiveStrength;
+        float IExplodable.MaxExplosiveStrength => ExplodedInstantiator.SpriteExploder.MaxExplosiveStrength;
+
+        int IExplodable.MaxInstanceCount => ExplodedInstantiator.MaxInstanceCount;
+        int IExplodable.InstanceCount => ExplodedInstantiator.InstanceCount;
 
         event Action<GameObject> IExplodable.OnInstanceCreated
         {
@@ -106,7 +109,7 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
-        const int spriteExploderSubdivisionCount = 4;
+        const int spriteExploderSubdivisionCount = 2;
 
         void InitSpriteExploder()
         {
@@ -212,8 +215,9 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Walk), commandLayer0);
             wanderState.AddCommand(MoveToTargetLocation.Create(this), commandLayer0);
             wanderState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Idle), commandLayer0);
-            wanderState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), commandLayer0);
+            wanderState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer0);
             wanderState.SetLayerLoopCount(commandLayer0, -1); // Instead of just stopping, layers can be assigned a number of lopps. -1 is infinite looping.
+            wanderState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer1);
             wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
             wanderState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), commandLayer2);
             wanderState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer3);
@@ -227,10 +231,11 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Walk), commandLayer0);
             inspectTargetLocationState.AddCommand(MoveToTargetLocation.Create(this), commandLayer0);
             inspectTargetLocationState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Idle), commandLayer0);
-            inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.25f, 0.5f), commandLayer0);
+            inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer0);
             inspectTargetLocationState.AddCommand(CallTransition.Create(this, onNothingFoundTransition), commandLayer0);
             inspectTargetLocationState.AddCommand(FindTargetInFootprint<ICrab>.Create(this, Footprint), commandLayer1);
             inspectTargetLocationState.AddCommand(InspectTargetMapElement.Create(this, onEnemeyFoundTransition, onItemFoundTransition, onNothingFoundTransition), commandLayer1);
+            inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer2);
             inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             //inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
             inspectTargetLocationState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer4);
@@ -240,8 +245,9 @@ namespace IndieDevTools.Demo.CrabBattle
             attackEnemyState.AddTransition(onDeathTransition, deathState);
             attackEnemyState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Fight), commandLayer0);
             attackEnemyState.AddCommand(AttackTargetMapElement.Create(this, onEnemyKilledTransition), commandLayer0);
-            attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.75f), commandLayer0);
+            attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 1.0f), commandLayer0);
             attackEnemyState.SetLayerLoopCount(commandLayer0, -1);
+            attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer1);
             attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
             attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer2);
 
