@@ -79,10 +79,7 @@ namespace IndieDevTools.Demo.BattleSimulator
                     if (attribute.Id == desire.Id)
                     {
                         int attributeRank = attribute.Quantity * desire.Quantity;
-                        if (attributeRank >= rank)
-                        {
-                            rank = attributeRank;
-                        }
+                        rank += attributeRank;
                     }
                 }
             }

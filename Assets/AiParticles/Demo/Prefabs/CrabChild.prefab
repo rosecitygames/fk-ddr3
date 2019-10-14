@@ -4921,4 +4921,4 @@ MonoBehaviour:
   broadcaster: {fileID: 11400000, guid: f5f7d3baca26ec54fbb97c452ba54a1b, type: 2}
   isDrawingGizmos: 1
   gizmoColor: {r: 0, g: 1, b: 0, a: 1}
-  displayName: Big Crab
+  displayName: Crab

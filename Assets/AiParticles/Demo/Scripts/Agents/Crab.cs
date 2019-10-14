@@ -237,7 +237,7 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddCommand(InspectTargetMapElement.Create(this, onEnemeyFoundTransition, onItemFoundTransition, onNothingFoundTransition), commandLayer1);
             inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer2);
             inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
-            //inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
+            inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
             inspectTargetLocationState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer4);
 
             // Attack Enemey state

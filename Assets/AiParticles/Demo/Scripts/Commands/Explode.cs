@@ -1,4 +1,5 @@
-﻿using IndieDevTools.Commands;
+﻿using IndieDevTools.Agents;
+using IndieDevTools.Commands;
 using IndieDevTools.Maps;
 using IndieDevTools.Demo.BattleSimulator;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace IndieDevTools.Demo.CrabBattle
 {
     public class Explode : AbstractCommand
     {
-        IMapElement mapElement = null;
+        IAgent agent = null;
         IExplodable explodable = null;
 
         int instanceAttackStrength = 0;
@@ -21,18 +22,18 @@ namespace IndieDevTools.Demo.CrabBattle
             InitStats();
             InitSpriteExploder();
             AddEventHandlers();
-            mapElement.RemoveFromMap();
+            agent.RemoveFromMap();
             explodable.Explode();
         }
 
         void InitStats()
         {
-            instanceAttackStrength = TraitsUtil.GetAttackStrength(mapElement);
-            instanceDefenseStrength = TraitsUtil.GetDefenseStrength(mapElement);
+            instanceAttackStrength = TraitsUtil.GetAttackStrength(agent);
+            instanceDefenseStrength = TraitsUtil.GetDefenseStrength(agent);
 
-            instanceAttackStrength /= 2;
-            instanceDefenseStrength /= 2;
-            
+            instanceAttackStrength = Mathf.RoundToInt(instanceAttackStrength * 0.75f);
+            instanceDefenseStrength = Mathf.RoundToInt(instanceDefenseStrength * 0.75f);
+
             instanceAttackStrength = Mathf.Max(1, instanceAttackStrength);
             instanceDefenseStrength = Mathf.Max(1, instanceDefenseStrength);
         }
@@ -64,14 +65,16 @@ namespace IndieDevTools.Demo.CrabBattle
 
         private void Explodable_OnInstanceCreated(GameObject instance)
         {
-            IMapElement instanceMapElement = instance.GetComponentInChildren<IMapElement>();
-            if (instanceMapElement == null) return;
+            IAgent instanceAgent = instance.GetComponentInChildren<IAgent>();
+            if (instanceAgent == null) return;
 
-            instanceMapElement.GroupId = mapElement.GroupId;
-            instanceMapElement.DisplayName = mapElement.DisplayName;
+            instanceAgent.Data = agent.Data.Copy();
+            instanceAgent.DisplayName = agent.DisplayName;
+            instanceAgent.GroupId = agent.GroupId;
 
-            TraitsUtil.SetAttackStrength(instanceMapElement, instanceAttackStrength);
-            TraitsUtil.SetDefenseStrength(instanceMapElement, instanceDefenseStrength);
+            TraitsUtil.SetHealth(instanceAgent, 3);
+            TraitsUtil.SetAttackStrength(instanceAgent, instanceAttackStrength);
+            TraitsUtil.SetDefenseStrength(instanceAgent, instanceDefenseStrength);
 
             SpriteExploder.SpriteExploder spriteExploder = instance.GetComponentInChildren<SpriteExploder.SpriteExploder>();
             if (spriteExploder == null) return;
@@ -79,11 +82,11 @@ namespace IndieDevTools.Demo.CrabBattle
             spriteExploder.MaxExplosiveStrength = instanceMaxExplosiveStrength;
         }
 
-        public static ICommand Create(IMapElement mapElement, IExplodable explodable)
+        public static ICommand Create(IAgent agent, IExplodable explodable)
         {
             return new Explode
             {
-                mapElement = mapElement,
+                agent = agent,
                 explodable = explodable
             };
         }

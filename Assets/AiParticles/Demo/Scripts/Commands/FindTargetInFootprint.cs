@@ -1,11 +1,10 @@
 ﻿using IndieDevTools.Agents;
-using IndieDevTools.Traits;
 using IndieDevTools.Commands;
-using IndieDevTools.Maps;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using IndieDevTools.Demo.BattleSimulator;
+using IndieDevTools.Maps;
+using IndieDevTools.Traits;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
@@ -88,7 +87,7 @@ namespace IndieDevTools.Demo.CrabBattle
                     bool isEnemy = GetIsEnemy(mapElement);
                     if (isEnemy)
                     {
-                        int enemyRank = GetEnemyRank(mapElement);
+                        int enemyRank = GetMapElementRank(mapElement);
                         if (enemyRank > highestEnemyRank)
                         {
                             highestEnemyRank = enemyRank;
@@ -98,7 +97,7 @@ namespace IndieDevTools.Demo.CrabBattle
                 }
                 else if (highestEnemyRank == 0)
                 {
-                    int itemRank = GetItemRank(mapElement);
+                    int itemRank = GetMapElementRank(mapElement);
                     if (itemRank > highestItemRank)
                     {
                         highestItemRank = itemRank;
@@ -106,7 +105,7 @@ namespace IndieDevTools.Demo.CrabBattle
                     }
                 }
             }
-
+ 
             return highestRankedMapElement;
         }
 
@@ -119,13 +118,8 @@ namespace IndieDevTools.Demo.CrabBattle
         {
             return mapElement.GroupId != agent.GroupId;
         }
-
-        int GetEnemyRank(IMapElement agentElement)
-        {
-            return 1000;
-        }
-
-        int GetItemRank(IMapElement itemElement)
+        
+        int GetMapElementRank(IMapElement itemElement)
         {
             List<ITrait> desires = agent.Desires;
             List<ITrait> stats = itemElement.Stats;
@@ -137,11 +131,8 @@ namespace IndieDevTools.Demo.CrabBattle
                 {
                     if (stat.Id == desire.Id)
                     {
-                        int attributeRank = stat.Quantity * desire.Quantity;
-                        if (attributeRank >= rank)
-                        {
-                            rank = attributeRank;
-                        }
+                        int statRank = stat.Quantity * desire.Quantity;
+                        rank += statRank;
                     }
                 }
             }

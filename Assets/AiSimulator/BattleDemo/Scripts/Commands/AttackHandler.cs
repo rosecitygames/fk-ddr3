@@ -77,6 +77,8 @@ namespace IndieDevTools.Demo.BattleSimulator
                 agent.Description = "Attacked by " + attackingAgent.DisplayName;// + "\nattackStrength = "+attackStrength+", defenseStrength = "+defenseStrength+", remaining health = " + health;
                 agent.HandleTransition(onAttackedTransition);
             }
+
+            //Debug.Log("HandleAttack health = " + health+", "+ agent.Description);
         }
        
         public static ICommand Create(IAgent agent, IAttackReceiver attackReceiver, string onAttackedTransition = "", string onDeathTransition = "")
