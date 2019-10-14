@@ -31,6 +31,8 @@ MonoBehaviour:
         quantity: 3
       - trait: {fileID: 11400000, guid: 8f37c7e55d8355e41a6bf3a10264eb54, type: 2}
         quantity: 5
+      - trait: {fileID: 11400000, guid: da73a97e90aadb24da905c9ea725501c, type: 2}
+        quantity: 10
       - trait: {fileID: 11400000, guid: 0160db1143a21ec4fa6e9656469140bc, type: 2}
         quantity: 10
     desires:

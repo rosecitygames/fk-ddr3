@@ -5,6 +5,7 @@ using IndieDevTools.Animation;
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.States;
+using IndieDevTools.Traits;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -95,6 +96,7 @@ namespace IndieDevTools.Demo.CrabBattle
             InitSpriteExploder();
             InitExplodedInstantiator();
             InitFootprint();
+            InitSizeTrait();
         }
 
         void InitSpriteRenderer()
@@ -111,18 +113,30 @@ namespace IndieDevTools.Demo.CrabBattle
 
         const int spriteExploderSubdivisionCount = 2;
 
+        SpriteExploder.SpriteExploder SpriteExploder
+        {
+            get
+            {
+                InitSpriteExploder();
+                return spriteExploder;
+            }
+        }
+        SpriteExploder.SpriteExploder spriteExploder;
+
         void InitSpriteExploder()
         {
-            SpriteExploder.SpriteExploder spriteExploder = GetComponentInChildren<SpriteExploder.SpriteExploder>();
+            if (spriteExploder != null) return;
+
+            spriteExploder = GetComponentInChildren<SpriteExploder.SpriteExploder>();
 
             float spriteSizeX = spriteRenderer.sprite.bounds.size.x * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.x;
             float spriteSizeY = spriteRenderer.sprite.bounds.size.y * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.y;
-            float minSize = Mathf.Min(spriteSizeX, spriteSizeY);
-            int particlePixelSize = (int)(minSize / spriteExploderSubdivisionCount);
+            float minSpriteSize = Mathf.Min(spriteSizeX, spriteSizeY);
+            int particlePixelSize = (int)(minSpriteSize / spriteExploderSubdivisionCount);
 
             spriteExploder.ParticlePixelSize = particlePixelSize;
         }
-
+        
         void InitExplodedInstantiator()
         {
             if (explodedInstantiator != null) return;
@@ -135,6 +149,41 @@ namespace IndieDevTools.Demo.CrabBattle
             if (footprint != null) return;
             footprint = Footprint<ICrab>.Create(SpriteRenderer, this, SubCrab.Create);
         }
+
+        void InitSizeTrait()
+        {
+            ITrait sizeTrait = (this as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
+            if (sizeTrait == null) return;
+
+            float spriteSizeX = spriteRenderer.sprite.bounds.size.x * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.x;
+            float spriteSizeY = spriteRenderer.sprite.bounds.size.y * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.y;
+
+            float sizeX = spriteSizeX / spriteExploder.MinParticlePixelSize;
+            float sizeY = spriteSizeY / spriteExploder.MinParticlePixelSize;
+
+            float sizeF = sizeX * sizeY;
+            int size = Mathf.FloorToInt(sizeF);
+            sizeTrait.Quantity = size;
+
+            if (size <= 0)
+            {
+                sizeTrait.Max = spriteExploderSubdivisionCount;
+            }
+            else
+            {
+                int subCells = (int)Mathf.Pow(spriteExploderSubdivisionCount + 1, 2);
+                int maxSize = Mathf.CeilToInt(sizeF * subCells) - 1;
+                sizeTrait.Max = maxSize;
+            }           
+        }
+
+        [Sirenix.OdinInspector.ShowInInspector]
+        int Size => SizeTrait.Quantity;
+
+        [Sirenix.OdinInspector.ShowInInspector]
+        int MaxSize => SizeTrait.Max;
+
+        ITrait SizeTrait => (this as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
 
         protected virtual void InitAnimator()
         {

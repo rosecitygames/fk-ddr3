@@ -35,6 +35,17 @@ namespace IndieDevTools.SpriteExploder
         SpriteExploderSettings globalSettings;
 
         /// <summary>
+        /// The minimum particle pixel size possible.
+        /// </summary>
+        public int MinParticlePixelSize
+        {
+            get
+            {
+                return GlobalSettings.MinimumParticlePixelSize;
+            }
+        }
+
+        /// <summary>
         /// The size of the generated particles.
         /// The effect essentially slices the sprite into a grid of square tiles.
         /// Use larger values for better performance since the larger the particle tiles are,

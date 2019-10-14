@@ -70,6 +70,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
             instanceAgent.Data = agent.Data.Copy();
             instanceAgent.DisplayName = agent.DisplayName;
+            instanceAgent.Description = "";
             instanceAgent.GroupId = agent.GroupId;
 
             TraitsUtil.SetHealth(instanceAgent, 3);

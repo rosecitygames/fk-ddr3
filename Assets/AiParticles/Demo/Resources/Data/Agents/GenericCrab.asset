@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2a80bee6d49c794ca6cf808d4e97463, type: 3}
-  m_Name: Crab
+  m_Name: GenericCrab
   m_EditorClassIdentifier: 
   data:
     displayName: Crab
@@ -31,6 +31,8 @@ MonoBehaviour:
         quantity: 3
       - trait: {fileID: 11400000, guid: 8f37c7e55d8355e41a6bf3a10264eb54, type: 2}
         quantity: 5
+      - trait: {fileID: 11400000, guid: da73a97e90aadb24da905c9ea725501c, type: 2}
+        quantity: 10
     desires:
       traits:
       - trait: {fileID: 11400000, guid: 565a85e671c81c84b9768630b566213f, type: 2}

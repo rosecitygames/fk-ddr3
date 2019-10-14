@@ -23,8 +23,6 @@ MonoBehaviour:
         quantity: 5
       - trait: {fileID: 11400000, guid: cba0d75bc9ccb9c4995f88561fe10206, type: 2}
         quantity: 5
-      - trait: {fileID: 11400000, guid: d4d1bddaf6246fa4189a61f605fc28df, type: 2}
-        quantity: 10
       - trait: {fileID: 11400000, guid: 3f73ff5099ea2c642a09577a5bbab4d1, type: 2}
         quantity: 8
       - trait: {fileID: 11400000, guid: 039cb5dbc88691d479561fca68d788d6, type: 2}

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7ae5ce942b6d0419b8ac1722074c2d, type: 3}
   m_Name: Defense
   m_EditorClassIdentifier: 
-  id: defense
   displayName: Defense
   description: Strength of defense in a battle
+  isInitialMax: 0
+  min: 0
+  max: 10

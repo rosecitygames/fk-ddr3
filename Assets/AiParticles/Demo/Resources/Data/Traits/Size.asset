@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d7ae5ce942b6d0419b8ac1722074c2d, type: 3}
-  m_Name: SocialRank
+  m_Name: Size
   m_EditorClassIdentifier: 
-  id: socialRank
-  displayName: Rank
-  description: Unit rank
+  displayName: Size
+  description: The size
+  isInitialMax: 0
+  min: 0
+  max: 1024
