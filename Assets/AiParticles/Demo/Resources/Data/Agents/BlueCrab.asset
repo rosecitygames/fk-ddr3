@@ -17,7 +17,7 @@ MonoBehaviour:
     description: 'A blue crab
 
 '
-    broadcastDistance: 4
+    broadcastDistance: 6
     broadcastInterval: 0.5
     stats:
       traits:

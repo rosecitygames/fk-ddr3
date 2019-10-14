@@ -243,13 +243,15 @@ namespace IndieDevTools.Demo.CrabBattle
             // Attack Enemey state
             attackEnemyState.AddTransition(onEnemyKilledTransition, wanderState);
             attackEnemyState.AddTransition(onDeathTransition, deathState);
+            attackEnemyState.AddTransition(onTargetFoundTransition, inspectTargetLocationState);
             attackEnemyState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Fight), commandLayer0);
             attackEnemyState.AddCommand(AttackTargetMapElement.Create(this, onEnemyKilledTransition), commandLayer0);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 1.0f), commandLayer0);
             attackEnemyState.SetLayerLoopCount(commandLayer0, -1);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer1);
             attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
-            attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer2);
+            attackEnemyState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), commandLayer2);
+            attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer3);
 
             // Death state
             deathState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Explode));
