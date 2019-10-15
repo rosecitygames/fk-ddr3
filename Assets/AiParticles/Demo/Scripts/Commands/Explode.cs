@@ -19,6 +19,15 @@ namespace IndieDevTools.Demo.CrabBattle
 
         protected override void OnStart()
         {
+
+            int size = TraitsUtil.GetSize(agent);
+            if (size <= 1)
+            {
+                agent.RemoveFromMap();
+                Complete();
+                return;
+            }
+
             InitStats();
             InitSpriteExploder();
             AddEventHandlers();

@@ -161,20 +161,15 @@ namespace IndieDevTools.Demo.CrabBattle
             float sizeX = spriteSizeX / spriteExploder.MinParticlePixelSize;
             float sizeY = spriteSizeY / spriteExploder.MinParticlePixelSize;
 
-            float sizeF = sizeX * sizeY;
-            int size = Mathf.FloorToInt(sizeF);
+            int size = Mathf.FloorToInt(sizeX * sizeY);
             sizeTrait.Quantity = size;
 
-            if (size <= 0)
-            {
-                sizeTrait.Max = spriteExploderSubdivisionCount;
-            }
-            else
-            {
-                int subCells = (int)Mathf.Pow(spriteExploderSubdivisionCount + 1, 2);
-                int maxSize = Mathf.CeilToInt(sizeF * subCells) - 1;
-                sizeTrait.Max = maxSize;
-            }           
+            (sizeTrait as IUpdatable<ITrait>).OnUpdated += OnSizeTraitUpdated;
+        }
+
+        private void OnSizeTraitUpdated(ITrait sizeTrait)
+        {
+         //   Debug.Log("Size increased to " + sizeTrait.Quantity);
         }
 
         [Sirenix.OdinInspector.ShowInInspector]
@@ -184,6 +179,9 @@ namespace IndieDevTools.Demo.CrabBattle
         int MaxSize => SizeTrait.Max;
 
         ITrait SizeTrait => (this as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
+
+        [Sirenix.OdinInspector.ShowInInspector]
+        int Health => TraitsUtil.GetHealth(this);
 
         protected virtual void InitAnimator()
         {
@@ -269,7 +267,7 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer1);
             wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
             wanderState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), commandLayer2);
-            wanderState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer3);
+            wanderState.AddCommand(CrabAttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer3);
 
             // Inspect Target Location State
             inspectTargetLocationState.AddTransition(onEnemeyFoundTransition, attackEnemyState);
@@ -287,7 +285,7 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer2);
             inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
-            inspectTargetLocationState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer4);
+            inspectTargetLocationState.AddCommand(CrabAttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer4);
 
             // Attack Enemey state
             attackEnemyState.AddTransition(onEnemyKilledTransition, wanderState);
@@ -300,7 +298,7 @@ namespace IndieDevTools.Demo.CrabBattle
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer1);
             attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
             attackEnemyState.AddCommand(AdvertisementHandler.Create(this, onTargetFoundTransition), commandLayer2);
-            attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer3);
+            attackEnemyState.AddCommand(CrabAttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer3);
 
             // Death state
             deathState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Explode));
@@ -315,7 +313,7 @@ namespace IndieDevTools.Demo.CrabBattle
             pickupItemState.AddCommand(PickupItem.Create(this), commandLayer0);
             pickupItemState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.1f), commandLayer0);
             pickupItemState.AddCommand(CallTransition.Create(this, onPickupCompleted), commandLayer0);
-            pickupItemState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer1);
+            pickupItemState.AddCommand(CrabAttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer1);
 
             stateMachine.SetState(wanderState);
         }

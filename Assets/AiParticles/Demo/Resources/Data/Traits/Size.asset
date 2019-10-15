@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: Size
   description: The size
   isInitialMax: 0
-  min: 0
-  max: 1024
+  min: 1
+  max: 235

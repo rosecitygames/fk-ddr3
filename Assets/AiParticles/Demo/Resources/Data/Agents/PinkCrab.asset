@@ -15,7 +15,7 @@ MonoBehaviour:
   data:
     displayName: Pink Crab
     description: A pink crab
-    broadcastDistance: 6
+    broadcastDistance: 5
     broadcastInterval: 0.5
     stats:
       traits:

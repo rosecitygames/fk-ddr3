@@ -1,15 +1,12 @@
 ﻿using IndieDevTools.Agents;
 using IndieDevTools.Commands;
+using IndieDevTools.Traits;
+using IndieDevTools.Demo.BattleSimulator;
+using UnityEngine;
 
-namespace IndieDevTools.Demo.BattleSimulator
+namespace IndieDevTools.Demo.CrabBattle
 {
-    /// <summary>
-    /// A command that handles incoming attacks on an agent by comparing
-    /// attack strength and defensive strength. Depending on the result,
-    /// a relevent transition will be called. If defense is less than the
-    /// attack strength agent, then health trait is reduced. 
-    /// </summary>
-    public class AttackHandler : AbstractCommand
+    public class CrabAttackHandler : AbstractCommand
     {
         IAgent agent = null;
         IAttackReceiver attackReceiver = null;
@@ -49,21 +46,34 @@ namespace IndieDevTools.Demo.BattleSimulator
 
             agent.TargetMapElement = attackingAgent;
 
-            int health = TraitsUtil.GetHealth(agent);
+            int healthQuantity = TraitsUtil.GetHealth(agent);
 
             int attackStrength = TraitsUtil.GetRandomAttackStrength(attackingAgent);
             int defenseStrength = TraitsUtil.GetRandomDefenseStrength(agent);
 
             int healthDecrement = attackStrength - defenseStrength;
             if (healthDecrement > 0)
-            {          
-                health -= healthDecrement;
-                TraitsUtil.SetHealth(agent, health);
+            {
+                healthQuantity -= healthDecrement;
+                TraitsUtil.SetHealth(agent, healthQuantity);
             }
 
-
-            if (health <= 0)
+            if (healthQuantity <= 0)
             {
+                int agentSize = TraitsUtil.GetSize(agent);
+                int attackingAgentSize = TraitsUtil.GetSize(attackingAgent);
+
+                if (agentSize < attackingAgentSize)
+                {
+                    attackingAgentSize += agentSize;
+                    TraitsUtil.SetSize(attackingAgent, attackingAgentSize);
+
+                    ITrait attackingAgentHealth = attackingAgent.GetStat(TraitsUtil.healthTraitId);
+                    attackingAgentHealth.Quantity += agentSize;
+
+                    TraitsUtil.SetSize(agent, 0);
+                }
+
                 agent.Description = "Killed by " + attackingAgent.DisplayName;
                 agent.HandleTransition(onDeathTransition);
             }
@@ -75,10 +85,10 @@ namespace IndieDevTools.Demo.BattleSimulator
 
             //Debug.Log("HandleAttack health = " + health+", "+ agent.Description);
         }
-       
+
         public static ICommand Create(IAgent agent, IAttackReceiver attackReceiver, string onAttackedTransition = "", string onDeathTransition = "")
         {
-            return new AttackHandler
+            return new CrabAttackHandler
             {
                 agent = agent,
                 attackReceiver = attackReceiver,

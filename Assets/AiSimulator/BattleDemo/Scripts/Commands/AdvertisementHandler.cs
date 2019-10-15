@@ -50,7 +50,7 @@ namespace IndieDevTools.Demo.BattleSimulator
             int rank = GetAdvertisementRank(advertisement);
             if (rank > 0)
             {
-                bool isRankGreater = GetIsAdRankGreaterThanTarget(advertisement, rank);
+                bool isRankGreater = GetIsAdRankGreaterThanTarget(rank);
                 if (isRankGreater)
                 {
                     agent.TargetAdvertisement = RankedAdvertisement.Create(advertisement, rank);
@@ -86,7 +86,7 @@ namespace IndieDevTools.Demo.BattleSimulator
             return rank;
         }
 
-        bool GetIsAdRankGreaterThanTarget(IAdvertisement advertisement, int rank)
+        bool GetIsAdRankGreaterThanTarget(int rank)
         {
             bool isRankGreater = false;
             if (rank > 0)
@@ -94,15 +94,9 @@ namespace IndieDevTools.Demo.BattleSimulator
                 bool hasTargetAdvertisement = agent.TargetAdvertisement != null;
                 if (hasTargetAdvertisement)
                 {
-                    if (agent.TargetAdvertisement.Rank < rank)
+                    if (rank > agent.TargetAdvertisement.Rank)
                     {
                         isRankGreater = true;
-                    }
-                    else if (agent.TargetAdvertisement.Rank == rank)
-                    {
-                        float targetAdDistance = Vector2.Distance(agent.Location, agent.TargetAdvertisement.Location);
-                        float adDistance = Vector2.Distance(agent.Location, advertisement.Location);
-                        isRankGreater = targetAdDistance > adDistance;
                     }
                 }
                 else
