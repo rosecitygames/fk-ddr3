@@ -8364,6 +8364,11 @@ PrefabInstance:
       propertyPath: TilePrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2410550323460703113, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: isDrawingGizmos
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Color.b

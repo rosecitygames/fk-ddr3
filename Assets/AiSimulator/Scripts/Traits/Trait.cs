@@ -109,7 +109,7 @@ namespace IndieDevTools.Traits
 
         ITrait ICopyable<ITrait>.Copy()
         {
-            return Trait.Create(this, quantity);
+            return Create(this, quantity);
         }
 
         public static ITrait Create(ITrait source, int quantity = 0)

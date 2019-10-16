@@ -11,9 +11,6 @@ namespace IndieDevTools.Demo.CrabBattle
         IAgent agent = null;
         IExplodable explodable = null;
 
-        int instanceAttackStrength = 0;
-        int instanceDefenseStrength = 0;
-
         float instanceMinExplosiveStrength = 0.0f;
         float instanceMaxExplosiveStrength = 0.0f;
 
@@ -28,23 +25,10 @@ namespace IndieDevTools.Demo.CrabBattle
                 return;
             }
 
-            InitStats();
             InitSpriteExploder();
             AddEventHandlers();
             agent.RemoveFromMap();
             explodable.Explode();
-        }
-
-        void InitStats()
-        {
-            instanceAttackStrength = TraitsUtil.GetAttackStrength(agent);
-            instanceDefenseStrength = TraitsUtil.GetDefenseStrength(agent);
-
-            instanceAttackStrength = Mathf.RoundToInt(instanceAttackStrength * 0.75f);
-            instanceDefenseStrength = Mathf.RoundToInt(instanceDefenseStrength * 0.75f);
-
-            instanceAttackStrength = Mathf.Max(1, instanceAttackStrength);
-            instanceDefenseStrength = Mathf.Max(1, instanceDefenseStrength);
         }
 
         void InitSpriteExploder()
@@ -81,10 +65,7 @@ namespace IndieDevTools.Demo.CrabBattle
             instanceAgent.DisplayName = agent.DisplayName;
             instanceAgent.Description = "";
             instanceAgent.GroupId = agent.GroupId;
-
             TraitsUtil.SetHealth(instanceAgent, 3);
-            TraitsUtil.SetAttackStrength(instanceAgent, instanceAttackStrength);
-            TraitsUtil.SetDefenseStrength(instanceAgent, instanceDefenseStrength);
 
             SpriteExploder.SpriteExploder spriteExploder = instance.GetComponentInChildren<SpriteExploder.SpriteExploder>();
             if (spriteExploder == null) return;

@@ -92,6 +92,7 @@ namespace IndieDevTools.Demo.CrabBattle
         protected override void Init()
         {
             base.Init();
+
             InitSpriteRenderer();
             InitSpriteExploder();
             InitExplodedInstantiator();
@@ -152,9 +153,6 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void InitTraits()
         {
-            ITrait sizeTrait = (this as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
-            if (sizeTrait == null) return;
-
             float spriteSizeX = spriteRenderer.sprite.bounds.size.x * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.x;
             float spriteSizeY = spriteRenderer.sprite.bounds.size.y * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.y;
 
@@ -162,29 +160,18 @@ namespace IndieDevTools.Demo.CrabBattle
             float sizeY = spriteSizeY / spriteExploder.MinParticlePixelSize;
 
             int size = Mathf.FloorToInt(sizeX * sizeY);
-            sizeTrait.Quantity = size;
+            TraitsUtil.SetSize(this, size);
 
-            (sizeTrait as IUpdatable<ITrait>).OnUpdated += OnSizeTraitUpdated;
-
-            //TraitsUtil.SetHealth(this, Mathf.CeilToInt(size * 0.1f)); // Causes stack overflow?
+            int health = Mathf.CeilToInt(size * 0.1f);
+            health = Mathf.Max(1, health);
+            TraitsUtil.SetHealth(this, health);
         }
 
         private void OnSizeTraitUpdated(ITrait sizeTrait)
         {
          //   Debug.Log("Size increased to " + sizeTrait.Quantity);
         }
-
-        [Sirenix.OdinInspector.ShowInInspector]
-        int Size => SizeTrait.Quantity;
-
-        [Sirenix.OdinInspector.ShowInInspector]
-        int MaxSize => SizeTrait.Max;
-
-        ITrait SizeTrait => (this as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
-
-        [Sirenix.OdinInspector.ShowInInspector]
-        int Health => TraitsUtil.GetHealth(this);
-
+        
         protected virtual void InitAnimator()
         {
             if (triggerAnimator != null) return;
