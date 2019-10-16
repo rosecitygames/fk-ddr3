@@ -15,9 +15,6 @@ namespace IndieDevTools.Demo.CrabBattle
     /// </summary>
     public class BroadcastFootprintAdvertisement<T> : AbstractCommand where T:IFootprint<T>
     {
-        GameObject tilePrefab = null;
-        List<GameObject> tiles = new List<GameObject>();
-
         IAdvertisingMapElement advertisingMapElement = null;
         IAdvertisementReceiver excludeReceiver = null;
         IFootprint<T> footprint = null;
@@ -136,24 +133,6 @@ namespace IndieDevTools.Demo.CrabBattle
                 }
             }
 
-            if (tilePrefab == null) return cachedBroadcastLocations;
-
-            foreach(GameObject tile in tiles)
-            {
-                if (tile == null) continue;
-                GameObject.Destroy(tile);
-            }
-
-            tiles.Clear();
-
-            foreach(Vector2Int broadcastLocation in cachedBroadcastLocations)
-            {
-                Vector3 tilePosition = advertisingMapElement.Map.CellToLocal(broadcastLocation);
-                GameObject tile = GameObject.Instantiate(tilePrefab, advertisingMapElement.Map.Transform);
-                tile.transform.position = tilePosition;
-                tiles.Add(tile);
-            }
-
             return cachedBroadcastLocations;
         }
 
@@ -169,15 +148,14 @@ namespace IndieDevTools.Demo.CrabBattle
             return command;
         }
 
-        public static ICommand Create(AbstractAgent agent, IFootprint<T> footprint, GameObject tilePrefab = null)
+        public static ICommand Create(AbstractAgent agent, IFootprint<T> footprint)
         {
             BroadcastFootprintAdvertisement<T> command = new BroadcastFootprintAdvertisement<T>
             {
                 advertisingMapElement = agent,
                 excludeReceiver = agent,
                 monoBehaviour = agent,
-                footprint = footprint,
-                tilePrefab = tilePrefab
+                footprint = footprint
             };
 
             return command;

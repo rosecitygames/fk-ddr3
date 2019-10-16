@@ -96,7 +96,7 @@ namespace IndieDevTools.Demo.CrabBattle
             InitSpriteExploder();
             InitExplodedInstantiator();
             InitFootprint();
-            InitSizeTrait();
+            InitTraits();
         }
 
         void InitSpriteRenderer()
@@ -150,7 +150,7 @@ namespace IndieDevTools.Demo.CrabBattle
             footprint = Footprint<ICrab>.Create(SpriteRenderer, this, SubCrab.Create);
         }
 
-        void InitSizeTrait()
+        void InitTraits()
         {
             ITrait sizeTrait = (this as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
             if (sizeTrait == null) return;
@@ -220,10 +220,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
             spriteExploder.Explode();
         }
-
-        [SerializeField]
-        GameObject TilePrefab = null;
-        
+                
         // Command layer consts used for making the state machine setup more readable
         const int commandLayer0 = 0;
         const int commandLayer1 = 1;
@@ -274,7 +271,7 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddCommand(FindTargetInFootprint<ICrab>.Create(this, Footprint), commandLayer1);
             wanderState.AddCommand(InspectTargetMapElement.Create(this, onEnemeyFoundTransition, onItemFoundTransition, onNothingFoundTransition), commandLayer1);
             wanderState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer2);
-            wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint, TilePrefab), commandLayer2);
+            wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             wanderState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
             wanderState.AddCommand(CrabAttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer4);
 
@@ -292,7 +289,7 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddCommand(FindTargetInFootprint<ICrab>.Create(this, Footprint), commandLayer1);
             inspectTargetLocationState.AddCommand(InspectTargetMapElement.Create(this, onEnemeyFoundTransition, onItemFoundTransition, onNothingFoundTransition), commandLayer1);
             inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer2);
-            inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint, TilePrefab), commandLayer2);
+            inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
             inspectTargetLocationState.AddCommand(CrabAttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer4);
 
@@ -305,7 +302,7 @@ namespace IndieDevTools.Demo.CrabBattle
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 1.0f), commandLayer0);
             attackEnemyState.SetLayerLoopCount(commandLayer0, -1);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer1);
-            attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint, TilePrefab), commandLayer1);
+            attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
             attackEnemyState.AddCommand(CrabAttackHandler.Create(this, this, onAttackedTransition, onDeathTransition), commandLayer2);
 
             // Death state
