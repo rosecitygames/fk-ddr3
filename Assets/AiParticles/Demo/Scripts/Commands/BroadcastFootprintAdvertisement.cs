@@ -15,6 +15,9 @@ namespace IndieDevTools.Demo.CrabBattle
     /// </summary>
     public class BroadcastFootprintAdvertisement<T> : AbstractCommand where T:IFootprint<T>
     {
+        GameObject tilePrefab = null;
+        List<GameObject> tiles = new List<GameObject>();
+
         IAdvertisingMapElement advertisingMapElement = null;
         IAdvertisementReceiver excludeReceiver = null;
         IFootprint<T> footprint = null;
@@ -124,12 +127,33 @@ namespace IndieDevTools.Demo.CrabBattle
                         if ((cellX >= -adMap.Size.x && cellX < adMap.Size.x) && (cellY >= -adMap.Size.y && cellY < adMap.Size.y))
                         {
                             Vector2Int cell = new Vector2Int(cellX, cellY);
-                            cachedBroadcastLocations.Add(cell);
+                            if (cachedBroadcastLocations.Contains(cell) == false)
+                            {
+                                cachedBroadcastLocations.Add(cell);
+                            }
                         }
                     }
                 }
             }
-            
+
+            if (tilePrefab == null) return cachedBroadcastLocations;
+
+            foreach(GameObject tile in tiles)
+            {
+                if (tile == null) continue;
+                GameObject.Destroy(tile);
+            }
+
+            tiles.Clear();
+
+            foreach(Vector2Int broadcastLocation in cachedBroadcastLocations)
+            {
+                Vector3 tilePosition = advertisingMapElement.Map.CellToLocal(broadcastLocation);
+                GameObject tile = GameObject.Instantiate(tilePrefab, advertisingMapElement.Map.Transform);
+                tile.transform.position = tilePosition;
+                tiles.Add(tile);
+            }
+
             return cachedBroadcastLocations;
         }
 
@@ -145,14 +169,15 @@ namespace IndieDevTools.Demo.CrabBattle
             return command;
         }
 
-        public static ICommand Create(AbstractAgent agent, IFootprint<T> footprint)
+        public static ICommand Create(AbstractAgent agent, IFootprint<T> footprint, GameObject tilePrefab = null)
         {
             BroadcastFootprintAdvertisement<T> command = new BroadcastFootprintAdvertisement<T>
             {
                 advertisingMapElement = agent,
                 excludeReceiver = agent,
                 monoBehaviour = agent,
-                footprint = footprint
+                footprint = footprint,
+                tilePrefab = tilePrefab
             };
 
             return command;

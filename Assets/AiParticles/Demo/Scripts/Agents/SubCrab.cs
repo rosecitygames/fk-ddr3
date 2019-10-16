@@ -57,11 +57,15 @@ namespace IndieDevTools.Demo.CrabBattle
 
         public static ICrab Create(ICrab superCrab, Vector2Int cellOffset)
         {
-            return new SubCrab
+            SubCrab subCrab = new SubCrab
             {
                 superCrab = superCrab,
                 cellOffset = cellOffset
             };
+
+            subCrab.Init();
+
+            return subCrab;
         }
     }
 }

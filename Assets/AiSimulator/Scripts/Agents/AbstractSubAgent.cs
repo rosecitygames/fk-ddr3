@@ -35,7 +35,8 @@ namespace IndieDevTools.Agents
         float IAdvertisementBroadcastData.BroadcastDistance => SuperAgent.BroadcastDistance;
         float IAdvertisementBroadcastData.BroadcastInterval => SuperAgent.BroadcastInterval;
 
-        IAdvertisementBroadcaster IAdvertiser.GetBroadcaster() => SuperAgent.GetBroadcaster();
+        IAdvertisementBroadcaster IAdvertiser.GetBroadcaster() => GetBroadcaster();
+        IAdvertisementBroadcaster GetBroadcaster() => SuperAgent.GetBroadcaster();
         void IAdvertiser.SetBroadcaster(IAdvertisementBroadcaster broadcaster) => SuperAgent.SetBroadcaster(broadcaster);
         void IAdvertiser.BroadcastAdvertisement(IAdvertisement advertisement) => SuperAgent.BroadcastAdvertisement(advertisement);
         void IAdvertiser.BroadcastAdvertisement(IAdvertisement advertisement, IAdvertisementReceiver excludeReceiver) => SuperAgent.BroadcastAdvertisement(advertisement, excludeReceiver);
@@ -112,6 +113,20 @@ namespace IndieDevTools.Agents
             {
                 if (Map == null) return;
                 Location = Map.LocalToCell(value);
+            }
+        }
+
+        protected virtual void Init()
+        {
+            InitBroadcaster();
+        }
+
+        void InitBroadcaster()
+        {
+            IAdvertisementBroadcaster broadcaster = GetBroadcaster();
+            if (broadcaster != null)
+            {
+                broadcaster.AddReceiver(this);
             }
         }
     }

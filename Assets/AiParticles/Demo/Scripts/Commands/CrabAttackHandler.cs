@@ -45,7 +45,8 @@ namespace IndieDevTools.Demo.CrabBattle
             attackingAgent.Description = "Attacking " + agent.DisplayName;
 
             agent.TargetMapElement = attackingAgent;
-
+            agent.TargetLocation = attackingAgent.Location;
+            
             int healthQuantity = TraitsUtil.GetHealth(agent);
 
             int attackStrength = TraitsUtil.GetRandomAttackStrength(attackingAgent);

@@ -16,7 +16,7 @@ MonoBehaviour:
     displayName: Crab
     description: A crab
     broadcastDistance: 5
-    broadcastInterval: 0.5
+    broadcastInterval: 0.53
     stats:
       traits:
       - trait: {fileID: 11400000, guid: 565a85e671c81c84b9768630b566213f, type: 2}

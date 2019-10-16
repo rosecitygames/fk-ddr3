@@ -10,20 +10,23 @@ namespace IndieDevTools.Advertisements
     /// </summary>
     public class AdvertisementBroadcaster : IAdvertisementBroadcaster
     {
+        List<int> calledInstanceIds = new List<int>();
+
         void IAdvertisementBroadcaster.Broadcast(IAdvertisement advertisement) => Broadcast(advertisement);
         void IAdvertisementBroadcaster.Broadcast(IAdvertisement advertisement, IAdvertisementReceiver excludeReceiver) => Broadcast(advertisement, excludeReceiver);
         protected void Broadcast(IAdvertisement advertisement, IAdvertisementReceiver excludeReceiver = null)
         {
-            List<IMapElement> mapElements = advertisement.Map.GetMapElementsAtCells<IMapElement>(advertisement.BroadcastLocations);
-            foreach(IMapElement mapElement in mapElements)
+            calledInstanceIds.Clear();
+            List<IAdvertisementReceiver> mapReceivers = advertisement.Map.GetMapElementsAtCells<IAdvertisementReceiver>(advertisement.BroadcastLocations);
+            foreach (IAdvertisementReceiver mapReceiver in mapReceivers)
             {
-                if (receiversByMapElement.ContainsKey(mapElement))
+                if (receiversByInstanceId.ContainsKey(mapReceiver.InstanceId) && calledInstanceIds.Contains(mapReceiver.InstanceId) == false)
                 {
-                    IAdvertisementReceiver receiver = receiversByMapElement[mapElement];
-                    if (receiver != excludeReceiver)
+                    if (mapReceiver != excludeReceiver)
                     {
-                        receiver.ReceiveAdvertisement(advertisement);
-                    }                   
+                        mapReceiver.ReceiveAdvertisement(advertisement);
+                    }
+                    calledInstanceIds.Add(mapReceiver.InstanceId);
                 }
             }
         }
@@ -41,37 +44,40 @@ namespace IndieDevTools.Advertisements
             receiver.ReceiveAdvertisement(advertisement);
         }
 
-        Dictionary<IMapElement, IAdvertisementReceiver> receiversByMapElement = new Dictionary<IMapElement, IAdvertisementReceiver>();
+        Dictionary<int, IAdvertisementReceiver> receiversByInstanceId = new Dictionary<int, IAdvertisementReceiver>();
 
         void IAdvertisementBroadcaster.AddReceiver(IAdvertisementReceiver receiver) => AddReceiver(receiver);
         protected void AddReceiver(IAdvertisementReceiver receiver)
         {
-            receiversByMapElement.Add(receiver, receiver);
+            if (receiversByInstanceId.ContainsKey(receiver.InstanceId)) return;
+            receiversByInstanceId.Add(receiver.InstanceId, receiver);
         }
 
         void IAdvertisementBroadcaster.RemoveReceiver(IAdvertisementReceiver receiver) => RemoveReceiver(receiver);
         protected void RemoveReceiver(IAdvertisementReceiver receiver)
         {
-            receiversByMapElement.Remove(receiver);
+            if (receiversByInstanceId.ContainsKey(receiver.InstanceId) == false) return;
+            receiversByInstanceId.Remove(receiver.InstanceId);
         }
 
         void IAdvertisementBroadcaster.ClearReceivers() => ClearReceivers();
         protected void ClearReceivers()
         {
-            receiversByMapElement.Clear();
+            receiversByInstanceId.Clear();
         }
 
         public static IAdvertisementBroadcaster Create(List<IAdvertisementReceiver> receivers)
         {
-            Dictionary<IMapElement, IAdvertisementReceiver> receiversByMapElement = new Dictionary<IMapElement, IAdvertisementReceiver>();
+            Dictionary<int, IAdvertisementReceiver> receiversByInstanceId = new Dictionary<int, IAdvertisementReceiver>();
             foreach (IAdvertisementReceiver receiver in receivers)
             {
-                receiversByMapElement.Add(receiver, receiver);
+                if (receiversByInstanceId.ContainsKey(receiver.InstanceId)) continue;
+                receiversByInstanceId.Add(receiver.InstanceId, receiver);
             }
 
             return new AdvertisementBroadcaster
             {
-                receiversByMapElement = receiversByMapElement
+                receiversByInstanceId = receiversByInstanceId
             };
         }
 
