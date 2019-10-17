@@ -22,6 +22,7 @@ namespace IndieDevTools.Demo.CrabBattle
         string displayName = "";
         protected override string DisplayName { get => displayName; set => displayName = value; }
 
+        SpriteRenderer ICrab.SpriteRenderer => SpriteRenderer;
         SpriteRenderer SpriteRenderer
         {
             get
@@ -42,8 +43,8 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
-        ExplodedInstantiator explodedInstantiator;
-        protected ExplodedInstantiator ExplodedInstantiator
+        ExplosionSpawner explodedInstantiator;
+        protected ExplosionSpawner ExplodedInstantiator
         {
             get
             {
@@ -140,7 +141,7 @@ namespace IndieDevTools.Demo.CrabBattle
         void InitExplodedInstantiator()
         {
             if (explodedInstantiator != null) return;
-            explodedInstantiator = GetComponentInChildren<ExplodedInstantiator>();
+            explodedInstantiator = GetComponentInChildren<ExplosionSpawner>();
             explodedInstantiator.InstanceParent = transform.parent;
         }
 
@@ -203,7 +204,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
                 RemoveFromMap();
 
-                GameObject instance = ExplodedInstantiator.CreateInstance(position, scale);
+                GameObject instance = ExplodedInstantiator.Spawn(position, scale);
 
                 IAgent instanceAgent = instance.GetComponentInChildren<IAgent>();
                 if (instanceAgent == null) return;

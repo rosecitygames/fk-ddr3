@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: OrangeCrab
   m_EditorClassIdentifier: 
   data:
-    displayName: Yellow Crab
-    description: 'A yellow crab
+    displayName: Orange Crab
+    description: 'An orange crab
 
 '
     broadcastDistance: 3

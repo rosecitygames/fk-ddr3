@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace IndieDevTools.AiParticles
 {
-    public class ExplodedInstantiator : MonoBehaviour
+    public class ExplosionSpawner : MonoBehaviour
     {
         public SpriteExploder.SpriteExploder SpriteExploder = null;
 
@@ -130,7 +130,9 @@ namespace IndieDevTools.AiParticles
 
                     ParticleSystem.Particle particle = particles[i];
 
-                    GameObject instance = CreateInstance(particle.position, particleScale, particle.rotation, particle.velocity, particle.angularVelocity, instanceColor);
+                    Color spawnColor = particle.GetCurrentColor(spriteExploderParticleSystem); //instanceColor;
+
+                    GameObject instance = Spawn(particle.position, particleScale, particle.rotation, particle.velocity, particle.angularVelocity, spawnColor);
                     OnInstanceCreated?.Invoke(instance);
                 }
             }
@@ -143,13 +145,13 @@ namespace IndieDevTools.AiParticles
             }
         }
 
-        public GameObject CreateInstance(Vector3 position, Vector3 scale, float rotation = 0.0f)
+        public GameObject Spawn(Vector3 position, Vector3 scale, float rotation = 0.0f)
         {
             instanceColor = GetComponent<SpriteRenderer>().color;
-            return CreateInstance(position, scale, rotation, Vector2.zero, 0.0f, instanceColor);
+            return Spawn(position, scale, rotation, Vector2.zero, 0.0f, instanceColor);
         }
 
-        public GameObject CreateInstance(Vector3 position, Vector3 scale, float rotation, Vector2 velocity, float angularVelocity, Color color)
+        public GameObject Spawn(Vector3 position, Vector3 scale, float rotation, Vector2 velocity, float angularVelocity, Color color)
         {
             GameObject instance = Instantiate(Prefab, InstanceParent);
             instance.name = Prefab.name;
@@ -160,7 +162,7 @@ namespace IndieDevTools.AiParticles
             SpriteRenderer spriteRenderer = instance.GetComponentInChildren<SpriteRenderer>();
             if (spriteRenderer != null)
             {
-                spriteRenderer.color = color;// particle.GetCurrentColor(spriteExploderParticleSystem);
+                spriteRenderer.color = color;
             }
 
             ParticleSystem particleSystem = instance.GetComponentInChildren<ParticleSystem>();

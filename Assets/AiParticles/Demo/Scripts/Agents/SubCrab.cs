@@ -15,6 +15,7 @@ namespace IndieDevTools.Demo.CrabBattle
     public class SubCrab : AbstractSubAgent, ICrab
     {
         ICrab superCrab;
+
         protected override IAgent SuperAgent => superCrab;
 
         Vector2Int cellOffset;
@@ -54,6 +55,8 @@ namespace IndieDevTools.Demo.CrabBattle
         void IFootprint<ICrab>.Destroy() {}
 
         List<ICrab> nullList = new List<ICrab>();
+
+        SpriteRenderer ICrab.SpriteRenderer => superCrab.SpriteRenderer;
 
         public static ICrab Create(ICrab superCrab, Vector2Int cellOffset)
         {

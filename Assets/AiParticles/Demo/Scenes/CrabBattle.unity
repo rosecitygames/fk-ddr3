@@ -7836,9 +7836,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 398072008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f0ee65b9ceb1064190160241565ae9d, type: 3}
+  m_Script: {fileID: 11500000, guid: c210d0744cba9cd48a5c9221f9792ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map: {fileID: 147044312}
   infoContainer: {fileID: 1900617278}
   icon: {fileID: 1155798435}
   displayName: {fileID: 1755702258}
@@ -8508,7 +8509,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &718019171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8525,7 +8526,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 55
 --- !u!114 &718019172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9788,7 +9789,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703113, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: displayName
-      value: Orange Crab
+      value: Red Crab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703113, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -10568,7 +10569,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703113, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: displayName
-      value: Yellow Crab
+      value: Orange Crab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703113, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
