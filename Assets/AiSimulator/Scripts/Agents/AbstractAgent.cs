@@ -218,7 +218,8 @@ namespace IndieDevTools.Agents
 
         protected virtual void InitStateMachine() { }
 
-        void IStateTransitionHandler.HandleTransition(string transitionName)
+        void IStateTransitionHandler.HandleTransition(string transitionName) => HandleTransition(transitionName);
+        protected void HandleTransition(string transitionName)
         {
             stateMachine.HandleTransition(transitionName);
         }

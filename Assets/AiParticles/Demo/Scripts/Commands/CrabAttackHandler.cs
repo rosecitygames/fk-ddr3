@@ -64,16 +64,12 @@ namespace IndieDevTools.Demo.CrabBattle
                 int agentSize = TraitsUtil.GetSize(agent);
                 int attackingAgentSize = TraitsUtil.GetSize(attackingAgent);
 
-                if (agentSize < attackingAgentSize)
-                {
+               if (agentSize <= 1)
+               {
                     attackingAgentSize += agentSize;
                     TraitsUtil.SetSize(attackingAgent, attackingAgentSize);
-
-                    ITrait attackingAgentHealth = attackingAgent.GetStat(TraitsUtil.healthTraitId);
-                    attackingAgentHealth.Quantity += agentSize;
-
                     TraitsUtil.SetSize(agent, 0);
-                }
+               }
 
                 agent.Description = "Killed by " + attackingAgent.DisplayName;
                 agent.HandleTransition(onDeathTransition);

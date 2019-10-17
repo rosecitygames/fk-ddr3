@@ -129,33 +129,8 @@ namespace IndieDevTools.AiParticles
                     if (color.a <= 0.0f) continue;
 
                     ParticleSystem.Particle particle = particles[i];
-                    
-                    GameObject instance = Instantiate(Prefab, InstanceParent);
-                    instance.name = Prefab.name + tileIndex;
-                    instance.transform.localPosition = particle.position;
-                    instance.transform.localScale = particleScale;
-                    instance.transform.localEulerAngles = new Vector3(0, 0, particle.rotation);
 
-                    SpriteRenderer spriteRenderer = instance.GetComponentInChildren<SpriteRenderer>();
-                    if (spriteRenderer != null)
-                    {
-                        spriteRenderer.color = instanceColor;// particle.GetCurrentColor(spriteExploderParticleSystem);
-                    }
-
-                    ParticleSystem particleSystem = instance.GetComponentInChildren<ParticleSystem>();
-                    if (particleSystem != null)
-                    {
-                        ParticleSystem.MainModule particleSystemMain = particleSystem.main;
-                        particleSystemMain.startColor = spriteExploderParticleSystem.main.startColor;
-                    }
-
-                    Rigidbody2D rigidbody2D = instance.GetComponentInChildren<Rigidbody2D>();
-                    if (rigidbody2D != null)
-                    {
-                        rigidbody2D.velocity = particle.velocity;
-                        rigidbody2D.angularVelocity = particle.angularVelocity;
-                    }
-
+                    GameObject instance = CreateInstance(particle.position, particleScale, particle.rotation, particle.velocity, particle.angularVelocity, instanceColor);
                     OnInstanceCreated?.Invoke(instance);
                 }
             }
@@ -166,6 +141,43 @@ namespace IndieDevTools.AiParticles
             {
                 OnCompleted?.Invoke();
             }
+        }
+
+        public GameObject CreateInstance(Vector3 position, Vector3 scale, float rotation = 0.0f)
+        {
+            instanceColor = GetComponent<SpriteRenderer>().color;
+            return CreateInstance(position, scale, rotation, Vector2.zero, 0.0f, instanceColor);
+        }
+
+        public GameObject CreateInstance(Vector3 position, Vector3 scale, float rotation, Vector2 velocity, float angularVelocity, Color color)
+        {
+            GameObject instance = Instantiate(Prefab, InstanceParent);
+            instance.name = Prefab.name;
+            instance.transform.localPosition = position;
+            instance.transform.localScale = scale;
+            instance.transform.localEulerAngles = new Vector3(0, 0, rotation);
+
+            SpriteRenderer spriteRenderer = instance.GetComponentInChildren<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.color = color;// particle.GetCurrentColor(spriteExploderParticleSystem);
+            }
+
+            ParticleSystem particleSystem = instance.GetComponentInChildren<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                ParticleSystem.MainModule particleSystemMain = particleSystem.main;
+                particleSystemMain.startColor = spriteExploderParticleSystem.main.startColor;
+            }
+
+            Rigidbody2D rigidbody2D = instance.GetComponentInChildren<Rigidbody2D>();
+            if (rigidbody2D != null)
+            {
+                rigidbody2D.velocity = velocity;
+                rigidbody2D.angularVelocity = angularVelocity;
+            }
+
+            return instance;
         }
         
         void QuickSortParticles()

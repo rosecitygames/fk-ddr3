@@ -16,4 +16,4 @@ MonoBehaviour:
   description: Remaining health
   isInitialMax: 0
   min: 0
-  max: 235
+  max: 236

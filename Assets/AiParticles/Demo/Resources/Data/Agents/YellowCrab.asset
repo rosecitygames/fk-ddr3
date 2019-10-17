@@ -17,7 +17,7 @@ MonoBehaviour:
     description: 'A yellow crab
 
 '
-    broadcastDistance: 5
+    broadcastDistance: 3
     broadcastInterval: 0.53
     stats:
       traits:
