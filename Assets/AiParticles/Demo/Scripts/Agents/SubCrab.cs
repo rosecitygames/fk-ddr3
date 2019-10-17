@@ -45,6 +45,8 @@ namespace IndieDevTools.Demo.CrabBattle
             remove => superCrab.OnCompleted -= value;
         }
 
+        void IMoltable.Molt(int size) => superCrab.Molt(size);
+
         // SubCrabs dont have a sub-footprint, so use a null implementation for IFootprint
         List<ICrab> IFootprint<ICrab>.AllFootprintElements => nullList;
         List<ICrab> IFootprint<ICrab>.CornerFootprintElements => nullList;

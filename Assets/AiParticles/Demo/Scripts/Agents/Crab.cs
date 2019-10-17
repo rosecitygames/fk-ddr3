@@ -245,6 +245,7 @@ namespace IndieDevTools.Demo.CrabBattle
             spriteExploder.Explode();
         }
 
+        void IMoltable.Molt(int size) => Molt(size);
         void Molt(int size)
         {
             Vector3 position = Position;
