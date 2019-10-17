@@ -1,15 +1,12 @@
 ﻿using IndieDevTools.Agents;
 using IndieDevTools.Commands;
-using IndieDevTools.Traits;
 using IndieDevTools.Demo.BattleSimulator;
-using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
     public class CrabAttackHandler : AbstractCommand
     {
-        IAgent agent = null;
-        IAttackReceiver attackReceiver = null;
+        ICrab crab = null;
 
         string onAttackedTransition;
         string onDeathTransition;
@@ -32,63 +29,62 @@ namespace IndieDevTools.Demo.CrabBattle
         void AddEventHandler()
         {
             RemoveEventHandler();
-            attackReceiver.OnAttackReceived += HandleAttack;
+            crab.OnAttackReceived += HandleAttack;
         }
 
         void RemoveEventHandler()
         {
-            attackReceiver.OnAttackReceived -= HandleAttack;
+            crab.OnAttackReceived -= HandleAttack;
         }
 
         void HandleAttack(IAgent attackingAgent)
         {
-            attackingAgent.Description = "Attacking " + agent.DisplayName;
+            attackingAgent.Description = "Attacking " + crab.DisplayName;
 
-            agent.TargetMapElement = attackingAgent;
-            agent.TargetLocation = attackingAgent.Location;
+            crab.TargetMapElement = attackingAgent;
+            crab.TargetLocation = attackingAgent.Location;
             
-            int healthQuantity = TraitsUtil.GetHealth(agent);
+            int healthQuantity = TraitsUtil.GetHealth(crab);
 
             int attackStrength = TraitsUtil.GetRandomAttackStrength(attackingAgent);
-            int defenseStrength = TraitsUtil.GetRandomDefenseStrength(agent);
+            int defenseStrength = TraitsUtil.GetRandomDefenseStrength(crab);
 
             int healthDecrement = attackStrength - defenseStrength;
             if (healthDecrement > 0)
             {
                 healthQuantity -= healthDecrement;
-                TraitsUtil.SetHealth(agent, healthQuantity);
+                TraitsUtil.SetHealth(crab, healthQuantity);
             }
 
             if (healthQuantity <= 0)
             {
-                int agentSize = TraitsUtil.GetSize(agent);
+                int agentSize = TraitsUtil.GetSize(crab);
                 int attackingAgentSize = TraitsUtil.GetSize(attackingAgent);
 
                if (agentSize <= 1)
                {
                     attackingAgentSize += agentSize;
                     TraitsUtil.SetSize(attackingAgent, attackingAgentSize);
-                    TraitsUtil.SetSize(agent, 0);
+                    TraitsUtil.SetSize(crab, 0);
                }
 
-                agent.Description = "Killed by " + attackingAgent.DisplayName;
-                agent.HandleTransition(onDeathTransition);
+                crab.Description = "Killed by " + attackingAgent.DisplayName;
+                crab.HandleTransition(onDeathTransition);
             }
             else
             {
-                agent.Description = "Attacked by " + attackingAgent.DisplayName;// + "\nattackStrength = "+attackStrength+", defenseStrength = "+defenseStrength+", remaining health = " + health;
-                agent.HandleTransition(onAttackedTransition);
+                crab.Description = "Attacked by " + attackingAgent.DisplayName;
+                crab.HandleTransition(onAttackedTransition);
             }
 
             //Debug.Log("HandleAttack health = " + health+", "+ agent.Description);
         }
 
-        public static ICommand Create(IAgent agent, IAttackReceiver attackReceiver, string onAttackedTransition = "", string onDeathTransition = "")
+        public static ICommand Create(ICrab crab, string onAttackedTransition = "", string onDeathTransition = "")
         {
             return new CrabAttackHandler
             {
-                agent = agent,
-                attackReceiver = attackReceiver,
+                crab = crab,
                 onAttackedTransition = onAttackedTransition,
                 onDeathTransition = onDeathTransition
             };

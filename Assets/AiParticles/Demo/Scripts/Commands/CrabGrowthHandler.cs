@@ -1,18 +1,81 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using IndieDevTools.Commands;
+using IndieDevTools.Demo.BattleSimulator;
+using IndieDevTools.Traits;
 
-public class CrabGrowthHandler : MonoBehaviour
+namespace IndieDevTools.Demo.CrabBattle
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CrabGrowthHandler : AbstractCommand
     {
-        
-    }
+        ICrab crab = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        string onExplodeTransition;
+        string onMoltTransition;
+
+        const int maxSize = 235;
+        int currentSize = 0;
+
+        bool isInitialUpdateCompleted = false;
+
+        protected override void OnStart()
+        {
+            AddEventHandler();
+        }
+
+        protected override void OnStop()
+        {
+            RemoveEventHandler();
+        }
+
+        protected override void OnDestroy()
+        {
+            RemoveEventHandler();
+        }
+
+        void AddEventHandler()
+        {
+            RemoveEventHandler();
+            ITrait sizeTrait = (crab as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
+            if (sizeTrait == null) return;
+            (sizeTrait as IUpdatable<ITrait>).OnUpdated += OnSizeTraitUpdated;
+        }
+
+        void RemoveEventHandler()
+        {
+            ITrait sizeTrait = (crab as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
+            if (sizeTrait == null) return;
+            (sizeTrait as IUpdatable<ITrait>).OnUpdated -= OnSizeTraitUpdated;
+        }
+
+        void OnSizeTraitUpdated(ITrait sizeTrait)
+        {
+            if (isInitialUpdateCompleted == false)
+            {
+                isInitialUpdateCompleted = true;
+                return;
+            }
+
+            if (sizeTrait.Quantity >= maxSize)
+            {
+                crab.HandleTransition(onExplodeTransition);
+            }
+            else if (sizeTrait.Quantity > currentSize && currentSize > 0)
+            {
+                crab.HandleTransition(onMoltTransition);
+            }
+            else
+            {
+                currentSize = sizeTrait.Quantity;
+            }
+        }
+
+        public static ICommand Create(ICrab crab, string onExplodeTransition, string onMoltTransition)
+        {
+            return new CrabGrowthHandler
+            {
+                crab = crab,
+                onExplodeTransition = onExplodeTransition,
+                onMoltTransition = onMoltTransition
+            };
+        }
     }
 }
