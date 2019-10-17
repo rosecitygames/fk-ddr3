@@ -24,8 +24,6 @@ namespace IndieDevTools.Demo.CrabBattle
         void IAttackReceiver.ReceiveAttack(IAgent attackingAgent) => superCrab.ReceiveAttack(attackingAgent);
         event Action<IAgent> IAttackReceiver.OnAttackReceived { add { superCrab.OnAttackReceived += value; } remove { superCrab.OnAttackReceived -= value; } }
 
-        bool ILandable.GetIsLandable(IAgent agent) => superCrab.GetIsLandable(agent);
-
         void IExplodable.Explode() => superCrab.Explode();
 
         float IExplodable.MinExplosiveStrength => superCrab.MinExplosiveStrength;

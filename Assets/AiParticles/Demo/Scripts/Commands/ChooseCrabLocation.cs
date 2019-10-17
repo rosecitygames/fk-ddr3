@@ -12,7 +12,7 @@ namespace IndieDevTools.Demo.CrabBattle
     /// A command that chooses a new location target within
     /// an agent's move radius.
     /// </summary>
-    public class ChooseLandableLocation : AbstractCommand
+    public class ChooseCrabLocation : AbstractCommand
     {
         ICrab crab;
 
@@ -144,7 +144,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
         public static ICommand Create(ICrab crab)
         {
-            ChooseLandableLocation command = new ChooseLandableLocation
+            ChooseCrabLocation command = new ChooseCrabLocation
             {
                 crab = crab
             };

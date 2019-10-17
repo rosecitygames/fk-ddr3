@@ -195,11 +195,6 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
-        bool ILandable.GetIsLandable(IAgent agent)
-        {
-            return agent == (this as IAgent);
-        }
-
         void IExplodable.Explode()
         {
             SpriteExploder.SpriteExploder spriteExploder = GetComponentInChildren<SpriteExploder.SpriteExploder>();
@@ -279,7 +274,7 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddTransition(onAttackedTransition, attackEnemyState);
             wanderState.AddTransition(onExplodeTransition, explodeState);
             wanderState.AddTransition(onMoltTransition, moltState);
-            wanderState.AddCommand(ChooseLandableLocation.Create(this), commandLayer0);
+            wanderState.AddCommand(ChooseCrabLocation.Create(this), commandLayer0);
             wanderState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Walk), commandLayer0);
             wanderState.AddCommand(MoveToTargetLocation.Create(this), commandLayer0);
             wanderState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Idle), commandLayer0);

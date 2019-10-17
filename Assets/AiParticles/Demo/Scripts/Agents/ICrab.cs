@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
-    public interface ICrab : IFootprint<ICrab>, IAgent, IAttackReceiver, ILandable, IExplodable, IMoltable
+    public interface ICrab : IFootprint<ICrab>, IAgent, IAttackReceiver, IExplodable, IMoltable
     {
         SpriteRenderer SpriteRenderer { get; }
     }
