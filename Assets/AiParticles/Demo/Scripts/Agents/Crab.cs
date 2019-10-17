@@ -188,33 +188,17 @@ namespace IndieDevTools.Demo.CrabBattle
             (sizeTrait as IUpdatable<ITrait>).OnUpdated -= OnSizeTraitUpdated;
         }
 
+        const int maxSize = 235;
+
         private void OnSizeTraitUpdated(ITrait sizeTrait)
         {
-            if (sizeTrait.Quantity >= 235)
+            if (sizeTrait.Quantity >= maxSize)
             {
                 HandleTransition("OnExplode");
             }
             else if (sizeTrait.Quantity > currentSize && currentSize > 0)
             {
-                Vector3 position = Position;
-
-                float percentageIncrease = (float)sizeTrait.Quantity / currentSize;
-                Vector3 scale = transform.localScale;
-                scale *= percentageIncrease;
-
-                RemoveFromMap();
-
-                GameObject instance = ExplodedInstantiator.Spawn(position, scale);
-
-                IAgent instanceAgent = instance.GetComponentInChildren<IAgent>();
-                if (instanceAgent == null) return;
-                instanceAgent.Data = Data.Copy();
-                instanceAgent.DisplayName = DisplayName;
-                instanceAgent.Description = "";
-                instanceAgent.GroupId = GroupId;
-                TraitsUtil.SetHealth(instanceAgent, 3);
-
-                Destroy(gameObject);
+                Molt(sizeTrait.Quantity);
             }
             else
             {
@@ -259,6 +243,29 @@ namespace IndieDevTools.Demo.CrabBattle
             if (spriteExploder == null) return;
 
             spriteExploder.Explode();
+        }
+
+        void Molt(int size)
+        {
+            Vector3 position = Position;
+
+            float percentageIncrease = (float)size / currentSize;
+            Vector3 scale = transform.localScale;
+            scale *= percentageIncrease;
+
+            RemoveFromMap();
+
+            GameObject instance = ExplodedInstantiator.Spawn(position, scale);
+
+            IAgent instanceAgent = instance.GetComponentInChildren<IAgent>();
+            if (instanceAgent == null) return;
+            instanceAgent.Data = Data.Copy();
+            instanceAgent.DisplayName = DisplayName;
+            instanceAgent.Description = "";
+            instanceAgent.GroupId = GroupId;
+            TraitsUtil.SetHealth(instanceAgent, 3);
+
+            Destroy(gameObject);
         }
                 
         // Command layer consts used for making the state machine setup more readable
