@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: OrangeCrab
   m_EditorClassIdentifier: 
   data:
-    displayName: Orange Crab
-    description: 'An orange crab
+    displayName: Yellow Crab
+    description: 'A yellow crab
 
 '
     broadcastDistance: 3
@@ -35,7 +35,7 @@ MonoBehaviour:
         quantity: 5
       - trait: {fileID: 11400000, guid: da73a97e90aadb24da905c9ea725501c, type: 2}
         quantity: 10
-      - trait: {fileID: 11400000, guid: 318ec288cc3320447b9295244003432f, type: 2}
+      - trait: {fileID: 11400000, guid: 01bd68fd423610248a07427197a6c23f, type: 2}
         quantity: 10
     desires:
       traits:
@@ -43,9 +43,9 @@ MonoBehaviour:
         quantity: 10
       - trait: {fileID: 11400000, guid: 2209c1a5fe1ff0d4081b924cae4692f4, type: 2}
         quantity: 2
-      - trait: {fileID: 11400000, guid: fd436ca5c9bfd4a41b18afd5a56ec57c, type: 2}
-        quantity: 3
       - trait: {fileID: 11400000, guid: 0160db1143a21ec4fa6e9656469140bc, type: 2}
+        quantity: 3
+      - trait: {fileID: 11400000, guid: fd436ca5c9bfd4a41b18afd5a56ec57c, type: 2}
         quantity: 2
-      - trait: {fileID: 11400000, guid: 01bd68fd423610248a07427197a6c23f, type: 2}
+      - trait: {fileID: 11400000, guid: 318ec288cc3320447b9295244003432f, type: 2}
         quantity: 1

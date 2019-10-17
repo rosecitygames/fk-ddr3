@@ -8266,7 +8266,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Name
-      value: PinkCrab
+      value: Pink Crab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -8276,7 +8276,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.25
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -9708,7 +9708,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Name
-      value: OrangeCrab
+      value: Red Crab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -9718,7 +9718,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.25
+      value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703119, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -9809,17 +9809,22 @@ PrefabInstance:
     - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.20779696
+      value: 0.028497443
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.20784315
+      value: 0.027450982
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: InitialModule.startColor.minColor.g
-      value: 0.4890508
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: InitialModule.startColor.minColor.b
+      value: 0.2797885
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
@@ -9988,7 +9993,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Name
-      value: BlueCrab
+      value: Blue Crab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -10478,7 +10483,7 @@ PrefabInstance:
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Name
-      value: Yellow Crab
+      value: Orange Crab
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -10589,7 +10594,7 @@ PrefabInstance:
     - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.8777145
+      value: 0.5203068
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -10604,7 +10609,7 @@ PrefabInstance:
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: InitialModule.startColor.minColor.g
-      value: 0.71237
+      value: 0.52156866
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -10619,7 +10624,7 @@ PrefabInstance:
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.8784314
+      value: 0.63512623
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
