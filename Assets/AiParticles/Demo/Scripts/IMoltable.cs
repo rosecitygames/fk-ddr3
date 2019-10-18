@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace IndieDevTools.Demo.CrabBattle
+﻿namespace IndieDevTools.Demo.CrabBattle
 {
     public interface IMoltable
     {

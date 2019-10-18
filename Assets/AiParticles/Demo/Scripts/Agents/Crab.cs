@@ -43,32 +43,32 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
-        ExplosionSpawner explodedInstantiator;
-        protected ExplosionSpawner ExplodedInstantiator
+        ExplosionSpawner spawner;
+        protected ExplosionSpawner Spawner
         {
             get
             {
-                InitExplodedInstantiator();
-                return explodedInstantiator;
+                InitSpawner();
+                return spawner;
             }
         }
 
-        float IExplodable.MinExplosiveStrength => ExplodedInstantiator.SpriteExploder.MinExplosiveStrength;
-        float IExplodable.MaxExplosiveStrength => ExplodedInstantiator.SpriteExploder.MaxExplosiveStrength;
+        float IExplodable.MinExplosiveStrength => Spawner.SpriteExploder.MinExplosiveStrength;
+        float IExplodable.MaxExplosiveStrength => Spawner.SpriteExploder.MaxExplosiveStrength;
 
-        int IExplodable.MaxInstanceCount => ExplodedInstantiator.MaxInstanceCount;
-        int IExplodable.InstanceCount => ExplodedInstantiator.InstanceCount;
+        int IExplodable.MaxInstanceCount => Spawner.MaxInstanceCount;
+        int IExplodable.InstanceCount => Spawner.InstanceCount;
 
         event Action<GameObject> IExplodable.OnInstanceCreated
         {
-            add => ExplodedInstantiator.OnInstanceCreated += value;
-            remove => ExplodedInstantiator.OnInstanceCreated -= value;
+            add => Spawner.OnInstanceCreated += value;
+            remove => Spawner.OnInstanceCreated -= value;
         }
 
         event Action IExplodable.OnCompleted
         {
-            add => ExplodedInstantiator.OnCompleted += value;
-            remove => ExplodedInstantiator.OnCompleted -= value;
+            add => Spawner.OnCompleted += value;
+            remove => Spawner.OnCompleted -= value;
         }
 
         List<ICrab> IFootprint<ICrab>.AllFootprintElements => Footprint.AllFootprintElements;
@@ -95,9 +95,10 @@ namespace IndieDevTools.Demo.CrabBattle
 
             InitSpriteRenderer();
             InitSpriteExploder();
-            InitExplodedInstantiator();
+            InitSpawner();
             InitFootprint();
             InitTraits();
+            InitMolter();
         }
 
         void InitSpriteRenderer()
@@ -138,11 +139,29 @@ namespace IndieDevTools.Demo.CrabBattle
             spriteExploder.ParticlePixelSize = particlePixelSize;
         }
 
-        void InitExplodedInstantiator()
+        void InitSpawner()
         {
-            if (explodedInstantiator != null) return;
-            explodedInstantiator = GetComponentInChildren<ExplosionSpawner>();
-            explodedInstantiator.InstanceParent = transform.parent;
+            if (spawner != null) return;
+            spawner = GetComponentInChildren<ExplosionSpawner>();
+            spawner.InstanceParent = transform.parent;
+        }
+
+        void IMoltable.Molt(int size) => Molter.Molt(size);
+        IMoltable Molter
+        {
+            get
+            {
+                InitMolter();
+                return molter;
+            }
+        }
+
+        IMoltable molter = null;
+
+        void InitMolter()
+        {
+            if (molter != null) return;
+            molter = AgentMolter.Create(this, Spawner);
         }
 
         void InitFootprint()
@@ -202,31 +221,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
             spriteExploder.Explode();
         }
-
-        void IMoltable.Molt(int size) => Molt(size);
-        void Molt(int size)
-        {
-            Vector3 position = Position;
-
-            float percentageIncrease = (float)size / initialSize;
-            Vector3 scale = transform.localScale;
-            scale *= percentageIncrease;
-
-            RemoveFromMap();
-
-            GameObject instance = ExplodedInstantiator.Spawn(position, scale);
-
-            IAgent instanceAgent = instance.GetComponentInChildren<IAgent>();
-            if (instanceAgent == null) return;
-            instanceAgent.Data = Data.Copy();
-            instanceAgent.DisplayName = DisplayName;
-            instanceAgent.Description = "";
-            instanceAgent.GroupId = GroupId;
-            TraitsUtil.SetHealth(instanceAgent, 3);
-
-            Destroy(gameObject);
-        }
-                
+                        
         // Command layer consts used for making the state machine setup more readable
         const int commandLayer0 = 0;
         const int commandLayer1 = 1;

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace IndieDevTools.AiParticles
 {
-    public class ExplosionSpawner : MonoBehaviour
+    public class ExplosionSpawner : MonoBehaviour, ISpawnable
     {
         public SpriteExploder.SpriteExploder SpriteExploder = null;
 
