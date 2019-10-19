@@ -1,6 +1,7 @@
 ﻿using IndieDevTools.Agents;
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
+using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
@@ -61,9 +62,9 @@ namespace IndieDevTools.Demo.CrabBattle
                 int agentSize = TraitsUtil.GetSize(crab);
                 int attackingAgentSize = TraitsUtil.GetSize(attackingAgent);
 
-               if (agentSize <= 1)
+               if (agentSize <= 2)
                {
-                    attackingAgentSize += agentSize;
+                    attackingAgentSize += Mathf.Max(1, agentSize);
                     TraitsUtil.SetSize(attackingAgent, attackingAgentSize);
                     TraitsUtil.SetSize(crab, 0);
                }

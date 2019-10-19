@@ -81,7 +81,7 @@ namespace IndieDevTools.Agents
             }
         }
 
-        void InitMapElement()
+        protected void InitMapElement()
         {
             if (mapElement == null)
             {

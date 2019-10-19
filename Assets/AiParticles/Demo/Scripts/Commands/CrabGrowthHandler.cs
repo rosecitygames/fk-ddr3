@@ -1,6 +1,7 @@
 ﻿using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.Traits;
+using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
@@ -13,8 +14,6 @@ namespace IndieDevTools.Demo.CrabBattle
 
         const int maxSize = 235;
         int currentSize = 0;
-
-        bool isInitialUpdateCompleted = false;
 
         protected override void OnStart()
         {
@@ -48,12 +47,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void OnSizeTraitUpdated(ITrait sizeTrait)
         {
-            if (isInitialUpdateCompleted == false)
-            {
-                isInitialUpdateCompleted = true;
-                return;
-            }
-
+            Debug.Log("OnSizeTraitUpdated " + sizeTrait.Quantity + ", " + currentSize);
             if (sizeTrait.Quantity >= maxSize)
             {
                 crab.HandleTransition(onExplodeTransition);

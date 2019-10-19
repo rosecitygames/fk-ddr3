@@ -28,6 +28,16 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void IMoltable.Molt(int size)
         {
+            if (size <= 1)
+            {
+                GameObject.Destroy(AgentGameObject);
+                return;
+            }
+
+            initialSize = size - 1;
+
+            Debug.Log(Agent.InstanceId+" Molt(" + size + ") " + initialSize);
+
             Vector3 position = Agent.Position;
 
             float percentageIncrease = (float)size / initialSize;

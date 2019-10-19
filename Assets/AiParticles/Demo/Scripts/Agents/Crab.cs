@@ -91,14 +91,16 @@ namespace IndieDevTools.Demo.CrabBattle
 
         protected override void Init()
         {
-            base.Init();
-
+            InitData();
+            InitAdvertiser();
+            InitMapElement();
             InitSpriteRenderer();
             InitSpriteExploder();
             InitSpawner();
             InitFootprint();
             InitTraits();
             InitMolter();
+            InitStateMachine();
         }
 
         void InitSpriteRenderer()
@@ -268,7 +270,6 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddTransition(onItemFoundTransition, pickupItemState);
             wanderState.AddTransition(onAttackedTransition, attackEnemyState);
             wanderState.AddTransition(onExplodeTransition, explodeState);
-            wanderState.AddTransition(onMoltTransition, moltState);
             wanderState.AddCommand(ChooseCrabLocation.Create(this), commandLayer0);
             wanderState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Walk), commandLayer0);
             wanderState.AddCommand(MoveToTargetLocation.Create(this), commandLayer0);
@@ -281,7 +282,6 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             wanderState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
             wanderState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer4);
-            wanderState.AddCommand(CrabGrowthHandler.Create(this, onExplodeTransition, onMoltTransition), commandLayer5);
 
             // Inspect Target Location State
             inspectTargetLocationState.AddTransition(onEnemeyFoundTransition, attackEnemyState);
@@ -289,7 +289,6 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddTransition(onNothingFoundTransition, wanderState);
             inspectTargetLocationState.AddTransition(onAttackedTransition, attackEnemyState);
             inspectTargetLocationState.AddTransition(onExplodeTransition, explodeState);
-            inspectTargetLocationState.AddTransition(onMoltTransition, moltState);
             inspectTargetLocationState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Walk), commandLayer0);
             inspectTargetLocationState.AddCommand(MoveToTargetLocation.Create(this), commandLayer0);
             inspectTargetLocationState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Idle), commandLayer0);
@@ -301,7 +300,6 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
             inspectTargetLocationState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer4);
-            inspectTargetLocationState.AddCommand(CrabGrowthHandler.Create(this, onExplodeTransition, onMoltTransition), commandLayer5);
 
             // Attack Enemey state
             attackEnemyState.AddTransition(onEnemyKilledTransition, wanderState);
@@ -321,13 +319,13 @@ namespace IndieDevTools.Demo.CrabBattle
             pickupItemState.AddTransition(onPickupCompleted, wanderState);
             pickupItemState.AddTransition(onAttackedTransition, attackEnemyState);
             pickupItemState.AddTransition(onExplodeTransition, explodeState);
-            pickupItemState.AddTransition(onMoltTransition, moltState);
+            //pickupItemState.AddTransition(onMoltTransition, moltState);
             pickupItemState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Idle), commandLayer0);
             pickupItemState.AddCommand(PickupItem.Create(this), commandLayer0);
             pickupItemState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.1f), commandLayer0);
             pickupItemState.AddCommand(CallTransition.Create(this, onPickupCompleted), commandLayer0);
             pickupItemState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer1);
-            pickupItemState.AddCommand(CrabGrowthHandler.Create(this, onExplodeTransition, onMoltTransition), commandLayer2);
+           // pickupItemState.AddCommand(CrabGrowthHandler.Create(this, onExplodeTransition, onMoltTransition), commandLayer2);
 
             // Explode state
             explodeState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Explode));
