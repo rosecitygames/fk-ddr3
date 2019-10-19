@@ -62,9 +62,9 @@ namespace IndieDevTools.Demo.CrabBattle
                 int agentSize = TraitsUtil.GetSize(crab);
                 int attackingAgentSize = TraitsUtil.GetSize(attackingAgent);
 
-               if (agentSize <= 2)
+               if (agentSize <= 1)
                {
-                    attackingAgentSize += Mathf.Max(1, agentSize);
+                    attackingAgentSize += agentSize;
                     TraitsUtil.SetSize(attackingAgent, attackingAgentSize);
                     TraitsUtil.SetSize(crab, 0);
                }

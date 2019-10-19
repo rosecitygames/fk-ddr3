@@ -2,6 +2,7 @@
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.Traits;
+using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {

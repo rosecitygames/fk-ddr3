@@ -36,8 +36,6 @@ namespace IndieDevTools.Demo.CrabBattle
 
             initialSize = size - 1;
 
-            Debug.Log(Agent.InstanceId+" Molt(" + size + ") " + initialSize);
-
             Vector3 position = Agent.Position;
 
             float percentageIncrease = (float)size / initialSize;

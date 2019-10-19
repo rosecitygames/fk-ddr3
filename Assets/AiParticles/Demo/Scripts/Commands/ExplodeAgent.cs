@@ -1,6 +1,5 @@
 ﻿using IndieDevTools.Agents;
 using IndieDevTools.Commands;
-using IndieDevTools.Maps;
 using IndieDevTools.Demo.BattleSimulator;
 using UnityEngine;
 

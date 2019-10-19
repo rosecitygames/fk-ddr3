@@ -17,6 +17,10 @@ namespace IndieDevTools.Demo.CrabBattle
 
         protected override void OnStart()
         {
+            ITrait sizeTrait = (crab as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
+            if (sizeTrait == null) return;
+            currentSize = sizeTrait.Quantity;
+
             AddEventHandler();
         }
 
@@ -47,7 +51,6 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void OnSizeTraitUpdated(ITrait sizeTrait)
         {
-            Debug.Log("OnSizeTraitUpdated " + sizeTrait.Quantity + ", " + currentSize);
             if (sizeTrait.Quantity >= maxSize)
             {
                 crab.HandleTransition(onExplodeTransition);
