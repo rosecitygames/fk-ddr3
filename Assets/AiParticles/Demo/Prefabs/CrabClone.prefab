@@ -52,6 +52,7 @@ MonoBehaviour:
   SpriteExploder: {fileID: 2410550323310753507}
   Prefab: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
   InstanceParent: {fileID: 0}
+  IsSpawningParticleColor: 1
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -383,8 +384,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
-      minColor: {r: 1, g: 0.7762758, b: 0, a: 1}
+      minMaxState: 2
+      minColor: {r: 1, g: 1, b: 1, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
@@ -1458,7 +1459,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
   ColorModule:
-    enabled: 1
+    enabled: 0
     gradient:
       serializedVersion: 2
       minMaxState: 3
@@ -4883,7 +4884,7 @@ GameObject:
   - component: {fileID: 2410550323460703119}
   - component: {fileID: 2410550323460703113}
   m_Layer: 8
-  m_Name: CrabChild
+  m_Name: CrabClone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

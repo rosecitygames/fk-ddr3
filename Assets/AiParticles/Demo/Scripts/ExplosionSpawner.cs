@@ -21,9 +21,11 @@ namespace IndieDevTools.AiParticles
 
         public int InstanceCount => sortedParticleCount;
 
+        public bool IsSpawningParticleColor = true;
+
         ParticleSystem spriteExploderParticleSystem = null;
 
-        Color instanceColor = Color.white;
+        Color32 instanceColor = new Color32();
 
         int sortedParticleCount = 0;
 
@@ -130,7 +132,15 @@ namespace IndieDevTools.AiParticles
 
                     ParticleSystem.Particle particle = particles[i];
 
-                    Color spawnColor = particle.GetCurrentColor(spriteExploderParticleSystem); //instanceColor;
+                    Color32 spawnColor;
+                    if (IsSpawningParticleColor)
+                    {
+                        spawnColor = particle.GetCurrentColor(spriteExploderParticleSystem);
+                    }
+                    else
+                    {
+                        spawnColor = instanceColor;
+                    }
 
                     GameObject instance = Spawn(particle.position, particleScale, particle.rotation, particle.velocity, particle.angularVelocity, spawnColor);
                     OnInstanceCreated?.Invoke(instance);

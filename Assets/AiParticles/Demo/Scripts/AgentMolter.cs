@@ -15,7 +15,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
         ISpawnable spawnable = null;
 
-        const float percentageIncrease = 1.15f;
+        const float sizePercentageIncrease = 1.15f;
 
         void IMoltable.Molt()
         {
@@ -28,15 +28,14 @@ namespace IndieDevTools.Demo.CrabBattle
                 return;
             }
 
-            int newSize = (int)(size * percentageIncrease);
+            int newSize = (int)(size * sizePercentageIncrease);
             newSize = Mathf.Max(newSize, size + 1);
-
             sizeTrait.Quantity = newSize;
+                        
+            Vector3 scale = AgentTransform.localScale;
+            scale *= sizePercentageIncrease;
 
             Vector3 position = Agent.Position;
-
-            Vector3 scale = AgentTransform.localScale;
-            scale *= percentageIncrease;
 
             Agent.RemoveFromMap();
 

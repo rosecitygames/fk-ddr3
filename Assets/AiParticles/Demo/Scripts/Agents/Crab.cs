@@ -5,6 +5,7 @@ using IndieDevTools.Animation;
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.States;
+using IndieDevTools.Traits;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -145,6 +146,7 @@ namespace IndieDevTools.Demo.CrabBattle
             if (spawner != null) return;
             spawner = GetComponentInChildren<ExplosionSpawner>();
             spawner.InstanceParent = transform.parent;
+            //spawner.IsSpawningParticleColor = false;
         }
 
         void IMoltable.Molt() => Molter.Molt();
@@ -181,11 +183,16 @@ namespace IndieDevTools.Demo.CrabBattle
             float sizeX = spriteSizeX / spriteExploder.MinParticlePixelSize;
             float sizeY = spriteSizeY / spriteExploder.MinParticlePixelSize;
 
-            int initialSize = Mathf.FloorToInt(sizeX * sizeY);
-            TraitsUtil.SetSize(this, initialSize);
-            initialSize = TraitsUtil.GetSize(this); // Get gives clamped value
+            int size = Mathf.FloorToInt(sizeX * sizeY);
 
-            int health = Mathf.CeilToInt(initialSize * 0.5f);
+            ITrait sizeTrait = (this as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
+            sizeTrait.Quantity = size;
+
+            float explosionMultiplier =  2.0f - (float)sizeTrait.Quantity / (sizeTrait.Max - 1.0f);
+            spriteExploder.MinExplosiveStrength *= explosionMultiplier;
+            spriteExploder.MaxExplosiveStrength *= explosionMultiplier;
+
+            int health = Mathf.CeilToInt(sizeTrait.Quantity * 0.5f);
             health = Mathf.Max(3, health);
             TraitsUtil.SetHealth(this, health);
         }
@@ -296,7 +303,7 @@ namespace IndieDevTools.Demo.CrabBattle
             inspectTargetLocationState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer2);
             inspectTargetLocationState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             inspectTargetLocationState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
-            inspectTargetLocationState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer4);
+            inspectTargetLocationState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onExplodeTransition), commandLayer4);
 
             // Attack Enemey state
             attackEnemyState.AddTransition(onEnemyKilledTransition, wanderState);
@@ -310,7 +317,7 @@ namespace IndieDevTools.Demo.CrabBattle
             attackEnemyState.SetLayerLoopCount(commandLayer3, -1);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer1);
             attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
-            attackEnemyState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer2);
+            attackEnemyState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onExplodeTransition), commandLayer2);
 
             // Pickup Item state
             pickupItemState.AddTransition(onPickupCompleted, wanderState);
@@ -320,7 +327,7 @@ namespace IndieDevTools.Demo.CrabBattle
             pickupItemState.AddCommand(PickupItem.Create(this), commandLayer0);
             pickupItemState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 0.1f), commandLayer0);
             pickupItemState.AddCommand(CallTransition.Create(this, onPickupCompleted), commandLayer0);
-            pickupItemState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer1);
+            pickupItemState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onExplodeTransition), commandLayer1);
 
             // Explode state
             explodeState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Explode));
