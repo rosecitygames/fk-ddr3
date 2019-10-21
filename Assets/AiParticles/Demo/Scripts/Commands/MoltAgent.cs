@@ -8,22 +8,18 @@ namespace IndieDevTools.Demo.CrabBattle
 {
     public class MoltAgent : AbstractCommand
     {
-        IAgent agent = null;
         IMoltable moltable = null;
 
         protected override void OnStart()
         {
-            ITrait sizeTrait = (agent as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
-            if (sizeTrait != null) moltable.Molt(sizeTrait.Quantity);
-
+            moltable.Molt();
             Complete();
         }
 
-        public static ICommand Create(IAgent agent, IMoltable moltable)
+        public static ICommand Create(IMoltable moltable)
         {
             return new MoltAgent
             {
-                agent = agent,
                 moltable = moltable
             };
         }

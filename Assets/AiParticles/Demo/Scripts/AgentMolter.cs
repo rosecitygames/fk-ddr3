@@ -15,30 +15,26 @@ namespace IndieDevTools.Demo.CrabBattle
 
         ISpawnable spawnable = null;
 
-        int initialSize = 1;
+        const float percentageIncrease = 1.15f;
 
-        ITrait GetSizeTrait() => (Agent as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
-
-        void Init()
+        void IMoltable.Molt()
         {
-            ITrait sizeTrait = GetSizeTrait();
-            if (sizeTrait == null) return;
-            initialSize = sizeTrait.Quantity;
-        }
+            ITrait sizeTrait = (Agent as IStatsCollection).GetStat(TraitsUtil.sizeTraitId);
 
-        void IMoltable.Molt(int size)
-        {
-            if (size <= 1)
+            int size = sizeTrait != null ? sizeTrait.Quantity : 0;
+            if (size < 1)
             {
                 GameObject.Destroy(AgentGameObject);
                 return;
             }
 
-            initialSize = size - 1;
+            int newSize = (int)(size * percentageIncrease);
+            newSize = Mathf.Max(newSize, size + 1);
+
+            sizeTrait.Quantity = newSize;
 
             Vector3 position = Agent.Position;
 
-            float percentageIncrease = (float)size / initialSize;
             Vector3 scale = AgentTransform.localScale;
             scale *= percentageIncrease;
 
@@ -64,9 +60,7 @@ namespace IndieDevTools.Demo.CrabBattle
                 abstractAgent = agent,
                 spawnable = spawnable
             };
-
-            agentMolter.Init();
-
+            
             return agentMolter;
         }
     }

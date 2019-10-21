@@ -59,16 +59,6 @@ namespace IndieDevTools.Demo.CrabBattle
 
             if (healthQuantity <= 0)
             {
-                int agentSize = TraitsUtil.GetSize(crab);
-                int attackingAgentSize = TraitsUtil.GetSize(attackingAgent);
-
-               if (agentSize <= 1)
-               {
-                    attackingAgentSize += agentSize;
-                    TraitsUtil.SetSize(attackingAgent, attackingAgentSize);
-                    TraitsUtil.SetSize(crab, 0);
-               }
-
                 crab.Description = "Killed by " + attackingAgent.DisplayName;
                 crab.HandleTransition(onDeathTransition);
             }
@@ -77,8 +67,6 @@ namespace IndieDevTools.Demo.CrabBattle
                 crab.Description = "Attacked by " + attackingAgent.DisplayName;
                 crab.HandleTransition(onAttackedTransition);
             }
-
-            //Debug.Log("HandleAttack health = " + health+", "+ agent.Description);
         }
 
         public static ICommand Create(ICrab crab, string onAttackedTransition = "", string onDeathTransition = "")

@@ -2,6 +2,6 @@
 {
     public interface IMoltable
     {
-        void Molt(int size);
+        void Molt();
     }
 }

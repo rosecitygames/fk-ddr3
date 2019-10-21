@@ -5,7 +5,6 @@ using IndieDevTools.Animation;
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.States;
-using IndieDevTools.Traits;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -148,7 +147,7 @@ namespace IndieDevTools.Demo.CrabBattle
             spawner.InstanceParent = transform.parent;
         }
 
-        void IMoltable.Molt(int size) => Molter.Molt(size);
+        void IMoltable.Molt() => Molter.Molt();
         IMoltable Molter
         {
             get
@@ -187,7 +186,7 @@ namespace IndieDevTools.Demo.CrabBattle
             initialSize = TraitsUtil.GetSize(this); // Get gives clamped value
 
             int health = Mathf.CeilToInt(initialSize * 0.5f);
-            health = Mathf.Clamp(health, 10, 30);
+            health = Mathf.Max(3, health);
             TraitsUtil.SetHealth(this, health);
         }
 
@@ -256,7 +255,7 @@ namespace IndieDevTools.Demo.CrabBattle
             string onAttackedTransition = "OnAttacked";
             string onEnemyKilledTransition = "OnEnemyKilled";
             string onExplodeTransition = "OnExplode";
-            string onMoltTransition = "OnMolt";
+            string onEnemyEatenTransition = "OnMolt";
             string onEnemeyFoundTransition = "OnEnemyFound";
             string onItemFoundTransition = "OnItemFound";
             string onNothingFoundTransition = "OnNothingFound";
@@ -303,16 +302,15 @@ namespace IndieDevTools.Demo.CrabBattle
             attackEnemyState.AddTransition(onEnemyKilledTransition, wanderState);
             attackEnemyState.AddTransition(onTargetFoundTransition, inspectTargetLocationState);
             attackEnemyState.AddTransition(onExplodeTransition, explodeState);
-            attackEnemyState.AddTransition(onMoltTransition, moltState);
+            attackEnemyState.AddTransition(onEnemyEatenTransition, moltState);
             attackEnemyState.AddCommand(TriggerAnimation.Create(TriggerAnimator, CrabAnimationTrigger.Fight), commandLayer3);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.2f), commandLayer3);
-            attackEnemyState.AddCommand(AttackTargetMapElement.Create(this, onEnemyKilledTransition), commandLayer3);
+            attackEnemyState.AddCommand(CrabAttack.Create(this, onEnemyKilledTransition, onEnemyEatenTransition), commandLayer3);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.5f, 1.0f), commandLayer3);
             attackEnemyState.SetLayerLoopCount(commandLayer3, -1);
             attackEnemyState.AddCommand(WaitForRandomTime.Create(this, 0.2f, 0.8f), commandLayer1);
             attackEnemyState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer1);
             attackEnemyState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer2);
-            attackEnemyState.AddCommand(CrabGrowthHandler.Create(this, onExplodeTransition, onMoltTransition), commandLayer0);
 
             // Pickup Item state
             pickupItemState.AddTransition(onPickupCompleted, wanderState);
@@ -330,7 +328,7 @@ namespace IndieDevTools.Demo.CrabBattle
             explodeState.AddCommand(DestroyGameObject.Create(gameObject));
 
             // Molt state
-            moltState.AddCommand(MoltAgent.Create(this, this));
+            moltState.AddCommand(MoltAgent.Create(this));
 
             stateMachine.SetState(wanderState);
         }
