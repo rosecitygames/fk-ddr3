@@ -206,6 +206,8 @@ namespace IndieDevTools.Demo.CrabBattle
 
             health = Mathf.Max(3, health);
             healthTrait.Quantity = health;
+
+            Description = "(HP: " + healthTrait.Quantity + ")";
         }
 
         protected virtual void InitAnimator()

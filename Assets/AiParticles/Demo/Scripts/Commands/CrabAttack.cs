@@ -47,6 +47,8 @@ namespace IndieDevTools.Demo.CrabBattle
                     bool isEating = Random.value <= hunger;
                     if (isEating)
                     {
+                        agent.Description = "Ate " + agent.TargetMapElement.DisplayName;
+                        agent.TargetMapElement.Description = "Eaten by " + agent.DisplayName;
                         CallTargetEatenTransition();
                     }
                     else

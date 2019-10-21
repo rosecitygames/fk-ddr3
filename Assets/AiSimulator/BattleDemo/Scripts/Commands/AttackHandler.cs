@@ -45,7 +45,7 @@ namespace IndieDevTools.Demo.BattleSimulator
 
         void HandleAttack(IAgent attackingAgent)
         {
-            attackingAgent.Description = "Attacking " + agent.DisplayName;
+            attackingAgent.Description = "(HP: " + TraitsUtil.GetHealth(attackingAgent) + ") Attacking " + agent.DisplayName;
 
             agent.TargetMapElement = attackingAgent;
 
@@ -69,7 +69,7 @@ namespace IndieDevTools.Demo.BattleSimulator
             }
             else
             {
-                agent.Description = "Attacked by " + attackingAgent.DisplayName;// + "\nattackStrength = "+attackStrength+", defenseStrength = "+defenseStrength+", remaining health = " + health;
+                agent.Description = "(HP: "+health+") Attacked by " + attackingAgent.DisplayName;// + "\nattackStrength = "+attackStrength+", defenseStrength = "+defenseStrength+", remaining health = " + health;
                 agent.HandleTransition(onAttackedTransition);
             }
 
