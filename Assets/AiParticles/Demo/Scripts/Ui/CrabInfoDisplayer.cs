@@ -143,11 +143,11 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void DrawInfo()
         {
-            if (HasCurrentElement == false) return;
-
+            if (currentMapElement == null) return;
             displayName.text = currentMapElement.DisplayName;
             description.text = currentMapElement.Description;
 
+            if (currentSpriteRenderer == null) return;
             icon.sprite = currentSpriteRenderer.sprite;
             icon.color = currentSpriteRendererInitialColor; 
         }
