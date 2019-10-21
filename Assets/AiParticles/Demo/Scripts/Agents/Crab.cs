@@ -192,9 +192,20 @@ namespace IndieDevTools.Demo.CrabBattle
             spriteExploder.MinExplosiveStrength *= explosionMultiplier;
             spriteExploder.MaxExplosiveStrength *= explosionMultiplier;
 
-            int health = Mathf.CeilToInt(sizeTrait.Quantity * 0.5f);
+            ITrait healthTrait = (this as IStatsCollection).GetStat(TraitsUtil.healthTraitId);
+            int health;
+
+            if (healthTrait.Quantity <= 0)
+            {
+                health = Mathf.CeilToInt(sizeTrait.Quantity * 0.5f);        
+            }
+            else
+            {
+                health = healthTrait.Quantity;
+            }
+
             health = Mathf.Max(3, health);
-            TraitsUtil.SetHealth(this, health);
+            healthTrait.Quantity = health;
         }
 
         protected virtual void InitAnimator()

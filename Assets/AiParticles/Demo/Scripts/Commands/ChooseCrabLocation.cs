@@ -71,14 +71,12 @@ namespace IndieDevTools.Demo.CrabBattle
 
             if (tryCount >= maxTryCount)
             {
-                Debug.Log("MAX TRY COUNT");
                 return crab.Location;
             }
 
             if (locations.Count <= 0)
             {
-                Debug.Log("No landable locations");
-                return crab.Location;
+                return Vector2Int.zero;
             }
 
             return location;

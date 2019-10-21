@@ -15,7 +15,8 @@ namespace IndieDevTools.Demo.CrabBattle
 
         ISpawnable spawnable = null;
 
-        const float sizePercentageIncrease = 1.15f;
+        const float defaultMoltPercentage = 1.15f;
+        float moltPercentage = defaultMoltPercentage;
 
         void IMoltable.Molt()
         {
@@ -28,14 +29,16 @@ namespace IndieDevTools.Demo.CrabBattle
                 return;
             }
 
-            int newSize = (int)(size * sizePercentageIncrease);
+            int newSize = (int)(size * moltPercentage);
             newSize = Mathf.Max(newSize, size + 1);
             sizeTrait.Quantity = newSize;
                         
             Vector3 scale = AgentTransform.localScale;
-            scale *= sizePercentageIncrease;
+            scale *= moltPercentage;
 
             Vector3 position = Agent.Position;
+
+            int health = TraitsUtil.GetHealth(Agent);
 
             Agent.RemoveFromMap();
 
@@ -47,17 +50,18 @@ namespace IndieDevTools.Demo.CrabBattle
             instanceAgent.DisplayName = Agent.DisplayName;
             instanceAgent.Description = "";
             instanceAgent.GroupId = Agent.GroupId;
-            TraitsUtil.SetHealth(instanceAgent, 3);
+            TraitsUtil.SetHealth(instanceAgent, health);
 
             GameObject.Destroy(AgentGameObject);
         }
 
-        public static IMoltable Create(AbstractAgent agent, ISpawnable spawnable)
+        public static IMoltable Create(AbstractAgent agent, ISpawnable spawnable, float moltPercefntage = defaultMoltPercentage)
         {
             AgentMolter agentMolter = new AgentMolter
             {
                 abstractAgent = agent,
-                spawnable = spawnable
+                spawnable = spawnable,
+                moltPercentage = moltPercefntage
             };
             
             return agentMolter;

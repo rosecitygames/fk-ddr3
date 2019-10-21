@@ -26,7 +26,7 @@ MonoBehaviour:
       - trait: {fileID: 11400000, guid: 2303da3eda1c64949aa5e2cea9488a82, type: 2}
         quantity: 10
       - trait: {fileID: 11400000, guid: 038a57af823b0e74f8e12b17b267dba4, type: 2}
-        quantity: 3
+        quantity: 0
       - trait: {fileID: 11400000, guid: 658006b51de321b429936e320aed0dac, type: 2}
         quantity: 3
       - trait: {fileID: 11400000, guid: 8f37c7e55d8355e41a6bf3a10264eb54, type: 2}

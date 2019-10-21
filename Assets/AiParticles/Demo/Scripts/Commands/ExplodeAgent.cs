@@ -53,7 +53,6 @@ namespace IndieDevTools.Demo.CrabBattle
             instanceAgent.DisplayName = agent.DisplayName;
             instanceAgent.Description = "";
             instanceAgent.GroupId = agent.GroupId;
-            TraitsUtil.SetHealth(instanceAgent, 3);
         }
 
         public static ICommand Create(IAgent agent, IExplodable explodable)
