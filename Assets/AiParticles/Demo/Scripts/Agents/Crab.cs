@@ -296,7 +296,7 @@ namespace IndieDevTools.Demo.CrabBattle
             wanderState.AddCommand(WaitForRandomTime.Create(this, 0.1f, 0.8f), commandLayer2);
             wanderState.AddCommand(BroadcastFootprintAdvertisement<ICrab>.Create(this, Footprint), commandLayer2);
             wanderState.AddCommand(AdvertisementHandler.Create(this), commandLayer3);
-            wanderState.AddCommand(CrabAttackHandler.Create(this, onAttackedTransition, onExplodeTransition), commandLayer4);
+            wanderState.AddCommand(AttackHandler.Create(this, this, onAttackedTransition, onExplodeTransition), commandLayer4);
 
             // Inspect Target Location State
             inspectTargetLocationState.AddTransition(onEnemeyFoundTransition, attackEnemyState);
