@@ -38,7 +38,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
             Vector3 position = Agent.Position;
 
-            int health = TraitsUtil.GetHealth(Agent);
+            int health = TraitsUtil.GetHealth(Agent) + 1;
 
             Agent.RemoveFromMap();
 

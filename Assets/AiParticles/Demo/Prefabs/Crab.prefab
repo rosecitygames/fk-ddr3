@@ -52,6 +52,7 @@ MonoBehaviour:
   SpriteExploder: {fileID: 2410550323310753507}
   Prefab: {fileID: 2410550323460703118, guid: 890a6f5f829998e4ebab08ce8871bee4, type: 3}
   InstanceParent: {fileID: 0}
+  IsSpawningParticleColor: 1
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:
   serializedVersion: 6
