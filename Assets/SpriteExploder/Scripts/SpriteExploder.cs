@@ -6,7 +6,7 @@ using UnityEngine;
 namespace IndieDevTools.Exploders
 {
     /// <summary>
-    /// A component that will explode a sprite into an array of particles.
+    /// A component that explodes a sprite into an array of particles.
     /// </summary>
     [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteExploder : MonoBehaviour
@@ -213,6 +213,11 @@ namespace IndieDevTools.Exploders
             return 0;
         }
 
+        /// <summary>
+        /// Gets the stream of custom per-particle data.
+        /// </summary>
+        /// <param name="customDatas">The array of per-particle data.</param>
+        /// <returns>The processed array of per-particle data.</returns>
         public int GetCustomParticleData(List<Vector4> customDatas)
         {
             if (isExploded)
@@ -523,11 +528,23 @@ namespace IndieDevTools.Exploders
             return GetSubdivisionCountX() * GetSubdivisionCountY();
         }
 
+        /// <summary>
+        /// Helper method to get the x tile position value of a particle.
+        /// </summary>
+        /// <param name="tileIndex">Index value of the particle tile</param>
+        /// <param name="subdivisionCountX">The amount of horizatonal subdivisions</param>
+        /// <returns>The x tile position value of a particle</returns>
         public int GetTileX(int tileIndex, int subdivisionCountX)
         {
             return tileIndex % subdivisionCountX;
         }
 
+        /// <summary>
+        /// Helper method to get the y tile position value of a particle.
+        /// </summary>
+        /// <param name="tileIndex">Index value of the particle tile</param>
+        /// <param name="subdivisionCountX">The amount of vertical subdivisions</param>
+        /// <returns>The y tile position value of a particle</returns>
         public int GetTileY(int tileIndex, int subdivisionCountX)
         {
             return Mathf.FloorToInt((float)tileIndex / subdivisionCountX);
@@ -551,7 +568,10 @@ namespace IndieDevTools.Exploders
             return Mathf.CeilToInt(spriteSizeY / ParticlePixelSize);
         } 
 
-
+        /// <summary>
+        /// Helper method to get the world particle scale. 
+        /// </summary>
+        /// <returns>The particle scale relative to the world.</returns>
         public Vector2 GetParticleScale()
         {
             float maxBound = Mathf.Max(LocalSpriteRenderer.sprite.bounds.size.x, LocalSpriteRenderer.sprite.bounds.size.y);
@@ -559,6 +579,10 @@ namespace IndieDevTools.Exploders
             return new Vector2(scale * transform.lossyScale.x, scale * transform.lossyScale.y);
         }
 
+        /// <summary>
+        /// Helper method to get the particle scale relative to the component scale.
+        /// </summary>
+        /// <returns>The particle scale relative the Sprite Exploder scale.</returns>
         public float GetParticleSystemScale()
         {
             return Mathf.Max(transform.lossyScale.x / transform.localScale.x, transform.lossyScale.y / transform.localScale.y);
@@ -597,7 +621,7 @@ namespace IndieDevTools.Exploders
         }
 
         /// <summary>
-        /// Helper method to get the flip vector  
+        /// Helper method to get the flip values as a Vector4.  
         /// </summary>
         Vector4 GetFlipVector4()
         {
@@ -607,6 +631,9 @@ namespace IndieDevTools.Exploders
             return flip;
         }
 
+        /// <summary>
+        /// Helper method to get the flip values as a Vector2.  
+        /// </summary>
         public Vector2 GetFlipVector2()
         {
             Vector2 flip = new Vector2();
