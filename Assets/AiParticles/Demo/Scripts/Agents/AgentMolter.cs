@@ -1,7 +1,7 @@
 ﻿using IndieDevTools.Agents;
-using IndieDevTools.AiParticles;
-using IndieDevTools.Traits;
 using IndieDevTools.Demo.BattleSimulator;
+using IndieDevTools.Spawners;
+using IndieDevTools.Traits;
 using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle

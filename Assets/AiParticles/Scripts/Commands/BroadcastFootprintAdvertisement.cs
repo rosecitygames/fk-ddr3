@@ -1,16 +1,15 @@
-﻿using IndieDevTools.Agents;
-using IndieDevTools.Advertisements;
-using IndieDevTools.Commands;
+﻿using IndieDevTools.Advertisements;
+using IndieDevTools.Agents;
 using IndieDevTools.Items;
 using IndieDevTools.Maps;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IndieDevTools.Demo.CrabBattle
+namespace IndieDevTools.Commands
 {
     /// <summary>
-    /// A command that repeatedly broadcasts a map element's stats to all cell locations
+    /// A command that repeatedly broadcasts a footprint's stats to all cell locations
     /// within a given distance.
     /// </summary>
     public class BroadcastFootprintAdvertisement<T> : AbstractCommand where T:IFootprint<T>

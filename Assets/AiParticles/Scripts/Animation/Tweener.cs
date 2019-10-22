@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RCG.Animation
+namespace IndieDevTools.Animation
 {
     public enum TweenerMethod
     {

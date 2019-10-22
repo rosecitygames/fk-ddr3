@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace IndieDevTools.Demo.CrabBattle
+namespace IndieDevTools.Maps
 {
     public interface IFootprint<T>
     {

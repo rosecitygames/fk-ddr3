@@ -1,14 +1,9 @@
-﻿using IndieDevTools.Advertisements;
-using IndieDevTools.Agents;
-using IndieDevTools.Commands;
+﻿using IndieDevTools.Agents;
+using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.Maps;
-using IndieDevTools.States;
-using IndieDevTools.Traits;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using IndieDevTools.Demo.BattleSimulator;
 
 namespace IndieDevTools.Demo.CrabBattle
 {

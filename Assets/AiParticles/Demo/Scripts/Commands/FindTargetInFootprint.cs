@@ -4,7 +4,6 @@ using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.Maps;
 using IndieDevTools.Traits;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {

@@ -1,5 +1,6 @@
 ﻿using IndieDevTools.Agents;
 using IndieDevTools.Demo.BattleSimulator;
+using IndieDevTools.Maps;
 using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle

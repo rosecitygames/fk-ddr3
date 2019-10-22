@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace IndieDevTools.AiParticles
+namespace IndieDevTools.Spawners
 {
     public interface ISpawnable
     {

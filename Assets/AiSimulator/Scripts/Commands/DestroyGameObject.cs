@@ -1,8 +1,6 @@
-﻿using IndieDevTools.Commands;
-using IndieDevTools.Maps;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace IndieDevTools.Demo.CrabBattle
+namespace IndieDevTools.Commands
 {
     public class DestroyGameObject : AbstractCommand
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace IndieDevTools.SpriteExploder
+namespace IndieDevTools.Exploders
 {
     /// <summary>
     /// A component that will explode a sprite into an array of particles.

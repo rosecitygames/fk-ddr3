@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace IndieDevTools.AiParticles
+namespace IndieDevTools.Spawners
 {
     public class ExplosionSpawner : MonoBehaviour, ISpawnable
     {
-        public SpriteExploder.SpriteExploder SpriteExploder = null;
+        public Exploders.SpriteExploder SpriteExploder = null;
 
         public GameObject Prefab = null;
 

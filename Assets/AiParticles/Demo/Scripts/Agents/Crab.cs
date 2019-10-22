@@ -1,9 +1,10 @@
 ﻿using IndieDevTools.Advertisements;
 using IndieDevTools.Agents;
-using IndieDevTools.AiParticles;
 using IndieDevTools.Animation;
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
+using IndieDevTools.Maps;
+using IndieDevTools.Spawners;
 using IndieDevTools.States;
 using IndieDevTools.Traits;
 using System;
@@ -117,7 +118,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
         const int spriteExploderSubdivisionCount = 2;
 
-        SpriteExploder.SpriteExploder SpriteExploder
+        Exploders.SpriteExploder SpriteExploder
         {
             get
             {
@@ -125,13 +126,13 @@ namespace IndieDevTools.Demo.CrabBattle
                 return spriteExploder;
             }
         }
-        SpriteExploder.SpriteExploder spriteExploder;
+        Exploders.SpriteExploder spriteExploder;
 
         void InitSpriteExploder()
         {
             if (spriteExploder != null) return;
 
-            spriteExploder = GetComponentInChildren<SpriteExploder.SpriteExploder>();
+            spriteExploder = GetComponentInChildren<Exploders.SpriteExploder>();
 
             float spriteSizeX = spriteRenderer.sprite.bounds.size.x * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.x;
             float spriteSizeY = spriteRenderer.sprite.bounds.size.y * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.y;
@@ -235,7 +236,7 @@ namespace IndieDevTools.Demo.CrabBattle
 
         void IExplodable.Explode()
         {
-            SpriteExploder.SpriteExploder spriteExploder = GetComponentInChildren<SpriteExploder.SpriteExploder>();
+            Exploders.SpriteExploder spriteExploder = GetComponentInChildren<Exploders.SpriteExploder>();
             if (spriteExploder == null) return;
 
             spriteExploder.Explode();

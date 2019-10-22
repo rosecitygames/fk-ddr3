@@ -2,7 +2,7 @@
 using UnityEngine;
 using IndieDevTools.Maps;
 
-namespace IndieDevTools.Demo.CrabBattle
+namespace IndieDevTools.Maps
 {
     public class Footprint<T> : IFootprint<T> where T : IMapElement
     {
