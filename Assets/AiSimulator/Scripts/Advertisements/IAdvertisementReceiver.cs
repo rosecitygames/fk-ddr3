@@ -7,6 +7,9 @@ namespace IndieDevTools.Advertisements
     /// </summary>
     public interface IAdvertisementReceiver: IMapElement
     {
+        /// <summary>
+        /// Receive a given receiver.
+        /// </summary>
         void ReceiveAdvertisement(IAdvertisement advertisement);
     }
 }

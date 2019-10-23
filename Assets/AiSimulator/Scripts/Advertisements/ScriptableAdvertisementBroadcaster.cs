@@ -6,6 +6,7 @@ namespace IndieDevTools.Advertisements
 {
     /// <summary>
     /// An advertisement broadcaster that can be shared across multiple objects.
+    /// All interface implementations are delegated to a non serialized AdvertisementBroadcaster object.
     /// </summary>
     [CreateAssetMenu(fileName = "AdvertisementBroadcaster", menuName = "IndieDevTools/Advertisement Broadcaster")]
     public class ScriptableAdvertisementBroadcaster : ScriptableObject, IAdvertisementBroadcaster

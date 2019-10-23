@@ -9,6 +9,9 @@ namespace IndieDevTools.Advertisements
     /// </summary>
     public interface IRankedAdvertisement : IAdvertisement
     {
+        /// <summary>
+        /// An arbitrary rank that can be assigned to the advertisement.
+        /// </summary>
         int Rank { get; set; }
     }
 }
