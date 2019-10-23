@@ -10,18 +10,24 @@ namespace IndieDevTools.Demo.CrabBattle
 {
     /// <summary>
     /// A command that chooses a new location target within
-    /// an agent's move radius.
+    /// an crab's move radius.
     /// </summary>
     public class ChooseCrabLocation : AbstractCommand
     {
         ICrab crab;
 
+        /// <summary>
+        /// Sets a target location and completes the command.
+        /// </summary>
         protected override void OnStart()
         {
             SetTargetLocation();
             Complete();
         }
 
+        /// <summary>
+        /// Sets the crab's target location. 
+        /// </summary>
         void SetTargetLocation()
         {
             bool isAgentInBounds = crab.Map.InBounds(crab.Location);
@@ -35,6 +41,10 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
+        /// <summary>
+        /// Gets a new location within the crab's move radius.
+        /// </summary>
+        /// <returns>The location</returns>
         Vector2Int GetNewLocationInMoveRadius()
         {
             int moveRadius = TraitsUtil.GetMoveRadius(crab);
@@ -45,35 +55,38 @@ namespace IndieDevTools.Demo.CrabBattle
 
             Vector2Int location = Vector2Int.zero;
 
-            bool isLandableLocation = false;
+            bool isLocationFound = false;
 
             int tryCount = 0;
             int maxTryCount = 100;
 
-            while (isLandableLocation == false && locations.Count > 0)
+            // Find a random location inside the crab's move radius.
+            while (isLocationFound == false && locations.Count > 0)
             {
                 if (++tryCount >= maxTryCount) break;
 
                 int locationIndex = Random.Range(0, locations.Count);
                 location = locations[locationIndex];
                 
-                bool isInBounds = GetIsFootprintInBounds(location);
-                if (isInBounds == false)
+                isLocationFound = GetIsFootprintInBounds(location);
+             
+                // If the selected location isn't valid, then remove it from the collection pool.
+                if (isLocationFound == false)
                 {
                     locations.RemoveAt(locationIndex);
                     continue;
                 }
-                else
-                {
-                    isLandableLocation = true;
-                }
             }
 
+            // If the max number of tries was reached, then stay in the current location.
             if (tryCount >= maxTryCount)
             {
                 return crab.Location;
             }
 
+            // If there were no locations left in the pool, then edge case occured and just
+            // set the location to the center of the map since valid locations cant be found
+            // in the current location.
             if (locations.Count <= 0)
             {
                 return Vector2Int.zero;
@@ -107,6 +120,10 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
+        /// <summary>
+        /// Gets the nearest location thats in bounds on the map.
+        /// </summary>
+        /// <returns>The new location</returns>
         Vector2Int GetNearestLocationInBounds()
         {
             Vector2Int mapSize = crab.Map.Size;
@@ -140,6 +157,11 @@ namespace IndieDevTools.Demo.CrabBattle
             return location;
         }
 
+        /// <summary>
+        /// Creates a command object.
+        /// </summary>
+        /// <param name="crab">The crab whos new location will be chosen</param>
+        /// <returns>The created command object</returns>
         public static ICommand Create(ICrab crab)
         {
             ChooseCrabLocation command = new ChooseCrabLocation

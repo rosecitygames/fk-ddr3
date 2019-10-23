@@ -449,7 +449,7 @@ namespace IndieDevTools.Demo.CrabBattle
         Action<IAgent> OnAttackReceived;
 
         /// <summary>
-        /// Remove the crab from its map. Will also destroy its footprint.
+        /// Remove the crab from its map and destroys its footprint.
         /// </summary>
         protected override void RemoveFromMap()
         {
