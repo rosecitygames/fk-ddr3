@@ -3,6 +3,7 @@ using IndieDevTools.Agents;
 using IndieDevTools.Animation;
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
+using IndieDevTools.Exploders;
 using IndieDevTools.Maps;
 using IndieDevTools.Spawners;
 using IndieDevTools.States;
@@ -14,64 +15,61 @@ using UnityEngine;
 namespace IndieDevTools.Demo.CrabBattle
 {
     /// <summary>
-    /// Concrete implementation of ISoldier. In particular,
-    /// the setup of the command based state machine.
+    /// Concrete implementation of ICrab.
     /// </summary>
     public class Crab : AbstractAgent, ICrab
     {
+        /// <summary>
+        /// The name that will be displayed.
+        /// </summary>
+        protected override string DisplayName { get => displayName; set => displayName = value; }
         [SerializeField]
         string displayName = "";
-        protected override string DisplayName { get => displayName; set => displayName = value; }
 
-        SpriteRenderer ICrab.SpriteRenderer => SpriteRenderer;
-        SpriteRenderer SpriteRenderer
-        {
-            get
-            {
-                InitSpriteRenderer();
-                return spriteRenderer;
-            }
-        }
-        SpriteRenderer spriteRenderer = null;
-
-        TriggerAnimator triggerAnimator = null;
-        protected TriggerAnimator TriggerAnimator
-        {
-            get
-            {
-                InitAnimator();
-                return triggerAnimator;
-            }
-        }
-
-        ExplosionSpawner spawner;
-        protected ExplosionSpawner Spawner
-        {
-            get
-            {
-                InitSpawner();
-                return spawner;
-            }
-        }
-
+        /// <summary>
+        /// The minimum explosive strength when the crab explodes.
+        /// </summary>
         float IExplodable.MinExplosiveStrength => Spawner.SpriteExploder.MinExplosiveStrength;
+
+        /// <summary>
+        /// The maximum explosive strength when the crab explodes.
+        /// </summary>
         float IExplodable.MaxExplosiveStrength => Spawner.SpriteExploder.MaxExplosiveStrength;
 
+        /// <summary>
+        /// The total number of mini crabs that will be created when the crab explodes.
+        /// </summary>
         int IExplodable.MaxInstanceCount => Spawner.MaxInstanceCount;
+
+        /// <summary>
+        /// The current number of active mini crabs that have been created durring the explosion.
+        /// </summary>
         int IExplodable.InstanceCount => Spawner.InstanceCount;
 
+        /// <summary>
+        /// An event that gets invoked whenever a new mini crab has been created durring the explosion.
+        /// </summary>
         event Action<GameObject> IExplodable.OnInstanceCreated
         {
             add => Spawner.OnInstanceCreated += value;
             remove => Spawner.OnInstanceCreated -= value;
         }
 
+        /// <summary>
+        /// An event that gets invoked when all the mini crabs have been created after an explosion.
+        /// </summary>
         event Action IExplodable.OnCompleted
         {
             add => Spawner.OnCompleted += value;
             remove => Spawner.OnCompleted -= value;
         }
 
+        /// <summary>
+        /// Explodes the crab into mini crabs.
+        /// </summary>
+        void IExplodable.Explode() => SpriteExploder.Explode();
+
+        // Footprint implementations that get passed to the Footprint object.
         List<ICrab> IFootprint<ICrab>.AllFootprintElements => Footprint.AllFootprintElements;
         List<ICrab> IFootprint<ICrab>.CornerFootprintElements => Footprint.CornerFootprintElements;
         List<ICrab> IFootprint<ICrab>.BorderFootprintElements => Footprint.BorderFootprintElements;
@@ -80,16 +78,10 @@ namespace IndieDevTools.Demo.CrabBattle
         Vector2Int IFootprint<ICrab>.FootprintOffset => Footprint.FootprintOffset;
         void IFootprint<ICrab>.Destroy() => Footprint.Destroy();
 
-        IFootprint<ICrab> Footprint
-        {
-            get
-            {
-                InitFootprint();
-                return footprint;
-            }
-        }
-        IFootprint<ICrab> footprint;
-
+        /// <summary>
+        /// Initializes the crab. Note, there are a few order dependencies. For example,
+        /// trait initialization needs to happen after data, etc.
+        /// </summary>
         protected override void Init()
         {
             InitData();
@@ -104,6 +96,9 @@ namespace IndieDevTools.Demo.CrabBattle
             InitStateMachine();
         }
 
+        /// <summary>
+        /// Initialize the sprite renderer if it hasn't already.
+        /// </summary>
         void InitSpriteRenderer()
         {
             if (spriteRenderer == null)
@@ -116,9 +111,24 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
-        const int spriteExploderSubdivisionCount = 2;
+        /// <summary>
+        /// The crab's sprite renderer.
+        /// </summary>
+        SpriteRenderer ICrab.SpriteRenderer => SpriteRenderer;
+        SpriteRenderer SpriteRenderer
+        {
+            get
+            {
+                InitSpriteRenderer();
+                return spriteRenderer;
+            }
+        }
+        SpriteRenderer spriteRenderer = null;
 
-        Exploders.SpriteExploder SpriteExploder
+        /// <summary>
+        /// The crab's sprite exploder.
+        /// </summary>
+        SpriteExploder SpriteExploder
         {
             get
             {
@@ -126,13 +136,18 @@ namespace IndieDevTools.Demo.CrabBattle
                 return spriteExploder;
             }
         }
-        Exploders.SpriteExploder spriteExploder;
+        SpriteExploder spriteExploder;
 
+        const int spriteExploderSubdivisionCount = 2;
+
+        /// <summary>
+        /// Initialize the sprite exploder if hasn't been done already.
+        /// </summary>
         void InitSpriteExploder()
         {
             if (spriteExploder != null) return;
 
-            spriteExploder = GetComponentInChildren<Exploders.SpriteExploder>();
+            spriteExploder = GetComponentInChildren<SpriteExploder>();
 
             float spriteSizeX = spriteRenderer.sprite.bounds.size.x * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.x;
             float spriteSizeY = spriteRenderer.sprite.bounds.size.y * spriteRenderer.sprite.pixelsPerUnit * spriteRenderer.transform.lossyScale.y;
@@ -142,15 +157,37 @@ namespace IndieDevTools.Demo.CrabBattle
             spriteExploder.ParticlePixelSize = particlePixelSize;
         }
 
+        /// <summary>
+        /// The crab's spawner. Used for exploding and molting.
+        /// </summary>
+        protected ExplosionSpawner Spawner
+        {
+            get
+            {
+                InitSpawner();
+                return spawner;
+            }
+        }
+        ExplosionSpawner spawner;
+
+        /// <summary>
+        /// Initialize the crab's spawner object.
+        /// </summary>
         void InitSpawner()
         {
             if (spawner != null) return;
             spawner = GetComponentInChildren<ExplosionSpawner>();
             spawner.InstanceParent = transform.parent;
-            //spawner.IsSpawningParticleColor = false;
         }
 
+        /// <summary>
+        /// Molt the crab to a bigger size.
+        /// </summary>
         void IMoltable.Molt() => Molter.Molt();
+
+        /// <summary>
+        /// The crab's molter object.
+        /// </summary>
         IMoltable Molter
         {
             get
@@ -168,12 +205,31 @@ namespace IndieDevTools.Demo.CrabBattle
             molter = AgentMolter.Create(this, Spawner);
         }
 
+        /// <summary>
+        /// The crab's footprint. This lets bigger crabs occupy more than one tile.
+        /// </summary>
+        IFootprint<ICrab> Footprint
+        {
+            get
+            {
+                InitFootprint();
+                return footprint;
+            }
+        }
+        IFootprint<ICrab> footprint;
+
+        /// <summary>
+        /// Initialize the crab's footprint if it hasn't been done already.
+        /// </summary>
         void InitFootprint()
         {
             if (footprint != null) return;
             footprint = Footprint<ICrab>.Create(SpriteRenderer, this, SubCrab.Create);
         }
 
+        /// <summary>
+        /// Initialize the crab's traits.
+        /// </summary>
         void InitTraits()
         {
             name = DisplayName;
@@ -211,7 +267,23 @@ namespace IndieDevTools.Demo.CrabBattle
             Description = "(HP: " + healthTrait.Quantity + ")";
         }
 
-        protected virtual void InitAnimator()
+        /// <summary>
+        /// The crab's trigger animator.
+        /// </summary>
+        protected TriggerAnimator TriggerAnimator
+        {
+            get
+            {
+                InitTriggerAnimator();
+                return triggerAnimator;
+            }
+        }
+        TriggerAnimator triggerAnimator = null;
+
+        /// <summary>
+        /// Initialize the crab's trigger animator if hasn't been done already.
+        /// </summary>
+        protected virtual void InitTriggerAnimator()
         {
             if (triggerAnimator != null) return;
 
@@ -234,22 +306,9 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
-        void IExplodable.Explode()
-        {
-            Exploders.SpriteExploder spriteExploder = GetComponentInChildren<Exploders.SpriteExploder>();
-            if (spriteExploder == null) return;
-
-            spriteExploder.Explode();
-        }
-                        
-        // Command layer consts used for making the state machine setup more readable
-        const int commandLayer0 = 0;
-        const int commandLayer1 = 1;
-        const int commandLayer2 = 2;
-        const int commandLayer3 = 3;
-        const int commandLayer4 = 4;
-        const int commandLayer5 = 5;
-
+        /// <summary>
+        /// Initialize the crab's state machine.
+        /// </summary>
         protected override void InitStateMachine()
         {
             // Commandable state objects
@@ -272,15 +331,22 @@ namespace IndieDevTools.Demo.CrabBattle
             stateMachine.AddState(moltState);
 
             // Transitions strings
-            string onTargetFoundTransition = "OnTargetAdFound";
-            string onAttackedTransition = "OnAttacked";
-            string onEnemyKilledTransition = "OnEnemyKilled";
-            string onExplodeTransition = "OnExplode";
-            string onEnemyEatenTransition = "OnMolt";
-            string onEnemeyFoundTransition = "OnEnemyFound";
-            string onItemFoundTransition = "OnItemFound";
-            string onNothingFoundTransition = "OnNothingFound";
-            string onPickupCompleted = "OnPickupCompleted";
+            const string onTargetFoundTransition = "OnTargetAdFound";
+            const string onAttackedTransition = "OnAttacked";
+            const string onEnemyKilledTransition = "OnEnemyKilled";
+            const string onExplodeTransition = "OnExplode";
+            const string onEnemyEatenTransition = "OnMolt";
+            const string onEnemeyFoundTransition = "OnEnemyFound";
+            const string onItemFoundTransition = "OnItemFound";
+            const string onNothingFoundTransition = "OnNothingFound";
+            const string onPickupCompleted = "OnPickupCompleted";
+
+            // Command layer consts used for making the state machine setup more readable
+            const int commandLayer0 = 0;
+            const int commandLayer1 = 1;
+            const int commandLayer2 = 2;
+            const int commandLayer3 = 3;
+            const int commandLayer4 = 4;
 
             // Wander State                       
             wanderState.AddTransition(onTargetFoundTransition, inspectTargetLocationState);
@@ -354,11 +420,18 @@ namespace IndieDevTools.Demo.CrabBattle
             stateMachine.SetState(wanderState);
         }
 
+        /// <summary>
+        /// Invokes the attack received event.
+        /// </summary>
+        /// <param name="attackingAgent">The attacking agent</param>
         void IAttackReceiver.ReceiveAttack(IAgent attackingAgent)
         {
             OnAttackReceived?.Invoke(attackingAgent);
         }
 
+        /// <summary>
+        /// Implementation for adding and remove the OnAttackReceived event.
+        /// </summary>
         event Action<IAgent> IAttackReceiver.OnAttackReceived
         {
             add
@@ -371,8 +444,14 @@ namespace IndieDevTools.Demo.CrabBattle
             }
         }
 
+        /// <summary>
+        /// The action for when the crab is attacked by another agent.
+        /// </summary>
         Action<IAgent> OnAttackReceived;
 
+        /// <summary>
+        /// Remove the crab from its map. Will also destroy its footprint.
+        /// </summary>
         protected override void RemoveFromMap()
         {
             base.RemoveFromMap();
@@ -381,14 +460,6 @@ namespace IndieDevTools.Demo.CrabBattle
 
             StopAllCoroutines();
             isDrawingRuntimeGizmos = false;
-        }
-
-        public static IAgent Create(GameObject gameObject, IAgentData agentData, IAdvertisementBroadcaster broadcaster)
-        {
-            IAgent agent = gameObject.AddComponent<Soldier>();
-            agent.Data = agentData;
-            agent.SetBroadcaster(broadcaster);
-            return agent;
         }
     }
 }

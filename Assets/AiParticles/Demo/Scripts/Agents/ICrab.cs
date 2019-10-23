@@ -5,8 +5,14 @@ using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
-    public interface ICrab : IFootprint<ICrab>, IAgent, IAttackReceiver, IExplodable, IMoltable
+    /// <summary>
+    /// An agent with a footprint that can attack, explode, and molt.
+    /// </summary>
+    public interface ICrab : IAgent, IFootprint<ICrab>, IAttackReceiver, IExplodable, IMoltable
     {
+        /// <summary>
+        /// The crab's sprite renderer.
+        /// </summary>
         SpriteRenderer SpriteRenderer { get; }
     }
 }

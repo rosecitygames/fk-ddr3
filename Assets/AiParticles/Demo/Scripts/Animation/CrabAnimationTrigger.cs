@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
+    /// <summary>
+    /// Static references to the crab animation trigger hash ids.
+    /// </summary>
     public static class CrabAnimationTrigger
     {
         public static readonly int Idle = Animator.StringToHash("Idle");

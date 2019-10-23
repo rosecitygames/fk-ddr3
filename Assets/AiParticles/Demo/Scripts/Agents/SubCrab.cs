@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace IndieDevTools.Demo.CrabBattle
 {
+    /// <summary>
+    /// A crab footprint's sub map element that allows it to occupy more than one cell on a
+    /// grid map. Implementations are passed on to the main (super) crab map element.
+    /// </summary>
     public class SubCrab : AbstractSubAgent, ICrab
     {
         ICrab superCrab;
@@ -53,6 +57,12 @@ namespace IndieDevTools.Demo.CrabBattle
 
         SpriteRenderer ICrab.SpriteRenderer => superCrab.SpriteRenderer;
 
+        /// <summary>
+        /// Create a sub-crab.
+        /// </summary>
+        /// <param name="superCrab">The main crab that implementations will be passed on to.</param>
+        /// <param name="cellOffset">The amoun the sub-crab is offset from the main crab map element.</param>
+        /// <returns></returns>
         public static ICrab Create(ICrab superCrab, Vector2Int cellOffset)
         {
             SubCrab subCrab = new SubCrab
