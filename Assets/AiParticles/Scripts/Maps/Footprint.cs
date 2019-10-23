@@ -7,7 +7,7 @@ namespace IndieDevTools.Maps
     /// <summary>
     /// A footprint is a collection of sub elements for a map element that is larger than one grid unit.
     /// </summary>
-    /// <typeparam name="T">The type of map element the footprint is.</typeparam>
+    /// <typeparam name="T">The type of map element the footprint sub elements are.</typeparam>
     public class Footprint<T> : IFootprint<T> where T : IMapElement
     {
         /// <summary>

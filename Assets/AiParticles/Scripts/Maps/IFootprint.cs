@@ -39,6 +39,9 @@ namespace IndieDevTools.Maps
         /// </summary>
         Vector2Int FootprintExtents { get; }
 
+        /// <summary>
+        /// Destroys the footprint.
+        /// </summary>
         void Destroy();
     }
 }
