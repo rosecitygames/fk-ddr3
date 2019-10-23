@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7245621112558889032}
   - component: {fileID: -576291956455021938}
   m_Layer: 8
-  m_Name: Agent
+  m_Name: BigMad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43b6ec8afbf35ae4b8ae4ae0712d5159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TweenOnEnable: 6
+  TweenOnStart: 3
   target: {fileID: 7710303848450563717}
   delay: 0
   tweenSeconds: 5

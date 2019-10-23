@@ -1,4 +1,5 @@
 ﻿using IndieDevTools.Agents;
+using IndieDevTools.Animation;
 using IndieDevTools.Demo.BattleSimulator;
 using IndieDevTools.Spawners;
 using IndieDevTools.Traits;
@@ -45,12 +46,20 @@ namespace IndieDevTools.Demo.CrabBattle
             GameObject instance = spawnable.Spawn(position, scale);
 
             IAgent instanceAgent = instance.GetComponentInChildren<IAgent>();
-            if (instanceAgent == null) return;
-            instanceAgent.Data = Agent.Data.Copy();
-            instanceAgent.DisplayName = Agent.DisplayName;
-            instanceAgent.Description = "";
-            instanceAgent.GroupId = Agent.GroupId;
-            TraitsUtil.SetHealth(instanceAgent, health);
+            if (instanceAgent != null)
+            {
+                instanceAgent.Data = Agent.Data.Copy();
+                instanceAgent.DisplayName = Agent.DisplayName;
+                instanceAgent.Description = "";
+                instanceAgent.GroupId = Agent.GroupId;
+                TraitsUtil.SetHealth(instanceAgent, health);
+            }
+
+            Tweener tweener = instance.GetComponentInChildren<Tweener>();
+            if (tweener != null)
+            {
+                tweener.TweenOnStart = TweenerMethod.None;
+            }
 
             GameObject.Destroy(AgentGameObject);
         }

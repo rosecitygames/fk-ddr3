@@ -8420,6 +8420,11 @@ PrefabInstance:
       propertyPath: isExplodingOnStart
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
 --- !u!4 &676896771 stripped
@@ -9852,6 +9857,11 @@ PrefabInstance:
       propertyPath: InitialModule.startColor.maxColor.b
       value: 0.12599999
       objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
 --- !u!1 &1267006995
@@ -10170,6 +10180,11 @@ PrefabInstance:
     - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: isExplodingOnStart
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -10665,6 +10680,11 @@ PrefabInstance:
     - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: isExplodingOnStart
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

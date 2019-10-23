@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 2410550323310753507}
   - component: {fileID: 2410550323310753506}
   - component: {fileID: 4430890632613419614}
-  - component: {fileID: 2410550323310753509}
   - component: {fileID: 4387107945407904736}
+  - component: {fileID: 8584623485674713593}
+  - component: {fileID: 2410550323310753509}
   m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
@@ -52,7 +53,6 @@ MonoBehaviour:
   SpriteExploder: {fileID: 2410550323310753507}
   Prefab: {fileID: 2410550323460703118, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
   InstanceParent: {fileID: 0}
-  IsSpawningParticleColor: 1
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -196,6 +196,78 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4e575c029ed624285e6847b7300272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &4387107945407904736
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410550323310753511}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4ac78dcda6fd8764286da77521260c72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8584623485674713593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410550323310753511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43b6ec8afbf35ae4b8ae4ae0712d5159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TweenOnStart: 6
+  target: {fileID: 2410550323310753508}
+  delay: 0
+  tweenSeconds: 0.25
+  tweenCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.8024946
+      outSlope: 1.8024946
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.1351498
+    - serializedVersion: 3
+      time: 0.8
+      value: 1.25
+      inSlope: 0.005821705
+      outSlope: 0.005821705
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.0071049044
+      outSlope: -0.0071049044
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  isUsingRelativeInitialScale: 0
+  isUsingUnscaledTime: 0
 --- !u!198 &2410550323310753509
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4854,25 +4926,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!95 &4387107945407904736
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2410550323310753511}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4ac78dcda6fd8764286da77521260c72, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2410550323460703118
 GameObject:
   m_ObjectHideFlags: 0

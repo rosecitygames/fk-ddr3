@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2410550323310753506}
   - component: {fileID: 7754089170683882224}
   - component: {fileID: 7279056115479316911}
+  - component: {fileID: 5165071760132424835}
   - component: {fileID: 2410550323310753509}
   m_Layer: 8
   m_Name: Sprite
@@ -52,7 +53,6 @@ MonoBehaviour:
   SpriteExploder: {fileID: 2410550323310753507}
   Prefab: {fileID: 2410550323460703118, guid: 890a6f5f829998e4ebab08ce8871bee4, type: 3}
   InstanceParent: {fileID: 0}
-  IsSpawningParticleColor: 1
 --- !u!199 &2410550323310753504
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -215,6 +215,59 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5165071760132424835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2410550323310753511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43b6ec8afbf35ae4b8ae4ae0712d5159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TweenOnStart: 6
+  target: {fileID: 2410550323310753508}
+  delay: 0
+  tweenSeconds: 0.25
+  tweenCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1.8024946
+      outSlope: 1.8024946
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.1351498
+    - serializedVersion: 3
+      time: 0.8
+      value: 1.25
+      inSlope: 0.005821705
+      outSlope: 0.005821705
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.0071049044
+      outSlope: -0.0071049044
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  startScale: {x: 0, y: 0, z: 0}
+  endScale: {x: 1, y: 1, z: 1}
+  isUsingRelativeInitialScale: 0
+  isUsingUnscaledTime: 0
 --- !u!198 &2410550323310753509
 ParticleSystem:
   m_ObjectHideFlags: 0
