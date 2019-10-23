@@ -1,5 +1,4 @@
-﻿using IndieDevTools.Advertisements;
-using IndieDevTools.Agents;
+﻿using IndieDevTools.Agents;
 using IndieDevTools.Animation;
 using IndieDevTools.Commands;
 using IndieDevTools.Demo.BattleSimulator;
