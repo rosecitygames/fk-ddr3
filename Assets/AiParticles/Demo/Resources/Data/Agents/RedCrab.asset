@@ -48,4 +48,4 @@ MonoBehaviour:
       - trait: {fileID: 11400000, guid: 0160db1143a21ec4fa6e9656469140bc, type: 2}
         quantity: 2
       - trait: {fileID: 11400000, guid: 318ec288cc3320447b9295244003432f, type: 2}
-        quantity: 2
+        quantity: 1
