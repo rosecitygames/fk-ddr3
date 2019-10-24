@@ -8370,6 +8370,11 @@ PrefabInstance:
       propertyPath: isDrawingGizmos
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: isExplodingOnStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Color.b
@@ -8379,6 +8384,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingOrder
       value: 2005
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -8414,16 +8424,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
       value: 0.104066685
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
-        type: 3}
-      propertyPath: isExplodingOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
-        type: 3}
-      propertyPath: TweenOnStart
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
@@ -9810,7 +9810,7 @@ PrefabInstance:
         type: 3}
       propertyPath: data
       value: 
-      objectReference: {fileID: 11400000, guid: ea873c367be2a364285ced7f66939732,
+      objectReference: {fileID: 11400000, guid: 9a060059cb5e8d0449f559e47d86276d,
         type: 2}
     - target: {fileID: 2410550323460703113, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -9826,6 +9826,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.g
       value: 0.028497443
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -9856,11 +9861,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
       value: 0.12599999
-      objectReference: {fileID: 0}
-    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
-        type: 3}
-      propertyPath: TweenOnStart
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
@@ -10122,6 +10122,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a36670f8e057dc743bb353070c7c8939,
         type: 2}
+    - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: isExplodingOnStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Color.b
@@ -10141,6 +10146,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.g
       value: 0.4573648
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -10176,16 +10186,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startColor.minMaxState
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
-        type: 3}
-      propertyPath: isExplodingOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
-        type: 3}
-      propertyPath: TweenOnStart
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
@@ -10620,8 +10620,13 @@ PrefabInstance:
         type: 3}
       propertyPath: data
       value: 
-      objectReference: {fileID: 11400000, guid: c14e3a1bf88b6a24ab37ef1641d65bb7,
+      objectReference: {fileID: 11400000, guid: 5595acb41254a0c4296eec414e2d6dc6,
         type: 2}
+    - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: isExplodingOnStart
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753506, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
       propertyPath: m_Color.b
@@ -10641,6 +10646,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.g
       value: 0.5203068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
+        type: 3}
+      propertyPath: TweenOnStart
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410550323310753509, guid: 88d3cc799252d84408ea1a9862414ac4,
         type: 3}
@@ -10676,16 +10686,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startColor.minMaxState
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2410550323310753507, guid: 88d3cc799252d84408ea1a9862414ac4,
-        type: 3}
-      propertyPath: isExplodingOnStart
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5165071760132424835, guid: 88d3cc799252d84408ea1a9862414ac4,
-        type: 3}
-      propertyPath: TweenOnStart
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88d3cc799252d84408ea1a9862414ac4, type: 3}
