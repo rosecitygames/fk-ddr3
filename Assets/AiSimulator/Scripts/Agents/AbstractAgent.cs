@@ -16,7 +16,7 @@ namespace IndieDevTools.Agents
     {
         protected const int sortingOrderOffset = 1000;
 
-        // Agent Data implementations
+        // IAgentData implementations
         [SerializeField]
         ScriptableAgentData data = null;
         IAgentData iData;
@@ -69,9 +69,7 @@ namespace IndieDevTools.Agents
         List<ITrait> IDesiresCollection.Desires => Data.Desires;
         ITrait IDesiresCollection.GetDesire(string id) => Data.GetDesire(id);
 
-        // Map Element implementations
-        [NonSerialized]
-        IMapElement mapElement = null;
+        // IMapElement implementations
         protected IMapElement MapElement
         {
             get
@@ -80,6 +78,8 @@ namespace IndieDevTools.Agents
                 return mapElement;
             }
         }
+        [NonSerialized]
+        IMapElement mapElement = null;
 
         protected void InitMapElement()
         {
@@ -115,6 +115,7 @@ namespace IndieDevTools.Agents
         int IMapElement.SortingOrder => SortingOrder;
         protected virtual int SortingOrder => MapElement.SortingOrder;
 
+        // ILocatable implementations
         Vector2Int ILocatable.Location => Location;
         protected virtual Vector2Int Location => MapElement.Location;
 
@@ -124,13 +125,11 @@ namespace IndieDevTools.Agents
             remove { (MapElement as IUpdatable<ILocatable>).OnUpdated -= value; }
         }
 
+        // IPositionable implementations
         Vector3 IPositionable.Position { get => Position; set => Position = value; }
         protected virtual Vector3 Position { get => MapElement.Position; set => MapElement.Position = value; }
 
-        // Broadcaster & Advertiser implementations
-        [SerializeField]
-        ScriptableAdvertisementBroadcaster broadcaster = null;
-
+        // IAdvertisementBroadcastData implementations
         float IAdvertisementBroadcastData.BroadcastDistance => BroadcastDistance;
         protected float BroadcastDistance => Data.BroadcastDistance;
 
@@ -160,6 +159,9 @@ namespace IndieDevTools.Agents
             advertiser = Advertisements.Advertiser.Create(broadcaster);
         }
 
+        [SerializeField]
+        ScriptableAdvertisementBroadcaster broadcaster = null;
+
         void InitBroadcaster()
         {
             if (broadcaster != null)
@@ -168,6 +170,7 @@ namespace IndieDevTools.Agents
             }
         }
 
+        // IAdvertiser implementations
         IAdvertisementBroadcaster IAdvertiser.GetBroadcaster()
         {
             return advertiser.GetBroadcaster();
@@ -188,6 +191,7 @@ namespace IndieDevTools.Agents
             advertiser.BroadcastAdvertisement(advertisement, excludeReceiver);
         }
 
+        // IAdvertisementReceiver implementations
         void IAdvertisementReceiver.ReceiveAdvertisement(IAdvertisement advertisement)
         {
             OnAdvertisementReceived?.Invoke(advertisement);
@@ -207,6 +211,7 @@ namespace IndieDevTools.Agents
 
         Action<IAdvertisement> OnAdvertisementReceived;
 
+        // IAgent implementations
         IRankedAdvertisement IAgent.TargetAdvertisement { get; set; }
 
         IMapElement IAgent.TargetMapElement { get; set; }
@@ -225,10 +230,7 @@ namespace IndieDevTools.Agents
         }
 
         // Initialization
-        void Start()
-        {
-            Init();
-        }
+        void Start() => Init();
 
         protected virtual void Init()
         {
@@ -239,10 +241,7 @@ namespace IndieDevTools.Agents
         }
 
         // Cleanup
-        void OnDestroy()
-        {
-            Cleanup();
-        }
+        void OnDestroy() => Cleanup();
 
         protected virtual void Cleanup()
         {

@@ -2,13 +2,20 @@
 
 namespace IndieDevTools.Commands
 {
+    /// <summary>
+    /// A command that destroys a given game object.
+    /// </summary>
     public class DestroyGameObject : AbstractCommand
     {
         GameObject gameObject = null;
 
         protected override void OnStart()
         {
-            GameObject.Destroy(gameObject);
+            if (gameObject != null)
+            {
+                GameObject.Destroy(gameObject);
+            }
+            
             Complete();
         }
 
